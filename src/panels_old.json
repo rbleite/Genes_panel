@@ -429,40 +429,6 @@
       "WRN",
       "XPC",
       "XRCC1"
-    ],
-    "tumorTypes": [
-      "Tumores sólidos",
-      "Pan-tumoral"
-    ],
-    "diseases": [
-      "Pulmão",
-      "Mama",
-      "Colorretal",
-      "Ovário",
-      "Próstata",
-      "Melanoma",
-      "Pâncreas",
-      "Tiróide",
-      "Endométrio",
-      "Gástrico",
-      "Biliar"
-    ],
-    "evidenceSources": [
-      {
-        "source": "OncoKB",
-        "role": "Primário",
-        "note": "Evidência clínica acionável para alterações somáticas e contexto terapêutico."
-      },
-      {
-        "source": "CIViC",
-        "role": "Primário",
-        "note": "Interpretação curada de variantes, fusões e evidência clínica."
-      },
-      {
-        "source": "ClinVar",
-        "role": "Complementar",
-        "note": "Complemento para variantes com contexto constitucional ou classificação clínica publicada."
-      }
     ]
   },
   {
@@ -796,38 +762,6 @@
       "WWTR1",
       "YAP1",
       "YWHAE"
-    ],
-    "tumorTypes": [
-      "Tumores sólidos",
-      "Sarcomas / tumores raros",
-      "Pan-tumoral"
-    ],
-    "diseases": [
-      "Pulmão",
-      "Sarcomas",
-      "Tiróide",
-      "Sistema nervoso central",
-      "Próstata",
-      "Glândulas salivares",
-      "Mama",
-      "Colorretal"
-    ],
-    "evidenceSources": [
-      {
-        "source": "OncoKB",
-        "role": "Primário",
-        "note": "Anotação de fusões acionáveis e sensibilidade terapêutica."
-      },
-      {
-        "source": "CIViC",
-        "role": "Primário",
-        "note": "Evidência curada para rearranjos e fusões clinicamente relevantes."
-      },
-      {
-        "source": "ClinVar",
-        "role": "Opcional",
-        "note": "Uso limitado e complementar em contexto específico."
-      }
     ]
   },
   {
@@ -1426,35 +1360,6 @@
       "SEPTIN9",
       "SPECC1",
       "USP2"
-    ],
-    "tumorTypes": [
-      "Hematológicos"
-    ],
-    "diseases": [
-      "LMA",
-      "LMC",
-      "LLA",
-      "SMD",
-      "NMP",
-      "Linfomas",
-      "Mieloma múltiplo"
-    ],
-    "evidenceSources": [
-      {
-        "source": "OncoKB",
-        "role": "Primário",
-        "note": "Útil para variantes e rearranjos acionáveis em hemato."
-      },
-      {
-        "source": "CIViC",
-        "role": "Primário",
-        "note": "Evidência curada para genes, fusões e perfis moleculares relevantes."
-      },
-      {
-        "source": "ClinVar",
-        "role": "Complementar",
-        "note": "Complemento quando existe ponte com variantes germinativas ou interpretação adicional."
-      }
     ]
   },
   {
@@ -1814,34 +1719,6 @@
       "SDHAF2",
       "TERC",
       "WRN"
-    ],
-    "tumorTypes": [
-      "Predisposição hereditária"
-    ],
-    "diseases": [
-      "Mama/ovário hereditário",
-      "Síndrome de Lynch",
-      "Polipose/CCR hereditário",
-      "Endócrino hereditário",
-      "Paraganglioma/Faeocromocitoma",
-      "Síndromes de predisposição ao cancro"
-    ],
-    "evidenceSources": [
-      {
-        "source": "ClinVar",
-        "role": "Primário",
-        "note": "Classificação clínica e navegação de variantes germinativas."
-      },
-      {
-        "source": "CIViC",
-        "role": "Complementar",
-        "note": "Complemento quando há implicação oncológica ou terapêutica."
-      },
-      {
-        "source": "OncoKB",
-        "role": "Opcional",
-        "note": "Apoio pontual quando genes de predisposição têm relevância terapêutica."
-      }
     ]
   },
   {
@@ -3965,41 +3842,6 @@
       "ZNF638",
       "ZNF750",
       "ZNF804B"
-    ],
-    "tumorTypes": [
-      "Tumores sólidos",
-      "Pan-tumoral"
-    ],
-    "diseases": [
-      "Pulmão",
-      "Mama",
-      "Colorretal",
-      "Ovário",
-      "Próstata",
-      "Melanoma",
-      "Pâncreas",
-      "Tiróide",
-      "Endométrio",
-      "Gástrico",
-      "Biliar",
-      "Tumor de origem desconhecida"
-    ],
-    "evidenceSources": [
-      {
-        "source": "OncoKB",
-        "role": "Primário",
-        "note": "Evidência clínica acionável para SNV, CNV, fusões, MSI-H e TMB-H."
-      },
-      {
-        "source": "CIViC",
-        "role": "Primário",
-        "note": "Interpretação curada de variantes, perfis moleculares e fusões."
-      },
-      {
-        "source": "ClinVar",
-        "role": "Complementar",
-        "note": "Complementar em genes com interface germinativa/constitucional."
-      }
     ]
   },
   {
@@ -4360,47 +4202,6 @@
       "VKORC1",
       "XRCC1",
       "ZNF423"
-    ],
-    "tumorTypes": [
-      "Multiárea / PGx",
-      "Oncologia",
-      "Cardiologia",
-      "Psiquiatria",
-      "Neurologia",
-      "Anestesiologia",
-      "Hematologia",
-      "Infeciologia",
-      "Endocrinologia"
-    ],
-    "diseases": [
-      "Oncologia",
-      "Cardiologia",
-      "Psiquiatria",
-      "Neurologia",
-      "Anestesiologia",
-      "Hematologia",
-      "Infeciologia",
-      "Endocrinologia",
-      "Tuberculose",
-      "Transplantação",
-      "Controlo da dor"
-    ],
-    "evidenceSources": [
-      {
-        "source": "ClinPGx",
-        "role": "Primário",
-        "note": "Fonte principal para gene-fármaco, diplótipos e fenótipo metabolizador."
-      },
-      {
-        "source": "CPIC",
-        "role": "Primário",
-        "note": "Recomendações terapêuticas e interpretação clínica PGx."
-      },
-      {
-        "source": "ClinVar",
-        "role": "Complementar",
-        "note": "Complemento para variantes com classificação clínica publicada."
-      }
     ]
   }
 ]

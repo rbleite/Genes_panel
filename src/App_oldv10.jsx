@@ -23,7 +23,6 @@ import {
   ExternalLink,
   Loader2,
   AlertCircle,
-  RefreshCcw,
 } from "lucide-react";
 
 import painels from "./panels.json";
@@ -197,82 +196,6 @@ const STRUCTURE_FILTERS = [
   "Não coding",
 ];
 
-
-function getPanelTumorTypes(panel) {
-  return panel.tumorTypes || ["Outros"];
-}
-
-function getPanelDiseases(panel) {
-  return panel.diseases || [];
-}
-
-function getPanelEvidenceAvailability(panel) {
-  const summary = { oncokb: "—", clinvar: "—", clinpgx: "—", cpic: "—", civic: "—" };
-  (panel.evidenceSources || []).forEach((item) => {
-    const key = (item.source || "").toLowerCase();
-    if (key === "oncokb") summary.oncokb = item.role;
-    if (key === "clinvar") summary.clinvar = item.role;
-    if (key === "clinpgx") summary.clinpgx = item.role;
-    if (key === "cpic") summary.cpic = item.role;
-    if (key === "civic") summary.civic = item.role;
-  });
-  return summary;
-}
-
-function getEvidenceNotes(panel) {
-  return panel.evidenceSources || [];
-}
-
-function buildEvidenceRows(panel, evidence, gene) {
-  const avail = getPanelEvidenceAvailability(panel);
-  const rows = [];
-
-  if (avail.oncokb !== "—") {
-    rows.push({
-      source: "OncoKB",
-      status: avail.oncokb,
-      summary:
-        evidence?.oncokb?.summary ||
-        "Disponível para painéis oncológicos; requer variante e tipo tumoral para anotação mais útil.",
-      url: evidence?.oncokb?.url || `https://www.oncokb.org/gene/${encodeURIComponent(gene || "")}`,
-    });
-  }
-
-  rows.push({
-    source: "ClinVar",
-    status: avail.clinvar,
-    summary:
-      panel.categoria === "Germinativo"
-        ? "Fonte principal para navegação e classificação clínica de variantes germinativas."
-        : panel.categoria === "Farmacogenómica"
-          ? "Fonte complementar para variantes com classificação clínica publicada."
-          : "Fonte complementar quando há ponte com variante constitucional ou contexto clínico relevante.",
-    url: `https://www.ncbi.nlm.nih.gov/clinvar/?term=${encodeURIComponent(gene || "")}%5Bgene%5D`,
-  });
-
-  if (avail.clinpgx !== "—") {
-    rows.push({
-      source: "ClinPGx",
-      status: avail.clinpgx,
-      summary:
-        evidence?.clinpgx?.summary ||
-        "Disponível para farmacogenómica; idealmente combinar gene com fármaco e fenótipo/metabolizador.",
-      url: evidence?.clinpgx?.url || `https://www.clinpgx.org/search?query=${encodeURIComponent(gene || "")}`,
-    });
-  }
-
-  if (evidence?.civic) {
-    rows.push({
-      source: "CIViC",
-      status: "Complementar",
-      summary: evidence.civic.summary || "Base colaborativa de evidência clínica para variantes e fusões.",
-      url: evidence.civic.url || `https://civicdb.org/search?query=${encodeURIComponent(gene || "")}`,
-    });
-  }
-
-  return rows;
-}
-
 function getPanelStructureTags(panel) {
   const sec = panel.secoes || {};
   const keys = Object.keys(sec);
@@ -344,7 +267,6 @@ async function fetchJson(url) {
 
 function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setAlteration, tumorType, setTumorType, onRun }) {
   const links = gene ? buildEvidenceLinks(gene, panel.categoria) : [];
-  const evidenceRows = gene ? buildEvidenceRows(panel, evidence, gene) : [];
 
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
@@ -362,10 +284,10 @@ function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setA
         </div>
       ) : (
         <>
-          <div className="mt-4 flex flex-wrap items-center gap-3.5">
-            <span className="rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white">{gene}</span>
+          <div className="mt-4 flex flex-wrap items-center gap-2.5">
+            <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">{gene}</span>
             {links.map((link) => (
-              <a key={link.label} href={link.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-medium text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50">
+              <a key={link.label} href={link.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50">
                 {link.label}
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
@@ -442,36 +364,6 @@ function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setA
               ) : null}
             </div>
           ) : null}
-
-          <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead className="bg-slate-50 text-[11px] uppercase tracking-[0.14em] text-slate-500">
-                  <tr>
-                    <th className="px-4 py-3 font-semibold">Base</th>
-                    <th className="px-4 py-3 font-semibold">Papel</th>
-                    <th className="px-4 py-3 font-semibold">Resumo</th>
-                    <th className="px-4 py-3 font-semibold">Link</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {evidenceRows.map((row) => (
-                    <tr key={row.source}>
-                      <td className="px-4 py-3 font-medium text-slate-900">{row.source}</td>
-                      <td className="px-4 py-3"><span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">{row.status}</span></td>
-                      <td className="px-4 py-3 text-slate-600">{row.summary}</td>
-                      <td className="px-4 py-3">
-                        <a href={row.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 underline underline-offset-2">
-                          Abrir
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </>
       )}
     </div>
@@ -564,8 +456,6 @@ export default function GenePanelsCatalog() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Todos");
   const [structureFilter, setStructureFilter] = useState("Todos");
-  const [tumorTypeFilter, setTumorTypeFilter] = useState("Todos");
-  const [diseaseFilter, setDiseaseFilter] = useState("Todos");
   const [selectedId, setSelectedId] = useState(() => {
     if (typeof window === "undefined") return painels[0].id;
     return localStorage.getItem(STORAGE_KEY) || painels[0].id;
@@ -597,21 +487,17 @@ export default function GenePanelsCatalog() {
     return painels.filter((panel) => {
       const matchesCategory = category === "Todos" || panel.categoria === category;
       const structureTags = getPanelStructureTags(panel);
-      const tumorTypes = getPanelTumorTypes(panel);
-      const diseases = getPanelDiseases(panel);
       const matchesStructure = structureFilter === "Todos" || structureTags.includes(structureFilter);
-      const matchesTumorType = tumorTypeFilter === "Todos" || tumorTypes.includes(tumorTypeFilter);
-      const matchesDisease = diseaseFilter === "Todos" || diseases.includes(diseaseFilter);
-      if (!matchesCategory || !matchesStructure || !matchesTumorType || !matchesDisease) return false;
+      if (!matchesCategory || !matchesStructure) return false;
       if (!q) return true;
-      const inBasic = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags, ...tumorTypes, ...diseases]
+      const inBasic = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags]
         .join(" ")
         .toLowerCase()
         .includes(q);
       const inGenes = panel.genes.some((gene) => gene.toLowerCase().includes(q));
       return inBasic || inGenes;
     });
-  }, [query, category, structureFilter, tumorTypeFilter, diseaseFilter]);
+  }, [query, category, structureFilter]);
 
   const selected = filteredPanels.find((p) => p.id === selectedId) || painels.find((p) => p.id === selectedId) || painels[0];
   const selectedStructureTags = useMemo(() => getPanelStructureTags(selected), [selected]);
@@ -630,7 +516,40 @@ export default function GenePanelsCatalog() {
   const totalGenesAcrossPanels = painels.reduce((sum, panel) => sum + panel.totalGenes, 0);
   const uniqueGenesGlobal = uniqueSortedGenes(painels.flatMap((p) => p.genes));
   const justification = generateJustification(selected);
-  const futureEvidence = useMemo(() => getEvidenceNotes(selected), [selected]);
+  const futureEvidence = useMemo(() => {
+    const byCategory = {
+      "Somático": [
+        { label: "OncoKB", status: "preparado", note: "ligação futura gene/variante para evidência oncológica acionável" },
+        { label: "CIViC", status: "preparado", note: "interpretação comunitária de variantes e evidência clínica" },
+        { label: "COSMIC", status: "opcional", note: "anotação futura para variantes somáticas e frequência tumoral" },
+      ],
+      "Hematologia": [
+        { label: "OncoKB", status: "preparado", note: "útil para genes acionáveis em hemato e terapia dirigida" },
+        { label: "CIViC", status: "preparado", note: "evidência curada para variantes e fusões relevantes" },
+        { label: "ClinVar", status: "opcional", note: "apoio complementar para variantes com contexto germinativo/somático" },
+      ],
+      "Farmacogenómica": [
+        { label: "PharmGKB", status: "preparado", note: "ligação futura para diplótipos, níveis de evidência e fármacos" },
+        { label: "CPIC", status: "preparado", note: "regras futuras para recomendações terapêuticas" },
+        { label: "ClinVar", status: "opcional", note: "complemento para variantes com classificação clínica publicada" },
+      ],
+      "Germinativo": [
+        { label: "ClinVar", status: "preparado", note: "classificação futura de variantes germinativas" },
+        { label: "CIViC", status: "opcional", note: "útil quando houver ponte com contexto oncológico" },
+        { label: "OncoKB", status: "opcional", note: "mais limitado, mas pode apoiar genes de predisposição com implicação terapêutica" },
+      ],
+      "RNA": [
+        { label: "OncoKB", status: "preparado", note: "ligação futura para fusões acionáveis e sensibilidade terapêutica" },
+        { label: "CIViC", status: "preparado", note: "anotação futura para fusões e rearranjos" },
+        { label: "COSMIC", status: "opcional", note: "complemento para eventos de fusão conhecidos" },
+      ],
+    };
+    return byCategory[selected.categoria] || [
+      { label: "OncoKB", status: "preparado", note: "ligação futura" },
+      { label: "CIViC", status: "preparado", note: "ligação futura" },
+      { label: "PharmGKB", status: "opcional", note: "ligação futura quando aplicável" },
+    ];
+  }, [selected]);
 
 
   async function inspectGeneEvidence(gene) {
@@ -697,41 +616,14 @@ export default function GenePanelsCatalog() {
   }
 
   function exportCsv() {
-    const ev = getPanelEvidenceAvailability(selected);
-    const rows = [["painel", "categoria", "tipo_tumor", "doencas", "tecnologia", "oncokb", "clinvar", "clinpgx", "civic", "cpic", "secao", "gene"]];
+    const rows = [["painel", "categoria", "tecnologia", "secao", "gene"]];
     Object.entries(selected.secoes || {}).forEach(([secao, genes]) => {
-      genes.forEach((gene) => rows.push([
-        selected.nome,
-        selected.categoria,
-        getPanelTumorTypes(selected).join(" | "),
-        getPanelDiseases(selected).join(" | "),
-        selected.tecnologia,
-        ev.oncokb,
-        ev.clinvar,
-        ev.clinpgx,
-        ev.civic,
-        ev.cpic,
-        prettifySectionKey(secao),
-        gene,
-      ]));
+      genes.forEach((gene) => rows.push([selected.nome, selected.categoria, selected.tecnologia, prettifySectionKey(secao), gene]));
     });
     downloadFile(buildCsv(rows), `${selected.id}.csv`, "text/csv;charset=utf-8");
   }
 
   const categories = ["Todos", ...new Set(painels.map((p) => p.categoria))];
-  const tumorTypeOptions = ["Todos", ...new Set(painels.flatMap((p) => getPanelTumorTypes(p)))];
-  const diseaseOptions = ["Todos", ...new Set(painels
-    .filter((p) => tumorTypeFilter === "Todos" || getPanelTumorTypes(p).includes(tumorTypeFilter))
-    .flatMap((p) => getPanelDiseases(p)))];
-
-  function resetFilters() {
-    setQuery("");
-    setCategory("Todos");
-    setStructureFilter("Todos");
-    setTumorTypeFilter("Todos");
-    setDiseaseFilter("Todos");
-    setShowAllMatches(false);
-  }
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,#e0e7ff_0%,#f8fafc_28%,#ffffff_58%)] text-left text-slate-900">
@@ -751,7 +643,7 @@ export default function GenePanelsCatalog() {
           </header>
 
           <section className="border-b border-slate-200 bg-slate-50/80 px-5 py-5 sm:px-8 lg:px-10">
-            <div className="grid gap-3 2xl:grid-cols-[minmax(0,1fr)_220px_240px_260px]">
+            <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_220px_auto]">
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Search className="h-5 w-5 text-slate-400" />
                 <input
@@ -766,24 +658,6 @@ export default function GenePanelsCatalog() {
                 <Filter className="h-5 w-5 text-slate-400" />
                 <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-transparent text-sm outline-none">
                   {categories.map((item) => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <Database className="h-5 w-5 text-slate-400" />
-                <select value={tumorTypeFilter} onChange={(e) => { setTumorTypeFilter(e.target.value); setDiseaseFilter("Todos"); }} className="w-full bg-transparent text-sm outline-none">
-                  {tumorTypeOptions.map((item) => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <TestTube2 className="h-5 w-5 text-slate-400" />
-                <select value={diseaseFilter} onChange={(e) => setDiseaseFilter(e.target.value)} className="w-full bg-transparent text-sm outline-none">
-                  {diseaseOptions.map((item) => (
                     <option key={item} value={item}>{item}</option>
                   ))}
                 </select>
@@ -807,7 +681,6 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={Wand2} onClick={copyJustification} title="Copiar texto automático de justificação">{copiedState === "justification" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar texto</>}</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={exportCsv} title="Exportar CSV do painel">CSV</ActionButton>
                 <ActionButton icon={FileJson} onClick={exportJson} title="Exportar JSON do painel">JSON</ActionButton>
-                <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros">Reset filtros</ActionButton>
                 <div className="ml-auto inline-flex rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
                   <button onClick={() => setViewMode("cards")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "cards" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Cards</button>
                   <button onClick={() => setViewMode("table")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "table" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Tabela</button>
@@ -835,7 +708,7 @@ export default function GenePanelsCatalog() {
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
               <div className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500">Resultados</div>
               <div className="mt-2 text-2xl font-semibold text-slate-900">{filteredPanels.length}</div>
-              <div className="mt-1 text-sm text-slate-500">{query || category !== "Todos" || structureFilter !== "Todos" || tumorTypeFilter !== "Todos" || diseaseFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
+              <div className="mt-1 text-sm text-slate-500">{query || category !== "Todos" || structureFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
             </div>
           </section>
 
@@ -894,24 +767,16 @@ export default function GenePanelsCatalog() {
                           <th className="px-4 py-3 font-semibold">Painel</th>
                           <th className="px-4 py-3 font-semibold">Categoria</th>
                           <th className="px-4 py-3 font-semibold">Tecnologia</th>
-                          <th className="px-4 py-3 font-semibold">Tipo tumoral</th>
-                          <th className="px-4 py-3 font-semibold">Doença / órgão</th>
                           <th className="px-4 py-3 font-semibold">Genes</th>
                           <th className="px-4 py-3 font-semibold">MSI</th>
                           <th className="px-4 py-3 font-semibold">TMB</th>
-                          <th className="px-4 py-3 font-semibold">OncoKB</th>
-                          <th className="px-4 py-3 font-semibold">ClinVar</th>
-                          <th className="px-4 py-3 font-semibold">ClinPGx</th>
-                          <th className="px-4 py-3 font-semibold">CIViC</th>
-                          <th className="px-4 py-3 font-semibold">CPIC</th>
+                          <th className="px-4 py-3 font-semibold">Evidência futura</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-sm">
                         {filteredPanels.map((panel) => {
                           const isSelected = selected.id === panel.id;
-                          const evidenceAvailability = getPanelEvidenceAvailability(panel);
-                          const tumorTypes = getPanelTumorTypes(panel);
-                          const diseases = getPanelDiseases(panel);
+                          const evidenceLabel = panel.categoria === "Farmacogenómica" ? "PharmGKB / CPIC" : "OncoKB / CIViC";
                           return (
                             <tr
                               key={panel.id}
@@ -924,28 +789,12 @@ export default function GenePanelsCatalog() {
                               </td>
                               <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : categoryColors[panel.categoria]}`}>{panel.categoria}</span></td>
                               <td className="px-4 py-3">{panel.tecnologia}</td>
-                              <td className="px-4 py-3">
-                                <div className="flex flex-wrap gap-2">
-                                  {tumorTypes.map((item) => (
-                                    <span key={item} className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>{item}</span>
-                                  ))}
-                                </div>
-                              </td>
-                              <td className="px-4 py-3">
-                                <div className="flex flex-wrap gap-2">
-                                  {diseases.map((item) => (
-                                    <span key={item} className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>{item}</span>
-                                  ))}
-                                </div>
-                              </td>
                               <td className="px-4 py-3 font-medium">{panel.totalGenes}</td>
                               <td className="px-4 py-3">{panel.capacidade?.msi ? "Sim" : "Não"}</td>
                               <td className="px-4 py-3">{panel.capacidade?.tmb ? "Sim" : "Não"}</td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-rose-50 text-rose-700"}`}>{evidenceAvailability.oncokb}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-emerald-50 text-emerald-700"}`}>{evidenceAvailability.clinvar}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-sky-50 text-sky-700"}`}>{evidenceAvailability.clinpgx}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-violet-50 text-violet-700"}`}>{evidenceAvailability.civic}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-cyan-50 text-cyan-700"}`}>{evidenceAvailability.cpic}</span></td>
+                              <td className="px-4 py-3">
+                                <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>{evidenceLabel}</span>
+                              </td>
                             </tr>
                           );
                         })}
@@ -966,25 +815,6 @@ export default function GenePanelsCatalog() {
 
                 <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-950">{selected.nome}</h2>
                 <p className="mt-3 text-sm leading-7 text-slate-600">{selected.descricao}</p>
-
-                <div className="mt-4 space-y-3">
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Tipos de tumor</div>
-                    <div className="mt-2 flex flex-wrap gap-3">
-                      {getPanelTumorTypes(selected).map((item) => (
-                        <span key={item} className="rounded-full bg-slate-100 px-3.5 py-1.5 text-xs font-medium text-slate-700">{item}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Órgãos / doenças</div>
-                    <div className="mt-2 flex flex-wrap gap-3">
-                      {getPanelDiseases(selected).map((item) => (
-                        <span key={item} className="rounded-full bg-slate-100 px-3.5 py-1.5 text-xs font-medium text-slate-700">{item}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
 
                 <div className="mt-5 rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-indigo-950"><PanelRight className="h-4 w-4" /> Texto automático</div>
@@ -1021,15 +851,6 @@ export default function GenePanelsCatalog() {
                         <span key={item} className="rounded-full bg-slate-100 px-4 py-2 text-xs font-medium text-slate-700">{item}</span>
                       ))}
                     </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-slate-900">Tipo de tumor / contexto</h3>
-                  <div className="mt-3 flex flex-wrap gap-3.5">
-                    {getPanelTumorTypes(selected).map((item) => (
-                      <span key={item} className="rounded-full bg-rose-50 px-4 py-2 text-xs font-medium text-rose-700">{item}</span>
-                    ))}
                   </div>
                 </div>
 
