@@ -496,11 +496,11 @@ function GeneBadge({ gene, highlighted = false, category, compact = false, onIns
 
 function SectionBlock({ title, genes, activeQuery, initialOpen = false, category, onInspect }) {
   const [open, setOpen] = useState(initialOpen);
+  const searchTerms = useMemo(() => parseSearchTerms(activeQuery), [activeQuery]);
   const filtered = useMemo(() => {
-    if (!activeQuery) return genes;
-    const q = activeQuery.toLowerCase();
-    return genes.filter((g) => g.toLowerCase().includes(q));
-  }, [genes, activeQuery]);
+    if (!searchTerms.length) return genes;
+    return genes.filter((g) => matchesAnySearchTerm(g, searchTerms));
+  }, [genes, searchTerms]);
 
   const preview = filtered.slice(0, 16);
   const hidden = Math.max(0, filtered.length - preview.length);
@@ -532,7 +532,7 @@ function SectionBlock({ title, genes, activeQuery, initialOpen = false, category
           ) : (
             <>
               {preview.map((gene) => (
-                <GeneBadge key={gene} gene={gene} category={category} highlighted={Boolean(activeQuery && gene.toLowerCase().includes(activeQuery.toLowerCase()))} onInspect={onInspect} />
+                <GeneBadge key={gene} gene={gene} category={category} highlighted={matchesAnySearchTerm(gene, searchTerms)} onInspect={onInspect} />
               ))}
               {hidden > 0 ? (
                 <span className="rounded-2xl bg-slate-900 px-3.5 py-1.5 text-xs font-medium leading-none text-white">
@@ -579,6 +579,7 @@ export default function GenePanelsCatalog() {
   const [evidenceData, setEvidenceData] = useState(null);
   const [evidenceLoading, setEvidenceLoading] = useState(false);
   const [evidenceError, setEvidenceError] = useState("");
+  const searchTerms = useMemo(() => parseSearchTerms(query), [query]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, selectedId);
@@ -593,7 +594,6 @@ export default function GenePanelsCatalog() {
   }, [selectedId]);
 
   const filteredPanels = useMemo(() => {
-    const q = query.trim().toLowerCase();
     return painels.filter((panel) => {
       const matchesCategory = category === "Todos" || panel.categoria === category;
       const structureTags = getPanelStructureTags(panel);
@@ -603,29 +603,26 @@ export default function GenePanelsCatalog() {
       const matchesTumorType = tumorTypeFilter === "Todos" || tumorTypes.includes(tumorTypeFilter);
       const matchesDisease = diseaseFilter === "Todos" || diseases.includes(diseaseFilter);
       if (!matchesCategory || !matchesStructure || !matchesTumorType || !matchesDisease) return false;
-      if (!q) return true;
-      const inBasic = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags, ...tumorTypes, ...diseases]
-        .join(" ")
-        .toLowerCase()
-        .includes(q);
-      const inGenes = panel.genes.some((gene) => gene.toLowerCase().includes(q));
+      if (!searchTerms.length) return true;
+      const searchable = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags, ...tumorTypes, ...diseases].join(" ");
+      const inBasic = matchesSearchTerms(searchable, searchTerms);
+      const inGenes = searchTerms.every((term) => panel.genes.some((gene) => gene.toLowerCase().includes(term)));
       return inBasic || inGenes;
     });
-  }, [query, category, structureFilter, tumorTypeFilter, diseaseFilter]);
+  }, [searchTerms, category, structureFilter, tumorTypeFilter, diseaseFilter]);
 
   const selected = filteredPanels.find((p) => p.id === selectedId) || painels.find((p) => p.id === selectedId) || painels[0];
   const selectedStructureTags = useMemo(() => getPanelStructureTags(selected), [selected]);
 
   const filteredGenesSelected = useMemo(() => {
-    if (!query.trim()) return selected.genes;
-    const q = query.trim().toLowerCase();
-    return selected.genes.filter((gene) => gene.toLowerCase().includes(q));
-  }, [selected, query]);
+    if (!searchTerms.length) return selected.genes;
+    return selected.genes.filter((gene) => matchesAnySearchTerm(gene, searchTerms));
+  }, [selected, searchTerms]);
 
   const matchedGenes = useMemo(() => {
-    if (!query.trim()) return [];
+    if (!searchTerms.length) return [];
     return filteredGenesSelected.slice(0, showAllMatches ? 500 : 36);
-  }, [filteredGenesSelected, query, showAllMatches]);
+  }, [filteredGenesSelected, searchTerms, showAllMatches]);
 
   const totalGenesAcrossPanels = painels.reduce((sum, panel) => sum + panel.totalGenes, 0);
   const uniqueGenesGlobal = uniqueSortedGenes(painels.flatMap((p) => p.genes));
@@ -767,10 +764,14 @@ export default function GenePanelsCatalog() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Pesquisar gene(s), painel, categoria ou tag…"
+                  placeholder="Pesquisar gene(s), painel, categoria ou tag… Ex.: NF1, NF2"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
                 />
               </label>
+
+              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
+                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
+              </div>
 
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Filter className="h-5 w-5 text-slate-400" />
@@ -781,6 +782,10 @@ export default function GenePanelsCatalog() {
                 </select>
               </label>
 
+              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
+                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
+              </div>
+
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Database className="h-5 w-5 text-slate-400" />
                 <select value={tumorTypeFilter} onChange={(e) => { setTumorTypeFilter(e.target.value); setDiseaseFilter("Todos"); }} className="w-full bg-transparent text-sm outline-none">
@@ -789,6 +794,10 @@ export default function GenePanelsCatalog() {
                   ))}
                 </select>
               </label>
+
+              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
+                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
+              </div>
 
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <TestTube2 className="h-5 w-5 text-slate-400" />
