@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 
 import painels from "./panels.json";
-
+import institutionalLogo from "./assets/ulsas-logo.png";
 
 
 const categoryStyles = {
@@ -631,6 +631,7 @@ export default function GenePanelsCatalog() {
   const uniqueGenesGlobal = uniqueSortedGenes(painels.flatMap((p) => p.genes));
   const justification = generateJustification(selected);
   const futureEvidence = useMemo(() => getEvidenceNotes(selected), [selected]);
+  const appDate = useMemo(() => new Date().toLocaleDateString("pt-PT"), []);
 
 
   async function inspectGeneEvidence(gene) {
@@ -734,19 +735,28 @@ export default function GenePanelsCatalog() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#e0e7ff_0%,#f8fafc_28%,#ffffff_58%)] text-left text-slate-900">
-      <div className="mx-auto max-w-[1480px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <div className="overflow-hidden rounded-[28px] border border-slate-200/80 bg-white/85 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <header className="border-b border-slate-200 bg-[linear-gradient(135deg,#0f172a_0%,#111827_55%,#312e81_100%)] px-5 py-8 text-white sm:px-8 lg:px-10 lg:py-10">
-            <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-100">
-                <Sparkles className="h-3.5 w-3.5" />
-                Catálogo de painéis
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#e0e7ff_0%,#f8fafc_28%,#ffffff_58%)] pb-[max(1rem,env(safe-area-inset-bottom))] text-left text-slate-900">
+      <div className="mx-auto max-w-[1480px] px-3 py-3 sm:px-5 sm:py-5 lg:px-8 lg:py-8">
+        <div className="overflow-hidden rounded-[22px] border border-slate-200/80 bg-white/85 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:rounded-[28px]">
+          <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 sm:py-5 lg:px-10 lg:py-6">
+            <div className="flex flex-col gap-4 sm:gap-5">
+              <div className="flex items-center justify-center sm:justify-start">
+                <img
+                  src={institutionalLogo}
+                  alt="ULS Almada-Seixal"
+                  className="h-auto w-full max-w-[340px] object-contain sm:max-w-[560px] lg:max-w-[980px]"
+                />
               </div>
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl xl:text-5xl">Painéis de genes</h1>
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-base">
-                Consulta rápida dos painéis somáticos, RNA, hematológicos, germinativos e farmacogenómicos, com pesquisa por painel, categoria, tags ou gene.
-              </p>
+              <div className="max-w-4xl">
+                <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700 sm:text-[11px]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Catálogo de painéis
+                </div>
+                <h1 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 sm:mt-4 sm:text-3xl lg:text-4xl xl:text-5xl">Painéis de genes</h1>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:mt-4 sm:text-base sm:leading-7">
+                  Consulta rápida dos painéis somáticos, RNA, hematológicos, germinativos e farmacogenómicos, com pesquisa por painel, categoria, tags ou gene.
+                </p>
+              </div>
             </div>
           </header>
 
@@ -757,7 +767,7 @@ export default function GenePanelsCatalog() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Pesquisar por gene, painel, categoria ou tag…"
+                  placeholder="Pesquisar gene(s), painel, categoria ou tag…"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
                 />
               </label>
@@ -1124,6 +1134,16 @@ export default function GenePanelsCatalog() {
               </div>
             </aside>
           </section>
+          <footer className="border-t border-slate-200 bg-slate-50/80 px-4 py-4 sm:px-6 lg:px-10">
+            <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
+              <div>Ricardo B. Leite · Patologia Molecular</div>
+              <div className="flex items-center gap-2">
+                <span>v. 0.12</span>
+                <span aria-hidden="true">·</span>
+                <span>{appDate}</span>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
     </main>
