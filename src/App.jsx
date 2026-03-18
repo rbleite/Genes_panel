@@ -160,8 +160,7 @@ function uniqueSortedGenes(genes) {
 
 function parseSearchTerms(input) {
   return String(input || "")
-    .split(/[;,
-	 ]+/)
+    .split(/[;,\s]+/)
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
 }
