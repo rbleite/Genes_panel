@@ -157,6 +157,25 @@ function uniqueSortedGenes(genes) {
   return [...new Set(genes)].sort((a, b) => a.localeCompare(b));
 }
 
+
+function parseSearchTerms(input) {
+  return String(input || "")
+    .split(/[;,
+	 ]+/)
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function matchesAnySearchTerm(value, terms) {
+  const normalized = String(value || "").toLowerCase();
+  return terms.some((term) => normalized.includes(term));
+}
+
+function matchesSearchTerms(value, terms) {
+  const normalized = String(value || "").toLowerCase();
+  return terms.every((term) => normalized.includes(term));
+}
+
 function buildCsv(rows) {
   const esc = (value) => `"${String(value).replace(/"/g, '""')}"`;
   return rows.map((row) => row.map(esc).join(",")).join("\n");
