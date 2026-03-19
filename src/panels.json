@@ -296,7 +296,7 @@
       "EP300",
       "EPHA2",
       "EPHA5",
-      "ERBB2 (HER2)",
+      "ERBB2",
       "ERBB3",
       "ERBB4",
       "ERCC1",
@@ -343,7 +343,7 @@
       "KDR",
       "KEAP1",
       "KIT",
-      "KMT2D  (MLL2)",
+      "KMT2D (MLL2)",
       "KRAS",
       "MAP2K1",
       "MAP2K2",
@@ -858,7 +858,7 @@
       "Fusões",
       "CNV"
     ],
-    "totalGenes": 208,
+    "totalGenes": 244,
     "secoes": {
       "coreDnaHemato": [
         "AARS1",

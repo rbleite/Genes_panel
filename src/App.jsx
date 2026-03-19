@@ -24,97 +24,17 @@ import {
   Loader2,
   AlertCircle,
   RefreshCcw,
+  X,
+  GitCompare,
+  Stethoscope,
+  CheckCircle2,
+  ArrowRight,
+  BarChart3,
 } from "lucide-react";
 
 import painels from "./panels.json";
 import institutionalLogo from "./assets/ulsas-logo.png";
 
-
-const categoryStyles = {
-  "Somático": "bg-rose-50 text-rose-700 ring-1 ring-rose-200",
-  "RNA": "bg-violet-50 text-violet-700 ring-1 ring-violet-200",
-  "Hematologia": "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
-  "Germinativo": "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
-  "Farmacogenómica": "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
-};
-
-const categoryIcons = {
-  "Somático": Dna,
-  "RNA": Activity,
-  "Hematologia": FlaskConical,
-  "Germinativo": ShieldCheck,
-  "Farmacogenómica": Beaker,
-};
-
-const order = ["Todos", "Somático", "RNA", "Hematologia", "Germinativo", "Farmacogenómica"];
-
-function StatCard({ label, value, hint }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur">
-      <div className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500">{label}</div>
-      <div className="mt-2 text-2xl font-semibold text-slate-900">{value}</div>
-      {hint ? <div className="mt-1 text-sm text-slate-500">{hint}</div> : null}
-    </div>
-  );
-}
-
-function PanelCard({ panel, active, onClick }) {
-  const Icon = categoryIcons[panel.categoria] || Dna;
-
-  return (
-    <button
-      onClick={onClick}
-      className={`group w-full rounded-3xl border p-6 text-left transition-all duration-200 ${
-        active
-          ? "border-slate-900 bg-slate-900 text-white shadow-xl shadow-slate-300/60"
-          : "border-slate-200 bg-white/90 text-slate-900 shadow-sm hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg"
-      }`}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className={`rounded-2xl p-3 ${active ? "bg-white/10" : "bg-slate-100"}`}>
-            <Icon className={`h-5 w-5 ${active ? "text-white" : "text-slate-700"}`} />
-          </div>
-          <div>
-            <div
-              className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
-                active ? "bg-white/10 text-white" : categoryStyles[panel.categoria] || "bg-slate-100 text-slate-700"
-              }`}
-            >
-              {panel.categoria}
-            </div>
-            <p className={`mt-2 text-xs uppercase tracking-[0.18em] ${active ? "text-slate-300" : "text-slate-500"}`}>
-              {panel.tecnologia} • {panel.versao}
-            </p>
-          </div>
-        </div>
-        <ChevronRight
-          className={`mt-1 h-5 w-5 transition ${active ? "text-white" : "text-slate-400 group-hover:text-slate-600"}`}
-        />
-      </div>
-
-      <h3 className="mt-5 text-xl font-semibold leading-tight">{panel.nome}</h3>
-      <p className={`mt-3 text-sm leading-6 ${active ? "text-slate-200" : "text-slate-600"}`}>
-        {panel.descricao}
-      </p>
-
-      <div className="mt-5 grid grid-cols-2 gap-3">
-        <div className={`rounded-2xl px-4 py-3 ${active ? "bg-white/10" : "bg-slate-50"}`}>
-          <div className={`text-xs uppercase tracking-[0.14em] ${active ? "text-slate-300" : "text-slate-500"}`}>
-            Total
-          </div>
-          <div className="mt-1 text-lg font-semibold">{panel.totalGenes} genes</div>
-        </div>
-        <div className={`rounded-2xl px-4 py-3 ${active ? "bg-white/10" : "bg-slate-50"}`}>
-          <div className={`text-xs uppercase tracking-[0.14em] ${active ? "text-slate-300" : "text-slate-500"}`}>
-            Biomarcadores
-          </div>
-          <div className="mt-1 text-sm font-medium">{panel.biomarcadores.join(" • ")}</div>
-        </div>
-      </div>
-    </button>
-  );
-};
 
 const categoryColors = {
   "Somático": "bg-rose-50 text-rose-700 ring-1 ring-rose-200",
@@ -132,6 +52,8 @@ const iconByCategory = {
   "Farmacogenómica": Beaker,
 };
 
+const order = ["Todos", "Somático", "RNA", "Hematologia", "Germinativo", "Farmacogenómica"];
+
 const STORAGE_KEY = "gene-panel-builder-selected";
 
 function prettifySectionKey(key) {
@@ -141,13 +63,13 @@ function prettifySectionKey(key) {
     nonCoding: "Non-coding / intrónico",
     pgxComplementar: "PGx complementar",
     fusoesRna: "Painel de fusões RNA",
-    coreHemato: "Core hemato DNA",
+    coreDnaHemato: "Core hemato DNA",
     dnaFusions: "Fusões em DNA",
-    rnaBlood: "RNA blood / rearranjos",
-    predisposicao: "Predisposição hereditária",
-    coreExonico: "Cobertura exónica completa",
-    rearranjos: "Regiões de rearranjos / fusões",
-    coberturaParcial: "Cobertura parcial expandida",
+    rnaFusionBlood: "RNA blood / rearranjos",
+    predisposicaoHereditaria: "Predisposição hereditária",
+    wholeExons312: "Cobertura exónica completa (312 genes)",
+    fusionBreakpoints38: "Breakpoints de fusão (38 genes)",
+    partialExons709: "Cobertura parcial expandida (709 genes)",
     pgxExpandido: "Farmacogenómica expandida",
   };
   return map[key] || key;
@@ -514,14 +436,16 @@ function GeneBadge({ gene, highlighted = false, category, compact = false, onIns
 
 function SectionBlock({ title, genes, activeQuery, initialOpen = false, category, onInspect }) {
   const [open, setOpen] = useState(initialOpen);
+  const [expanded, setExpanded] = useState(false);
   const searchTerms = useMemo(() => parseSearchTerms(activeQuery), [activeQuery]);
   const filtered = useMemo(() => {
     if (!searchTerms.length) return genes;
     return genes.filter((g) => matchesAnySearchTerm(g, searchTerms));
   }, [genes, searchTerms]);
 
-  const preview = filtered.slice(0, 16);
-  const hidden = Math.max(0, filtered.length - preview.length);
+  const PREVIEW_LIMIT = 16;
+  const visible = expanded ? filtered : filtered.slice(0, PREVIEW_LIMIT);
+  const hidden = Math.max(0, filtered.length - PREVIEW_LIMIT);
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
@@ -549,13 +473,24 @@ function SectionBlock({ title, genes, activeQuery, initialOpen = false, category
             </span>
           ) : (
             <>
-              {preview.map((gene) => (
+              {visible.map((gene) => (
                 <GeneBadge key={gene} gene={gene} category={category} highlighted={matchesAnySearchTerm(gene, searchTerms)} onInspect={onInspect} />
               ))}
-              {hidden > 0 ? (
-                <span className="rounded-2xl bg-slate-900 px-3.5 py-1.5 text-xs font-medium leading-none text-white">
-                  +{hidden} restantes
-                </span>
+              {!expanded && hidden > 0 ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setExpanded(true); }}
+                  className="rounded-2xl bg-slate-900 px-3.5 py-1.5 text-xs font-medium leading-none text-white hover:bg-slate-800 transition"
+                >
+                  +{hidden} restantes — ver todos
+                </button>
+              ) : null}
+              {expanded && hidden > 0 ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setExpanded(false); }}
+                  className="rounded-2xl border border-slate-200 px-3.5 py-1.5 text-xs font-medium leading-none text-slate-600 hover:bg-slate-50 transition"
+                >
+                  Mostrar menos
+                </button>
               ) : null}
             </>
           )}
@@ -565,16 +500,443 @@ function SectionBlock({ title, genes, activeQuery, initialOpen = false, category
   );
 }
 
-function ActionButton({ icon: Icon, children, onClick, title }) {
+function ActionButton({ icon: Icon, children, onClick, title, variant }) {
+  const styles = {
+    default: "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+    red: "border-rose-200 bg-rose-50 text-rose-700 hover:border-rose-300 hover:bg-rose-100",
+    blue: "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-100",
+    green: "border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100",
+  };
   return (
     <button
       onClick={onClick}
       title={title}
-      className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+      className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium shadow-sm transition ${styles[variant] || styles.default}`}
     >
       <Icon className="h-4 w-4" />
       {children}
     </button>
+  );
+}
+
+/* ─────────────────── Modal shell ─────────────────── */
+function Modal({ open, onClose, title, icon: Icon, children, wide }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 backdrop-blur-sm p-4 sm:p-8" onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`relative mt-4 w-full rounded-[24px] border border-slate-200 bg-white shadow-2xl sm:mt-8 ${wide ? "max-w-5xl" : "max-w-2xl"}`}
+      >
+        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+          <div className="flex items-center gap-2.5 text-base font-semibold text-slate-900">
+            {Icon && <Icon className="h-5 w-5" />}
+            {title}
+          </div>
+          <button onClick={onClose} className="rounded-xl p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="px-6 py-5 max-h-[75vh] overflow-y-auto">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────── Panel Comparator ─────────────────── */
+function PanelComparator({ open, onClose }) {
+  const [picked, setPicked] = useState([]);
+
+  function toggle(id) {
+    setPicked((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : prev.length >= 3 ? prev : [...prev, id]);
+  }
+
+  const pickedPanels = useMemo(() => painels.filter((p) => picked.includes(p.id)), [picked]);
+
+  const genesSets = useMemo(() => {
+    return pickedPanels.map((p) => ({ id: p.id, nome: p.nome, set: new Set(p.genes) }));
+  }, [pickedPanels]);
+
+  const intersection = useMemo(() => {
+    if (genesSets.length < 2) return [];
+    let common = new Set(genesSets[0].set);
+    for (let i = 1; i < genesSets.length; i++) {
+      common = new Set([...common].filter((g) => genesSets[i].set.has(g)));
+    }
+    return [...common].sort();
+  }, [genesSets]);
+
+  const exclusives = useMemo(() => {
+    if (genesSets.length < 2) return {};
+    const result = {};
+    genesSets.forEach((gs) => {
+      const others = genesSets.filter((o) => o.id !== gs.id);
+      const othersUnion = new Set(others.flatMap((o) => [...o.set]));
+      result[gs.id] = [...gs.set].filter((g) => !othersUnion.has(g)).sort();
+    });
+    return result;
+  }, [genesSets]);
+
+  // overlap matrix
+  const overlapMatrix = useMemo(() => {
+    return painels.map((a) => {
+      const setA = new Set(a.genes);
+      return painels.map((b) => {
+        if (a.id === b.id) return a.totalGenes;
+        const setB = new Set(b.genes);
+        return [...setA].filter((g) => setB.has(g)).length;
+      });
+    });
+  }, []);
+
+  return (
+    <Modal open={open} onClose={onClose} title="Comparar painéis" icon={GitCompare} wide>
+      <p className="text-sm text-slate-600 leading-6 mb-5">Seleciona 2 ou 3 painéis para comparar genes em comum, genes exclusivos e capacidades.</p>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+        {painels.map((p) => {
+          const isOn = picked.includes(p.id);
+          const Icon = iconByCategory[p.categoria] || Dna;
+          return (
+            <button
+              key={p.id}
+              onClick={() => toggle(p.id)}
+              disabled={!isOn && picked.length >= 3}
+              className={`rounded-2xl border p-4 text-left transition ${isOn ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white hover:border-slate-300"} ${!isOn && picked.length >= 3 ? "opacity-40 cursor-not-allowed" : ""}`}
+            >
+              <div className="flex items-center gap-2">
+                <Icon className={`h-4 w-4 ${isOn ? "text-white" : "text-slate-600"}`} />
+                <span className={`text-xs font-medium ${isOn ? "text-slate-300" : "text-slate-500"}`}>{p.categoria}</span>
+                {isOn && <CheckCircle2 className="ml-auto h-4 w-4 text-emerald-400" />}
+              </div>
+              <div className="mt-2 text-sm font-semibold leading-tight">{p.nome}</div>
+              <div className={`mt-1 text-xs ${isOn ? "text-slate-300" : "text-slate-500"}`}>{p.totalGenes} genes</div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Overlap matrix ── */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-3">
+          <BarChart3 className="h-4 w-4" /> Matriz de sobreposição génica
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-slate-200">
+          <table className="min-w-full text-xs">
+            <thead>
+              <tr className="bg-slate-50">
+                <th className="px-3 py-2 text-left font-semibold text-slate-600"></th>
+                {painels.map((p) => (
+                  <th key={p.id} className="px-3 py-2 text-center font-semibold text-slate-600 max-w-[100px]">
+                    <div className="truncate" title={p.nome}>{p.nome.replace("Painel de ", "").replace("Painel ", "")}</div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {painels.map((row, ri) => (
+                <tr key={row.id}>
+                  <td className="px-3 py-2 font-medium text-slate-700 whitespace-nowrap">{row.nome.replace("Painel de ", "").replace("Painel ", "")}</td>
+                  {overlapMatrix[ri].map((count, ci) => {
+                    const isDiag = ri === ci;
+                    const pct = isDiag ? 100 : Math.round((count / Math.min(row.totalGenes, painels[ci].totalGenes)) * 100);
+                    return (
+                      <td key={ci} className={`px-3 py-2 text-center font-medium ${isDiag ? "bg-slate-100 text-slate-900" : count > 0 ? "text-indigo-700" : "text-slate-400"}`}>
+                        <div>{count}</div>
+                        {!isDiag && count > 0 && <div className="text-[10px] font-normal text-slate-400">{pct}%</div>}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-[11px] text-slate-500">Diagonal: total de genes do painel. Percentagem = genes comuns / min(genes painel A, genes painel B).</p>
+      </div>
+
+      {/* ── Detailed comparison ── */}
+      {pickedPanels.length >= 2 && (
+        <div className="space-y-5">
+          {/* Capability comparison */}
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <table className="min-w-full text-sm">
+              <thead className="bg-slate-50 text-[11px] uppercase tracking-[0.14em] text-slate-500">
+                <tr>
+                  <th className="px-4 py-3 text-left font-semibold">Atributo</th>
+                  {pickedPanels.map((p) => <th key={p.id} className="px-4 py-3 text-left font-semibold">{p.nome.replace("Painel de ", "").replace("Painel ", "")}</th>)}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">Total genes</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3 font-semibold text-slate-900">{p.totalGenes}</td>)}
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">Tecnologia</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3">{p.tecnologia}</td>)}
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">MSI</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3">{p.capacidade?.msi ? <span className="text-emerald-600 font-medium">Sim</span> : <span className="text-slate-400">Não</span>}</td>)}
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">TMB</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3">{p.capacidade?.tmb ? <span className="text-emerald-600 font-medium">Sim</span> : <span className="text-slate-400">Não</span>}</td>)}
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">Amostras</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3">{p.amostras.join(", ")}</td>)}
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 font-medium text-slate-700">Biomarcadores</td>
+                  {pickedPanels.map((p) => <td key={p.id} className="px-4 py-3">{p.biomarcadores.join(", ")}</td>)}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Genes in common */}
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <div className="text-sm font-semibold text-emerald-900">Genes em comum ({intersection.length})</div>
+            <div className="mt-3 flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+              {intersection.length === 0 ? (
+                <span className="text-sm text-emerald-700">Nenhum gene em comum entre os painéis selecionados.</span>
+              ) : intersection.map((g) => (
+                <span key={g} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-emerald-800 ring-1 ring-emerald-200">{g}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Exclusive genes per panel */}
+          {pickedPanels.map((p) => {
+            const excl = exclusives[p.id] || [];
+            return (
+              <div key={p.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="text-sm font-semibold text-slate-900">Exclusivos de {p.nome.replace("Painel de ", "").replace("Painel ", "")} ({excl.length})</div>
+                <div className="mt-3 flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+                  {excl.length === 0 ? (
+                    <span className="text-sm text-slate-500">Todos os genes deste painel existem noutro(s) selecionado(s).</span>
+                  ) : excl.map((g) => (
+                    <span key={g} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-slate-200">{g}</span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {pickedPanels.length < 2 && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          Seleciona pelo menos 2 painéis acima para ver a comparação detalhada.
+        </div>
+      )}
+    </Modal>
+  );
+}
+
+/* ─────────────────── Panel Recommender ─────────────────── */
+function PanelRecommender({ open, onClose, onSelectPanel }) {
+  const [step, setStep] = useState(1);
+  const [selectedDisease, setSelectedDisease] = useState("");
+  const [selectedTumor, setSelectedTumor] = useState("");
+  const [requiredGenes, setRequiredGenes] = useState("");
+  const [needMsi, setNeedMsi] = useState(false);
+  const [needTmb, setNeedTmb] = useState(false);
+
+  // Collect all tumor types and diseases, excluding Farmacogenómica panels
+  const nonPgxPanels = useMemo(() => painels.filter((p) => p.categoria !== "Farmacogenómica"), []);
+  const allTumorTypes = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.tumorTypes || []))].sort(), [nonPgxPanels]);
+  const allDiseases = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.diseases || []))].sort(), [nonPgxPanels]);
+
+  const geneList = useMemo(() => parseSearchTerms(requiredGenes).map((t) => t.toUpperCase()), [requiredGenes]);
+
+  const results = useMemo(() => {
+    return nonPgxPanels.map((p) => {
+      let score = 0;
+      let reasons = [];
+
+      // Disease match
+      if (selectedDisease && (p.diseases || []).includes(selectedDisease)) {
+        score += 30;
+        reasons.push(`Cobre ${selectedDisease}`);
+      }
+
+      // Tumor type match
+      if (selectedTumor && (p.tumorTypes || []).includes(selectedTumor)) {
+        score += 20;
+        reasons.push(`Indicado para ${selectedTumor}`);
+      }
+
+      // Gene coverage
+      if (geneList.length > 0) {
+        const panelGenesUpper = new Set(p.genes.map((g) => g.toUpperCase()));
+        const covered = geneList.filter((g) => panelGenesUpper.has(g));
+        const pct = Math.round((covered.length / geneList.length) * 100);
+        score += pct * 0.4; // up to 40 points
+        if (covered.length > 0) reasons.push(`${covered.length}/${geneList.length} genes cobertos (${pct}%)`);
+        if (covered.length < geneList.length) {
+          const missing = geneList.filter((g) => !panelGenesUpper.has(g));
+          reasons.push(`Em falta: ${missing.join(", ")}`);
+        }
+      }
+
+      // MSI/TMB bonus
+      if (needMsi && p.capacidade?.msi) { score += 5; reasons.push("MSI disponível"); }
+      if (needTmb && p.capacidade?.tmb) { score += 5; reasons.push("TMB disponível"); }
+
+      return { panel: p, score: Math.round(score), reasons };
+    }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
+  }, [selectedDisease, selectedTumor, geneList, needMsi, needTmb]);
+
+  function reset() { setStep(1); setSelectedDisease(""); setSelectedTumor(""); setRequiredGenes(""); setNeedMsi(false); setNeedTmb(false); }
+
+  return (
+    <Modal open={open} onClose={() => { reset(); onClose(); }} title="Recomendar painel" icon={Stethoscope} wide>
+      {/* Step indicator */}
+      <div className="flex items-center gap-2 mb-6">
+        {[1, 2, 3].map((s) => (
+          <React.Fragment key={s}>
+            <button
+              onClick={() => s < step ? setStep(s) : null}
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition ${step >= s ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500"} ${s < step ? "cursor-pointer" : ""}`}
+            >
+              {step > s ? <Check className="h-4 w-4" /> : s}
+            </button>
+            {s < 3 && <div className={`h-0.5 flex-1 rounded ${step > s ? "bg-slate-900" : "bg-slate-200"}`} />}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Step 1: Clinical context — disease first, then tumor type */}
+      {step === 1 && (
+        <div className="space-y-5">
+          <div>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Doença / órgão</label>
+            <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+              {allDiseases.map((d) => (
+                <button
+                  key={d}
+                  onClick={() => setSelectedDisease(selectedDisease === d ? "" : d)}
+                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedDisease === d ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Tipo de tumor / contexto</label>
+            <div className="flex flex-wrap gap-2">
+              {allTumorTypes.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setSelectedTumor(selectedTumor === t ? "" : t)}
+                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedTumor === t ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button onClick={() => setStep(2)} disabled={!selectedTumor && !selectedDisease} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            Seguinte <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Step 2: Gene requirements */}
+      {step === 2 && (
+        <div className="space-y-5">
+          <div>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Genes obrigatórios (opcional)</label>
+            <textarea
+              value={requiredGenes}
+              onChange={(e) => setRequiredGenes(e.target.value)}
+              placeholder="Ex.: EGFR, ALK, ROS1, KRAS, BRAF"
+              rows={3}
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
+            />
+            <p className="mt-1.5 text-xs text-slate-500">Separa por vírgula, ponto e vírgula ou nova linha.</p>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-slate-700">
+              <input type="checkbox" checked={needMsi} onChange={(e) => setNeedMsi(e.target.checked)} className="rounded border-slate-300" />
+              Preciso de MSI
+            </label>
+            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-slate-700">
+              <input type="checkbox" checked={needTmb} onChange={(e) => setNeedTmb(e.target.checked)} className="rounded border-slate-300" />
+              Preciso de TMB
+            </label>
+          </div>
+          <div className="flex gap-3">
+            <button onClick={() => setStep(1)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Anterior</button>
+            <button onClick={() => setStep(3)} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition">
+              Ver resultados <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 3: Results */}
+      {step === 3 && (
+        <div className="space-y-4">
+          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-700">
+            <span className="font-semibold">Critérios:</span>{" "}
+            {selectedTumor && <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium mr-2">{selectedTumor}</span>}
+            {selectedDisease && <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium mr-2">{selectedDisease}</span>}
+            {geneList.length > 0 && <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700 mr-2">{geneList.length} gene(s)</span>}
+            {needMsi && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 mr-2">MSI</span>}
+            {needTmb && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 mr-2">TMB</span>}
+          </div>
+
+          {results.length === 0 ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              Nenhum painel corresponde aos critérios indicados. Tenta ajustar os filtros.
+            </div>
+          ) : results.map((r, idx) => {
+            const Icon = iconByCategory[r.panel.categoria] || Dna;
+            return (
+              <div key={r.panel.id} className={`rounded-2xl border p-5 transition ${idx === 0 ? "border-emerald-300 bg-emerald-50/50 shadow-sm" : "border-slate-200 bg-white"}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    {idx === 0 && <span className="rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Melhor</span>}
+                    <Icon className="h-5 w-5 text-slate-600" />
+                    <div>
+                      <div className="text-sm font-semibold text-slate-900">{r.panel.nome}</div>
+                      <div className="text-xs text-slate-500">{r.panel.categoria} · {r.panel.totalGenes} genes</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className={`rounded-full px-3 py-1 text-sm font-bold ${idx === 0 ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-700"}`}>{r.score}</div>
+                    <button
+                      onClick={() => { onSelectPanel(r.panel.id); reset(); onClose(); }}
+                      className="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      Ver painel
+                    </button>
+                  </div>
+                </div>
+                <ul className="mt-3 space-y-1">
+                  {r.reasons.map((reason, i) => (
+                    <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
+                      <CheckCircle2 className={`mt-0.5 h-3.5 w-3.5 flex-shrink-0 ${reason.includes("Em falta") ? "text-amber-500" : "text-emerald-500"}`} />
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+
+          <div className="flex gap-3 pt-2">
+            <button onClick={() => setStep(2)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Ajustar critérios</button>
+            <button onClick={reset} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Recomeçar</button>
+          </div>
+        </div>
+      )}
+    </Modal>
   );
 }
 
@@ -586,7 +948,7 @@ export default function GenePanelsCatalog() {
   const [diseaseFilter, setDiseaseFilter] = useState("Todos");
   const [selectedId, setSelectedId] = useState(() => {
     if (typeof window === "undefined") return painels[0].id;
-    return localStorage.getItem(STORAGE_KEY) || painels[0].id;
+    try { return localStorage.getItem(STORAGE_KEY) || painels[0].id; } catch { return painels[0].id; }
   });
   const [copiedState, setCopiedState] = useState("");
   const [showAllMatches, setShowAllMatches] = useState(false);
@@ -597,10 +959,12 @@ export default function GenePanelsCatalog() {
   const [evidenceData, setEvidenceData] = useState(null);
   const [evidenceLoading, setEvidenceLoading] = useState(false);
   const [evidenceError, setEvidenceError] = useState("");
+  const [showComparator, setShowComparator] = useState(false);
+  const [showRecommender, setShowRecommender] = useState(false);
   const searchTerms = useMemo(() => parseSearchTerms(query), [query]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, selectedId);
+    try { localStorage.setItem(STORAGE_KEY, selectedId); } catch { /* storage unavailable */ }
   }, [selectedId]);
 
   useEffect(() => {
@@ -759,7 +1123,7 @@ export default function GenePanelsCatalog() {
                 <img
                   src={institutionalLogo}
                   alt="ULS Almada-Seixal"
-                  className="h-auto w-full max-w-[340px] object-contain sm:max-w-[560px] lg:max-w-[980px]"
+                  className="h-auto w-full max-w-[170px] object-contain sm:max-w-[280px] lg:max-w-[490px]"
                 />
               </div>
               <div className="max-w-4xl">
@@ -800,10 +1164,6 @@ export default function GenePanelsCatalog() {
                 </select>
               </label>
 
-              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
-                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
-              </div>
-
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Database className="h-5 w-5 text-slate-400" />
                 <select value={tumorTypeFilter} onChange={(e) => { setTumorTypeFilter(e.target.value); setDiseaseFilter("Todos"); }} className="w-full bg-transparent text-sm outline-none">
@@ -812,10 +1172,6 @@ export default function GenePanelsCatalog() {
                   ))}
                 </select>
               </label>
-
-              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
-                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
-              </div>
 
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <TestTube2 className="h-5 w-5 text-slate-400" />
@@ -844,7 +1200,9 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={Wand2} onClick={copyJustification} title="Copiar texto automático de justificação">{copiedState === "justification" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar texto</>}</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={exportCsv} title="Exportar CSV do painel">CSV</ActionButton>
                 <ActionButton icon={FileJson} onClick={exportJson} title="Exportar JSON do painel">JSON</ActionButton>
-                <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros">Reset filtros</ActionButton>
+                <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros" variant="red">Reset filtros</ActionButton>
+                <ActionButton icon={GitCompare} onClick={() => setShowComparator(true)} title="Comparar 2-3 painéis lado a lado" variant="blue">Comparar</ActionButton>
+                <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green">Recomendar</ActionButton>
                 <div className="ml-auto inline-flex rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
                   <button onClick={() => setViewMode("cards")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "cards" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Cards</button>
                   <button onClick={() => setViewMode("table")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "table" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Tabela</button>
@@ -1062,15 +1420,6 @@ export default function GenePanelsCatalog() {
                 </div>
 
                 <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-slate-900">Tipo de tumor / contexto</h3>
-                  <div className="mt-3 flex flex-wrap gap-3.5">
-                    {getPanelTumorTypes(selected).map((item) => (
-                      <span key={item} className="rounded-full bg-rose-50 px-4 py-2 text-xs font-medium text-rose-700">{item}</span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
                   <h3 className="text-sm font-semibold text-slate-900">Tags</h3>
                   <div className="mt-3 flex flex-wrap gap-3.5">
                     {selected.tags.map((item) => (
@@ -1165,7 +1514,7 @@ export default function GenePanelsCatalog() {
             <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
               <div>Ricardo B. Leite · Patologia Molecular</div>
               <div className="flex items-center gap-2">
-                <span>v. 0.12</span>
+                <span>v. 0.14</span>
                 <span aria-hidden="true">·</span>
                 <span>{appDate}</span>
               </div>
@@ -1173,6 +1522,9 @@ export default function GenePanelsCatalog() {
           </footer>
         </div>
       </div>
+
+      <PanelComparator open={showComparator} onClose={() => setShowComparator(false)} />
+      <PanelRecommender open={showRecommender} onClose={() => setShowRecommender(false)} onSelectPanel={setSelectedId} />
     </main>
   );
 }
