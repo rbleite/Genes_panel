@@ -463,6 +463,69 @@
         "role": "Complementar",
         "note": "Complemento para variantes com contexto constitucional ou classificação clínica publicada."
       }
+    ],
+    "recommendedCombinations": [
+      {
+        "with": "fusoes-rna",
+        "label": "188 ADN + RNA fusões",
+        "contexts": [
+          "CPNPC / adenocarcinoma do pulmão",
+          "Carcinoma da tiróide",
+          "Carcinomas das glândulas salivares",
+          "Colangiocarcinoma / vias biliares",
+          "Tumores KRAS-wildtype"
+        ],
+        "rationale": "Perfil mutacional/CNV pelo ADN; deteção sensível de fusões pelo RNA em paralelo."
+      }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Cancro colorretal",
+        "strength": "primeira linha",
+        "rationale": "KRAS/NRAS/BRAF hotspots, amplificação ERBB2, MSI avaliável. Fusões raras — teste reflexo por RNA se WT para todos os drivers."
+      },
+      {
+        "tumor": "Cancro da mama",
+        "strength": "primeira linha",
+        "rationale": "PIK3CA (CDS completo), ESR1, amplificação ERBB2, BRCA1/2 com CDS completo + CNV. Cobre alvos de primeira linha."
+      },
+      {
+        "tumor": "Adenocarcinoma gástrico / junção GEJ",
+        "strength": "primeira linha",
+        "rationale": "Amplificação ERBB2 e MSI como biomarcadores principais."
+      },
+      {
+        "tumor": "GIST",
+        "strength": "primeira linha",
+        "rationale": "KIT (exões 9-18) e PDGFRA (exões 12-18) bem cobertos — exatamente as regiões mutadas."
+      },
+      {
+        "tumor": "Adenocarcinoma do pâncreas",
+        "strength": "primeira linha",
+        "rationale": "KRAS e BRCA1/2; perfil acionável limitado mas bem coberto por hotspots/CDS completo."
+      },
+      {
+        "tumor": "Carcinoma diferenciado da tiróide (questão restrita)",
+        "strength": "primeira linha",
+        "rationale": "Adequado quando a única questão é BRAF V600E / RAS. Se fusões relevantes, combinar com RNA."
+      },
+      {
+        "tumor": "CPNPC",
+        "strength": "componente de combinação",
+        "rationale": "Usar em conjunto com RNA de fusão (indicação paradigmática). Cobre EGFR, KRAS, BRAF, MET e amplificações pelo ADN."
+      }
+    ],
+    "limitations": [
+      "TMB não disponível — painel focado; estimativa de TMB não fiável neste painel",
+      "Fusões detetadas apenas por breakpoints em ADN — sensibilidade inferior ao RNA para intrões grandes, breakpoints variáveis ou parceiros novos",
+      "MET exon 14 skipping pode ser subdetetado; RNA aumenta a sensibilidade nestas alterações",
+      "Resultado negativo não exclui alteração molecular acionável em amostras com baixa celularidade tumoral ou baixo tumor fraction"
+    ],
+    "whenNotToUse": [
+      "Quando TMB é biomarcador decisivo de imunoterapia — usar painel ≥1021 genes",
+      "Quando a deteção sensível de fusões é obrigatória em primeira linha — combinar com painel de RNA",
+      "Neoplasias hematológicas — usar painel hematológico dedicado",
+      "Estudo de predisposição hereditária — usar painel germinativo"
     ]
   },
   {
@@ -828,6 +891,49 @@
         "role": "Opcional",
         "note": "Uso limitado e complementar em contexto específico."
       }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Sarcomas de translocação",
+        "strength": "primeira linha",
+        "rationale": "Entidades definidas por fusão: Ewing (EWSR1), sarcoma sinovial (SS18::SSX), DFSP, lipossarcoma mixoide, tumor miofibroblástico inflamatório (ALK), rabdomiossarcoma alveolar."
+      },
+      {
+        "tumor": "Carcinoma secretor (mama / glândula salivar)",
+        "strength": "primeira linha",
+        "rationale": "Definido pela fusão ETV6::NTRK3 — diagnóstico molecular específico."
+      },
+      {
+        "tumor": "Glioma pediátrico de baixo grau",
+        "strength": "primeira linha",
+        "rationale": "Fusões KIAA1549::BRAF como alteração diagnóstica e potencialmente acionável."
+      },
+      {
+        "tumor": "Carcinoma da tiróide (confirmação de fusão)",
+        "strength": "confirmatório / reflexo",
+        "rationale": "Confirmação dirigida de RET, NTRK, ALK ou PAX8::PPARG quando perfil mutacional já estabelecido."
+      },
+      {
+        "tumor": "CPNPC (teste reflexo)",
+        "strength": "reflexo",
+        "rationale": "Após painel ADN sem driver identificado, ou para confirmar/caracterizar fusão sugerida por IHC (ALK, ROS1)."
+      },
+      {
+        "tumor": "Pesquisa de fusão NTRK (pan-tumoral)",
+        "strength": "dirigido",
+        "rationale": "Em qualquer tumor com forte suspeita clínica ou IHC pan-TRK positiva, para elegibilidade a inibidores de TRK."
+      }
+    ],
+    "limitations": [
+      "Não avalia mutações pontuais, indels ou CNV — complementar com painel de ADN quando necessário",
+      "Não estima TMB nem MSI",
+      "Requer RNA de qualidade adequada — amostras FFPE muito degradadas podem comprometer o rendimento",
+      "Resultado negativo não exclui fusão em amostras com baixa expressão tumoral ou RNA de baixa qualidade"
+    ],
+    "whenNotToUse": [
+      "Como único teste quando o perfil mutacional completo (SNV, CNV) é necessário — combinar com painel ADN",
+      "Isolado em tumores onde as fusões não são o driver principal e não existe suspeita específica",
+      "Neoplasias hematológicas — usar painel hematológico dedicado (inclui RNA de fusão próprio)"
     ]
   },
   {
@@ -1455,6 +1561,53 @@
         "role": "Complementar",
         "note": "Complemento quando existe ponte com variantes germinativas ou interpretação adicional."
       }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Leucemia mieloide aguda (LMA)",
+        "strength": "primeira linha",
+        "rationale": "Diagnóstico, classificação, estratificação de risco ELN, alvos acionáveis (FLT3, IDH1/2) e fusões definidoras (PML::RARA, RUNX1::RUNX1T1)."
+      },
+      {
+        "tumor": "Síndromes mielodisplásicas (SMD)",
+        "strength": "primeira linha",
+        "rationale": "Apoio diagnóstico e prognóstico (IPSS-M): SF3B1, ASXL1, TP53, RUNX1, SRSF2, U2AF1."
+      },
+      {
+        "tumor": "Neoplasias mieloproliferativas (NMP)",
+        "strength": "primeira linha",
+        "rationale": "JAK2, CALR, MPL como mutações condutoras; mutações adicionais com valor prognóstico."
+      },
+      {
+        "tumor": "Leucemia linfoblástica aguda (LLA)",
+        "strength": "primeira linha",
+        "rationale": "Subgrupos moleculares incluindo LLA Ph-like; fusões BCR::ABL1, ETV6::RUNX1, rearranjos KMT2A."
+      },
+      {
+        "tumor": "Leucemia linfocítica crónica (LLC)",
+        "strength": "primeira linha",
+        "rationale": "TP53, NOTCH1, SF3B1, BIRC3 — valor prognóstico e influência na decisão terapêutica."
+      },
+      {
+        "tumor": "Linfomas B e T",
+        "strength": "primeira linha",
+        "rationale": "MYD88, CD79A/B, CARD11, BCL2, BCL6 — apoio diagnóstico e de subclassificação."
+      },
+      {
+        "tumor": "Mastocitose sistémica",
+        "strength": "primeira linha",
+        "rationale": "Mutação KIT D816V como alteração diagnóstica e acionável."
+      }
+    ],
+    "limitations": [
+      "Não substitui citogenética convencional, FISH ou cariótipo — estudos complementares essenciais em LMA, SMD, LLA e alterações estruturais complexas",
+      "Achados em genes de predisposição hereditária (DDX41, RUNX1, CEBPA, GATA2) requerem confirmação por estudo germinativo dedicado",
+      "CNV pode requerer confirmação ortogonal em amostras com baixa pureza tumoral"
+    ],
+    "whenNotToUse": [
+      "Tumores sólidos — usar painéis somáticos dedicados",
+      "Estudo exclusivo de predisposição hereditária — usar painel germinativo",
+      "Farmacogenómica — usar painel PGx dedicado"
     ]
   },
   {
@@ -1842,6 +1995,43 @@
         "role": "Opcional",
         "note": "Apoio pontual quando genes de predisposição têm relevância terapêutica."
       }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Cancro da mama/ovário hereditário",
+        "strength": "primeira linha",
+        "rationale": "BRCA1/2 e genes de risco moderado (PALB2, CHEK2, ATM, RAD51C/D) com CDS completo + CNV."
+      },
+      {
+        "tumor": "Síndrome de Lynch",
+        "strength": "primeira linha",
+        "rationale": "MLH1, MSH2, MSH6, PMS2, EPCAM — variantes germinativas e grandes deleções/duplicações."
+      },
+      {
+        "tumor": "Polipose adenomatosa e CCR hereditário",
+        "strength": "primeira linha",
+        "rationale": "APC, MUTYH, PTEN, STK11, SMAD4, BMPR1A e outros genes de polipose."
+      },
+      {
+        "tumor": "Síndromes endócrinos hereditários",
+        "strength": "primeira linha",
+        "rationale": "MEN1, RET, VHL, SDHB/C/D e outros — fenótipos endócrinos hereditários."
+      },
+      {
+        "tumor": "Paraganglioma / feocromocitoma hereditário",
+        "strength": "primeira linha",
+        "rationale": "SDHx, VHL, RET, MAX, TMEM127 — genes de predisposição a tumores neuroendócrinos."
+      }
+    ],
+    "limitations": [
+      "Não avalia variantes somáticas tumorais — não substitui teste em tecido tumoral",
+      "Algumas CNV complexas podem requerer confirmação ortogonal (MLPA, array-CGH)",
+      "Variantes de significado incerto (VUS) requerem interpretação em contexto clínico e familiar"
+    ],
+    "whenNotToUse": [
+      "Caracterização molecular somática do tumor — usar painel somático",
+      "Diagnóstico de neoplasia hematológica — usar painel hematológico",
+      "Farmacogenómica — usar painel PGx"
     ]
   },
   {
@@ -3968,6 +4158,7 @@
     ],
     "tumorTypes": [
       "Tumores sólidos",
+      "Sarcomas / tumores raros",
       "Pan-tumoral"
     ],
     "diseases": [
@@ -3982,7 +4173,9 @@
       "Endométrio",
       "Gástrico",
       "Biliar",
-      "Tumor de origem desconhecida"
+      "Tumor de origem desconhecida",
+      "Sarcomas",
+      "Sistema nervoso central"
     ],
     "evidenceSources": [
       {
@@ -4000,6 +4193,75 @@
         "role": "Complementar",
         "note": "Complementar em genes com interface germinativa/constitucional."
       }
+    ],
+    "recommendedCombinations": [
+      {
+        "with": "fusoes-rna",
+        "label": "1021 ADN + RNA fusões",
+        "contexts": [
+          "Sarcomas",
+          "Tumores pediátricos e adultos jovens",
+          "Gliomas / SNC",
+          "Colangiocarcinoma",
+          "Carcinoma de primário desconhecido com driver de fusão",
+          "CPNPC estudo único compreensivo"
+        ],
+        "rationale": "Perfil genómico compreensivo (TMB, supressores tumorais) e deteção sensível de fusões num único estudo."
+      }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Melanoma",
+        "strength": "primeira linha",
+        "rationale": "TMB tipicamente elevado; imunoterapia central no tratamento. Benefício adicional do perfil genómico amplo."
+      },
+      {
+        "tumor": "Carcinoma urotelial / bexiga",
+        "strength": "primeira linha",
+        "rationale": "TMB frequentemente elevado; relevância da imunoterapia e de alterações de FGFR3."
+      },
+      {
+        "tumor": "CPNPC (perfil compreensivo com TMB)",
+        "strength": "primeira linha",
+        "rationale": "TMB como biomarcador de imunoterapia; alternativa ao 188+RNA quando se pretende estudo único completo."
+      },
+      {
+        "tumor": "dMMR / MSI-H (colorretal, endométrio, gástrico)",
+        "strength": "primeira linha",
+        "rationale": "TMB elevado correlaciona-se com dMMR; MSI avaliável em paralelo."
+      },
+      {
+        "tumor": "Carcinoma de primário desconhecido (CUP)",
+        "strength": "primeira linha",
+        "rationale": "Perfil compreensivo para orientar origem e terapêutica, com TMB como biomarcador adicional."
+      },
+      {
+        "tumor": "Sarcomas",
+        "strength": "componente de combinação",
+        "rationale": "Perfil genómico completo (CNV, supressores tumorais, TMB) — combinar com RNA para deteção sensível de fusões."
+      },
+      {
+        "tumor": "Gliomas / SNC",
+        "strength": "componente de combinação",
+        "rationale": "IDH1/2, codeleção 1p/19q, EGFR, CDKN2A/B, TERT — combinar com RNA para fusões (ex: FGFR3::TACC3)."
+      },
+      {
+        "tumor": "Qualquer tumor sólido avançado candidato a IO tumor-agnóstica",
+        "strength": "indicado",
+        "rationale": "TMB elevado como critério de elegibilidade a imunoterapia independentemente do tipo tumoral."
+      }
+    ],
+    "limitations": [
+      "Custo e tempo de resposta superiores ao painel de 188 genes",
+      "Fusões detetadas por breakpoints ADN — para máxima sensibilidade combinar com painel RNA",
+      "CNV pode requerer confirmação ortogonal em amostras com baixa pureza tumoral",
+      "TMB elevado em tumores MSS (particularmente colorretal) pode não traduzir sensibilidade clínica relevante à imunoterapia",
+      "Resultado negativo não exclui alteração acionável em amostras com baixa celularidade ou baixo tumor fraction"
+    ],
+    "whenNotToUse": [
+      "Quando o painel focado de 188 genes é suficiente (alvos bem definidos, fusões não relevantes, TMB não decisivo) — mais rápido e com menos tecido",
+      "Neoplasias hematológicas — usar painel hematológico dedicado",
+      "Estudo de predisposição hereditária — usar painel germinativo"
     ]
   },
   {
@@ -4401,6 +4663,38 @@
         "role": "Complementar",
         "note": "Complemento para variantes com classificação clínica publicada."
       }
+    ],
+    "clinicalIndications": [
+      {
+        "tumor": "Oncologia — metabolismo de citostáticos",
+        "strength": "complementar",
+        "rationale": "DPYD (fluoropirimidinas), TPMT/NUDT15 (tiopurinas), UGT1A1 (irinotecano) e outros."
+      },
+      {
+        "tumor": "Cardiologia",
+        "strength": "complementar",
+        "rationale": "CYP2C19 (clopidogrel), VKORC1/CYP2C9 (varfarina), SLCO1B1 (estatinas)."
+      },
+      {
+        "tumor": "Psiquiatria / Neurologia",
+        "strength": "complementar",
+        "rationale": "CYP2D6, CYP2C19, CYP3A5 — metabolismo de antidepressivos, antipsicóticos e antiepilépticos."
+      },
+      {
+        "tumor": "Anestesiologia",
+        "strength": "complementar",
+        "rationale": "CACNA1S, RYR1 (hipertermia maligna), BCHE (succinilcolina)."
+      }
+    ],
+    "limitations": [
+      "Não avalia variantes somáticas tumorais",
+      "Fenótipo metabolizador pode ser afetado por fatores não genéticos (indução/inibição enzimática por outros fármacos)",
+      "Algumas variantes raras ou específicas de populações podem não ser cobertas"
+    ],
+    "whenNotToUse": [
+      "Diagnóstico oncológico molecular somático — usar painel somático",
+      "Neoplasias hematológicas — usar painel hematológico",
+      "Estudo de predisposição hereditária oncológica — usar painel germinativo"
     ]
   }
 ]

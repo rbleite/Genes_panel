@@ -113,18 +113,51 @@ function downloadFile(content, filename, type) {
 }
 
 function generateJustification(panel) {
-  const samples = panel.amostras?.length ? ` Pode ser aplicado em ${panel.amostras.join(", ")}.` : "";
+  const catLabel = {
+    "Somático": "somático (tumor sólido)",
+    "RNA": "RNA de fusões",
+    "Hematologia": "hematológico",
+    "Germinativo": "germinativo",
+    "Farmacogenómica": "farmacogenómico",
+  }[panel.categoria] || panel.categoria.toLowerCase();
+
+  const isRna = panel.categoria === "RNA";
+  const isHemato = panel.categoria === "Hematologia";
+
+  const genePhrase = isRna
+    ? `${panel.totalGenes} pares de fusão/rearranjo cobertos, tecnologia ${panel.tecnologia}`
+    : `${panel.totalGenes} genes, tecnologia ${panel.tecnologia}`;
+
+  const samples = panel.amostras?.length ? ` Aplicável em: ${panel.amostras.join(", ")}.` : "";
+
+  const markers = panel.biomarcadores?.length
+    ? ` Biomarcadores: ${panel.biomarcadores.join(", ")}.`
+    : "";
+
+  const msiTmb = panel.capacidade?.msi || panel.capacidade?.tmb
+    ? ` Capacidade analítica: MSI ${panel.capacidade?.msi ? "disponível" : "não incluído"}${panel.capacidade?.tmb ? "; TMB disponível (painel alargado — estimativa fiável)" : "; TMB não incluído"}.`
+    : "";
+
   const sectionNames = Object.keys(panel.secoes || {}).map(prettifySectionKey);
   const sections = sectionNames.length
-    ? ` A estrutura interna inclui ${sectionNames.slice(0, 3).join(", ")}${sectionNames.length > 3 ? " e módulos adicionais" : ""}.`
+    ? ` Estrutura: ${sectionNames.slice(0, 3).join(", ")}${sectionNames.length > 3 ? " e módulos adicionais" : ""}.`
     : "";
-  const markers = panel.biomarcadores?.length
-    ? ` Abrange biomarcadores como ${panel.biomarcadores.join(", ")}.`
+
+  let contextNote = "";
+  if (isRna) {
+    contextNote = " A deteção de fusões por RNA é mais sensível do que por ADN para intrões grandes, breakpoints variáveis e parceiros novos; um resultado negativo por ADN não exclui fusão.";
+  } else if (isHemato) {
+    contextNote = " Painel dedicado a neoplasias hematológicas; não substitui citogenética convencional, FISH ou cariótipo quando clinicamente indicados.";
+  } else if (panel.capacidade?.tmb) {
+    contextNote = " Indicado quando o TMB é biomarcador relevante de imunoterapia ou quando é necessário perfil genómico compreensivo; valores de TMB de painéis pequenos não são comparáveis.";
+  }
+
+  const combo = panel.recommendedCombinations?.[0];
+  const comboNote = combo
+    ? ` Combinação recomendada com ${combo.label} em: ${combo.contexts.slice(0, 3).join(", ")}.`
     : "";
-  const msiTmb = panel.capacidade?.msi || panel.capacidade?.tmb
-    ? ` Capacidade analítica: MSI ${panel.capacidade?.msi ? "disponível" : "não incluído"}${panel.capacidade?.tmb ? "; TMB disponível" : "; TMB não incluído"}.`
-    : "";
-  return `${panel.nome} é um painel da categoria ${panel.categoria.toLowerCase()} com ${panel.totalGenes} genes e tecnologia principal ${panel.tecnologia}. ${panel.descricao}${samples}${markers}${msiTmb}${sections}`;
+
+  return `${panel.nome} é um painel ${catLabel} com ${genePhrase}. ${panel.descricao}${contextNote}${comboNote}${samples}${markers}${msiTmb}${sections}`;
 }
 
 
@@ -137,6 +170,23 @@ const STRUCTURE_FILTERS = [
   "Não coding",
 ];
 
+
+const DOMAIN_GROUPS = {
+  "Somático": "oncologia-solida",
+  "RNA": "oncologia-solida",
+  "Hematologia": "hematologia",
+  "Germinativo": "germinativo",
+  "Farmacogenómica": "pgx",
+};
+const DOMAIN_LABELS = {
+  "oncologia-solida": "Oncologia tumores sólidos",
+  "hematologia": "Hematologia",
+  "germinativo": "Germinativo",
+  "pgx": "Farmacogenómica",
+};
+function getPanelDomain(panel) {
+  return DOMAIN_GROUPS[panel.categoria] || "outro";
+}
 
 function getPanelTumorTypes(panel) {
   return panel.tumorTypes || ["Outros"];
@@ -519,6 +569,92 @@ function ActionButton({ icon: Icon, children, onClick, title, variant }) {
   );
 }
 
+/* ─────────────────── Clinical Export Modal ─────────────────── */
+function buildClinicalExportText(panel, date) {
+  const line = (label, value) => value ? `${label}: ${value}` : "";
+  const sep = "\n" + "─".repeat(60) + "\n";
+
+  const header = [
+    "PEDIDO DE TESTE NGS — JUSTIFICAÇÃO CLÍNICA",
+    `Data: ${date}`,
+    `Painel: ${panel.nome}`,
+    `Categoria: ${panel.categoria}`,
+    `Tecnologia: ${panel.tecnologia}`,
+    panel.versao ? `Versão: ${panel.versao}` : "",
+    line("Amostras", panel.amostras?.join(", ")),
+  ].filter(Boolean).join("\n");
+
+  const indicacoes = panel.clinicalIndications?.length
+    ? "INDICAÇÕES CLÍNICAS\n" + panel.clinicalIndications.map(
+        (ind) => `  • ${ind.tumor} [${ind.strength}]\n    ${ind.rationale}`
+      ).join("\n")
+    : "";
+
+  const biomarcadores = [
+    "BIOMARCADORES E CAPACIDADE ANALÍTICA",
+    line("  Biomarcadores", panel.biomarcadores?.join(", ")),
+    `  MSI: ${panel.capacidade?.msi ? "Disponível" : "Não incluído"}`,
+    `  TMB: ${panel.capacidade?.tmb ? "Disponível (painel alargado — estimativa fiável)" : "Não incluído"}`,
+  ].filter(Boolean).join("\n");
+
+  const limitacoes = panel.limitations?.length
+    ? "LIMITAÇÕES ANALÍTICAS\n" + panel.limitations.map((l) => `  • ${l}`).join("\n")
+    : "";
+
+  const evidencias = panel.evidenceSources?.length
+    ? "BASES DE EVIDÊNCIA\n" + panel.evidenceSources.map(
+        (e) => `  • ${e.source} [${e.role}] — ${e.note}`
+      ).join("\n")
+    : "";
+
+  const rodape = [
+    "NOTA",
+    "  Este documento é um guia orientador de apoio à decisão.",
+    "  A seleção final deve seguir as guidelines vigentes (ESMO, NCCN),",
+    "  a adequação da amostra e prévia discussão clínica.",
+    "",
+    "ULS Almada-Seixal — Laboratório de Genómica Clínica",
+  ].join("\n");
+
+  return [header, indicacoes, biomarcadores, limitacoes, evidencias, rodape]
+    .filter(Boolean)
+    .join(sep);
+}
+
+function ClinicalExportModal({ open, onClose, panel, date }) {
+  const [copied, setCopied] = useState(false);
+  const text = useMemo(() => panel ? buildClinicalExportText(panel, date) : "", [panel, date]);
+
+  async function handleCopy() {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  }
+
+  function handleDownload() {
+    downloadFile(text, `pedido-ngs-${panel?.id || "painel"}.txt`, "text/plain;charset=utf-8");
+  }
+
+  return (
+    <Modal open={open} onClose={onClose} title="Export clínico — Justificação NGS" icon={FileSpreadsheet} wide>
+      <p className="text-sm text-slate-600 leading-6 mb-4">
+        Texto estruturado para pedido ou justificação de teste NGS. Revê e adapta ao contexto clínico específico antes de utilizar.
+      </p>
+      <div className="flex gap-2 mb-4">
+        <button onClick={handleCopy} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition">
+          {copied ? <><Check className="h-4 w-4" /> Copiado</> : <><Copy className="h-4 w-4" /> Copiar texto</>}
+        </button>
+        <button onClick={handleDownload} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+          <FileSpreadsheet className="h-4 w-4" /> Descarregar .txt
+        </button>
+      </div>
+      <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-700 overflow-auto max-h-[55vh] font-mono">
+        {text}
+      </pre>
+    </Modal>
+  );
+}
+
 /* ─────────────────── Modal shell ─────────────────── */
 function Modal({ open, onClose, title, icon: Icon, children, wide }) {
   if (!open) return null;
@@ -589,6 +725,24 @@ function PanelComparator({ open, onClose }) {
     });
   }, []);
 
+  const crossDomainWarning = useMemo(() => {
+    if (pickedPanels.length < 2) return null;
+    const domains = [...new Set(pickedPanels.map(getPanelDomain))];
+    if (domains.length === 1) return null;
+    return domains.map((d) => DOMAIN_LABELS[d] || d).join(" vs ");
+  }, [pickedPanels]);
+
+  const recCombo = useMemo(() => {
+    if (pickedPanels.length < 2) return null;
+    for (const p of pickedPanels) {
+      for (const combo of (p.recommendedCombinations || [])) {
+        const partner = pickedPanels.find((q) => q.id === combo.with);
+        if (partner) return { panel: p, combo, partner };
+      }
+    }
+    return null;
+  }, [pickedPanels]);
+
   return (
     <Modal open={open} onClose={onClose} title="Comparar painéis" icon={GitCompare} wide>
       <p className="text-sm text-slate-600 leading-6 mb-5">Seleciona 2 ou 3 painéis para comparar genes em comum, genes exclusivos e capacidades.</p>
@@ -616,6 +770,24 @@ function PanelComparator({ open, onClose }) {
         })}
       </div>
 
+      {crossDomainWarning && (
+        <div className="mb-5 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          <span className="font-semibold">Domínios diferentes selecionados:</span> {crossDomainWarning}. A sobreposição génica entre domínios distintos (ex.: somático vs PGx) não tem significado clínico direto — genes partilhados cobrem contextos analíticos diferentes.
+        </div>
+      )}
+
+      {recCombo && (
+        <div className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+          <div className="flex items-center gap-2 text-sm font-semibold text-emerald-900">
+            <Layers3 className="h-4 w-4" /> Combinação clinicamente recomendada detetada
+          </div>
+          <p className="mt-2 text-sm leading-6 text-emerald-800">
+            <span className="font-semibold">{recCombo.combo.label}</span> — {recCombo.combo.rationale}
+          </p>
+          <p className="mt-1 text-xs text-emerald-700">Contextos: {recCombo.combo.contexts.join(" · ")}</p>
+        </div>
+      )}
+
       {/* ── Overlap matrix ── */}
       <div className="mb-6">
         <div className="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-3">
@@ -639,11 +811,12 @@ function PanelComparator({ open, onClose }) {
                   <td className="px-3 py-2 font-medium text-slate-700 whitespace-nowrap">{row.nome.replace("Painel de ", "").replace("Painel ", "")}</td>
                   {overlapMatrix[ri].map((count, ci) => {
                     const isDiag = ri === ci;
+                    const isCross = !isDiag && getPanelDomain(row) !== getPanelDomain(painels[ci]);
                     const pct = isDiag ? 100 : Math.round((count / Math.min(row.totalGenes, painels[ci].totalGenes)) * 100);
                     return (
-                      <td key={ci} className={`px-3 py-2 text-center font-medium ${isDiag ? "bg-slate-100 text-slate-900" : count > 0 ? "text-indigo-700" : "text-slate-400"}`}>
+                      <td key={ci} className={`px-3 py-2 text-center font-medium ${isDiag ? "bg-slate-100 text-slate-900" : isCross ? "text-slate-300" : count > 0 ? "text-indigo-700" : "text-slate-400"}`} title={isCross ? "Domínios distintos — sobreposição sem significado clínico direto" : undefined}>
                         <div>{count}</div>
-                        {!isDiag && count > 0 && <div className="text-[10px] font-normal text-slate-400">{pct}%</div>}
+                        {!isDiag && count > 0 && !isCross && <div className="text-[10px] font-normal text-slate-400">{pct}%</div>}
                       </td>
                     );
                   })}
@@ -652,7 +825,7 @@ function PanelComparator({ open, onClose }) {
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-[11px] text-slate-500">Diagonal: total de genes do painel. Percentagem = genes comuns / min(genes painel A, genes painel B).</p>
+        <p className="mt-2 text-[11px] text-slate-500">Diagonal: total de genes do painel. Percentagem = genes comuns / min(genes A, genes B). Células a cinzento claro = domínios distintos (sobreposição sem relevância clínica direta).</p>
       </div>
 
       {/* ── Detailed comparison ── */}
@@ -746,7 +919,7 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
   const [needTmb, setNeedTmb] = useState(false);
 
   // Collect all tumor types and diseases, excluding Farmacogenómica panels
-  const nonPgxPanels = useMemo(() => painels.filter((p) => p.categoria !== "Farmacogenómica"), []);
+  const nonPgxPanels = useMemo(() => painels.filter((p) => p.categoria !== "Farmacogenómica" && p.categoria !== "Germinativo"), []);
   const allTumorTypes = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.tumorTypes || []))].sort(), [nonPgxPanels]);
   const allDiseases = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.diseases || []))].sort(), [nonPgxPanels]);
 
@@ -789,6 +962,29 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
       return { panel: p, score: Math.round(score), reasons };
     }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
   }, [selectedDisease, selectedTumor, geneList, needMsi, needTmb]);
+
+  const combinationSuggestion = useMemo(() => {
+    if (results.length < 2) return null;
+    const dnaResult = results.find((r) => r.panel.tecnologia === "DNA" && r.panel.categoria === "Somático");
+    const rnaResult = results.find((r) => r.panel.categoria === "RNA");
+    if (!dnaResult || !rnaResult) return null;
+    // Suggest combination when both score meaningfully (each ≥ 40 pts) and RNA is in top 3
+    const rnaIdx = results.indexOf(rnaResult);
+    if (dnaResult.score < 40 || rnaResult.score < 40 || rnaIdx > 2) return null;
+    const combinedGenes = geneList.length > 0
+      ? (() => {
+          const union = new Set([
+            ...dnaResult.panel.genes.map((g) => g.toUpperCase()),
+            ...rnaResult.panel.genes.map((g) => g.toUpperCase()),
+          ]);
+          const covered = geneList.filter((g) => union.has(g));
+          return covered.length > dnaResult.panel.genes.filter((g) => geneList.includes(g.toUpperCase())).length
+            ? `${covered.length}/${geneList.length} genes cobertos em conjunto`
+            : null;
+        })()
+      : null;
+    return { dna: dnaResult.panel, rna: rnaResult.panel, combinedGenes };
+  }, [results, geneList]);
 
   function reset() { setStep(1); setSelectedDisease(""); setSelectedTumor(""); setRequiredGenes(""); setNeedMsi(false); setNeedTmb(false); }
 
@@ -891,6 +1087,33 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
             {needTmb && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 mr-2">TMB</span>}
           </div>
 
+          {combinationSuggestion && (
+            <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
+              <div className="flex items-center gap-2 text-sm font-semibold text-indigo-900">
+                <Layers3 className="h-4 w-4" />
+                Combinação recomendada
+              </div>
+              <p className="mt-2 text-sm leading-6 text-indigo-800">
+                Para este contexto, a abordagem mais completa é usar <span className="font-semibold">{combinationSuggestion.dna.nome}</span> em conjunto com <span className="font-semibold">{combinationSuggestion.rna.nome}</span> — o DNA cobre mutações, CNV e MSI; o RNA deteta fusões com maior sensibilidade para intrões grandes e parceiros novos.
+                {combinationSuggestion.combinedGenes && <span className="ml-1">({combinationSuggestion.combinedGenes})</span>}
+              </p>
+              <div className="mt-3 flex gap-2">
+                <button onClick={() => { onSelectPanel(combinationSuggestion.dna.id); reset(); onClose(); }} className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-medium text-indigo-800 hover:bg-indigo-50 transition">
+                  Ver {combinationSuggestion.dna.nome.replace("Painel de ", "").replace("Painel ", "")}
+                </button>
+                <button onClick={() => { onSelectPanel(combinationSuggestion.rna.id); reset(); onClose(); }} className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-medium text-indigo-800 hover:bg-indigo-50 transition">
+                  Ver {combinationSuggestion.rna.nome.replace("Painel de ", "").replace("Painel ", "")}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {needTmb && results.length > 0 && !results[0].panel.capacidade?.tmb && (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              <span className="font-semibold">Atenção — TMB:</span> o painel com maior score não inclui estimativa de TMB. A estimativa fiável de TMB requer um painel alargado (≥1 Mb); valores obtidos em painéis pequenos não são comparáveis e não devem fundamentar decisões de imunoterapia.
+            </div>
+          )}
+
           {results.length === 0 ? (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
               Nenhum painel corresponde aos critérios indicados. Tenta ajustar os filtros.
@@ -961,6 +1184,7 @@ export default function GenePanelsCatalog() {
   const [evidenceError, setEvidenceError] = useState("");
   const [showComparator, setShowComparator] = useState(false);
   const [showRecommender, setShowRecommender] = useState(false);
+  const [showClinicalExport, setShowClinicalExport] = useState(false);
   const searchTerms = useMemo(() => parseSearchTerms(query), [query]);
 
   useEffect(() => {
@@ -974,6 +1198,11 @@ export default function GenePanelsCatalog() {
     setEvidenceData(null);
     setEvidenceError("");
   }, [selectedId]);
+
+  useEffect(() => {
+    setTumorTypeFilter("Todos");
+    setDiseaseFilter("Todos");
+  }, [category]);
 
   const filteredPanels = useMemo(() => {
     return painels.filter((panel) => {
@@ -1099,10 +1328,13 @@ export default function GenePanelsCatalog() {
   }
 
   const categories = ["Todos", ...new Set(painels.map((p) => p.categoria))];
-  const tumorTypeOptions = ["Todos", ...new Set(painels.flatMap((p) => getPanelTumorTypes(p)))];
-  const diseaseOptions = ["Todos", ...new Set(painels
-    .filter((p) => tumorTypeFilter === "Todos" || getPanelTumorTypes(p).includes(tumorTypeFilter))
-    .flatMap((p) => getPanelDiseases(p)))];
+  const tumorTypeOptions = useMemo(() => {
+    const relevant = category === "Todos" ? painels : painels.filter((p) => p.categoria === category);
+    return ["Todos", ...new Set(relevant.flatMap((p) => getPanelTumorTypes(p)))];
+  }, [category]);
+  const diseaseOptions = useMemo(() => ["Todos", ...new Set(painels
+    .filter((p) => (category === "Todos" || p.categoria === category) && (tumorTypeFilter === "Todos" || getPanelTumorTypes(p).includes(tumorTypeFilter)))
+    .flatMap((p) => getPanelDiseases(p)))], [category, tumorTypeFilter]);
 
   function resetFilters() {
     setQuery("");
@@ -1203,6 +1435,7 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros" variant="red">Reset filtros</ActionButton>
                 <ActionButton icon={GitCompare} onClick={() => setShowComparator(true)} title="Comparar 2-3 painéis lado a lado" variant="blue">Comparar</ActionButton>
                 <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green">Recomendar</ActionButton>
+                <ActionButton icon={FileSpreadsheet} onClick={() => setShowClinicalExport(true)} title="Gerar texto de justificação clínica para pedido NGS">Justificação NGS</ActionButton>
                 <div className="ml-auto inline-flex rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
                   <button onClick={() => setViewMode("cards")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "cards" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Cards</button>
                   <button onClick={() => setViewMode("table")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "table" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Tabela</button>
@@ -1437,23 +1670,78 @@ export default function GenePanelsCatalog() {
                   </div>
                 </div>
 
+                {/* ── Porquê este painel ── */}
+                {(selected.clinicalIndications?.length > 0 || selected.limitations?.length > 0 || selected.whenNotToUse?.length > 0) && (
+                  <div className="mt-6 space-y-4">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                      <Stethoscope className="h-4 w-4" />
+                      Porquê este painel?
+                    </div>
+
+                    {selected.clinicalIndications?.length > 0 && (
+                      <div className="overflow-hidden rounded-2xl border border-slate-200">
+                        <div className="bg-slate-50 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Indicações clínicas</div>
+                        <div className="divide-y divide-slate-100">
+                          {selected.clinicalIndications.map((ind, i) => (
+                            <div key={i} className="px-4 py-3">
+                              <div className="flex items-start justify-between gap-3">
+                                <span className="text-sm font-medium text-slate-900 leading-snug">{ind.tumor}</span>
+                                <span className={`mt-0.5 shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide ${
+                                  ind.strength === "primeira linha" ? "bg-emerald-100 text-emerald-700" :
+                                  ind.strength === "componente de combinação" ? "bg-indigo-100 text-indigo-700" :
+                                  ind.strength === "reflexo" ? "bg-amber-100 text-amber-700" :
+                                  "bg-slate-100 text-slate-600"
+                                }`}>{ind.strength}</span>
+                              </div>
+                              <p className="mt-1 text-xs leading-5 text-slate-500">{ind.rationale}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {selected.limitations?.length > 0 && (
+                      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                        <div className="text-xs font-semibold uppercase tracking-[0.14em] text-amber-800 mb-2">Limitações analíticas</div>
+                        <ul className="space-y-1.5">
+                          {selected.limitations.map((lim, i) => (
+                            <li key={i} className="flex items-start gap-2 text-xs leading-5 text-amber-900">
+                              <span className="mt-0.5 shrink-0 text-amber-500">•</span>{lim}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {selected.whenNotToUse?.length > 0 && (
+                      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
+                        <div className="text-xs font-semibold uppercase tracking-[0.14em] text-rose-800 mb-2">Quando não usar</div>
+                        <ul className="space-y-1.5">
+                          {selected.whenNotToUse.map((item, i) => (
+                            <li key={i} className="flex items-start gap-2 text-xs leading-5 text-rose-900">
+                              <span className="mt-0.5 shrink-0 text-rose-400">•</span>{item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                   <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
                     <Database className="h-4 w-4" />
-                    Ligações futuras de evidência
+                    Bases de evidência
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Campo preparado para futura integração gene/variante com bases externas. Nesta fase é apenas estrutural, para facilitar ligação posterior a OncoKB, CIViC, PharmGKB, CPIC ou ClinVar.
-                  </p>
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-3 space-y-2">
                     {futureEvidence.map((item) => (
-                      <a key={item.label} href={item.url || "#"} target={item.url ? "_blank" : undefined} rel={item.url ? "noreferrer" : undefined} className="block rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-sm">
+                      <div key={item.source} className="rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200">
                         <div className="flex items-center justify-between gap-3">
-                          <div className="font-medium text-slate-900">{item.label}</div>
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${item.status === "preparado" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>{item.status}</span>
+                          <div className="font-medium text-slate-900">{item.source}</div>
+                          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${item.role === "Primário" ? "bg-emerald-100 text-emerald-700" : item.role === "Complementar" ? "bg-slate-100 text-slate-600" : "bg-slate-50 text-slate-500"}`}>{item.role}</span>
                         </div>
                         <p className="mt-1 text-xs leading-5 text-slate-500">{item.note}</p>
-                      </a>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -1525,6 +1813,7 @@ export default function GenePanelsCatalog() {
 
       <PanelComparator open={showComparator} onClose={() => setShowComparator(false)} />
       <PanelRecommender open={showRecommender} onClose={() => setShowRecommender(false)} onSelectPanel={setSelectedId} />
+      <ClinicalExportModal open={showClinicalExport} onClose={() => setShowClinicalExport(false)} panel={selected} date={appDate} />
     </main>
   );
 }
