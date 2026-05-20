@@ -32,8 +32,10 @@ import {
   BarChart3,
 } from "lucide-react";
 
-import painels from "./panels.json";
+import _allPanels from "./panels.json";
 import institutionalLogo from "./assets/ulsas-logo.png";
+
+const painels = _allPanels.filter(p => p.categoria !== "Farmacogenómica");
 
 
 const categoryColors = {
@@ -570,60 +572,69 @@ function ActionButton({ icon: Icon, children, onClick, title, variant }) {
 }
 
 /* ─────────────────── Clinical Export Modal ─────────────────── */
-function buildClinicalExportText(panel, date) {
-  const line = (label, value) => value ? `${label}: ${value}` : "";
-  const sep = "\n" + "─".repeat(60) + "\n";
+function buildContextualJustification(panel, indication, specificGenes, date) {
+  const sep = "─".repeat(60);
+  const msiTmb = [];
+  if (panel.capacidade?.msi) msiTmb.push("avaliação de MSI");
+  if (panel.capacidade?.tmb) msiTmb.push("estimativa de TMB (painel alargado — estimativa fiável)");
 
-  const header = [
-    "PEDIDO DE TESTE NGS — JUSTIFICAÇÃO CLÍNICA",
-    `Data: ${date}`,
-    `Painel: ${panel.nome}`,
-    `Categoria: ${panel.categoria}`,
-    `Tecnologia: ${panel.tecnologia}`,
-    panel.versao ? `Versão: ${panel.versao}` : "",
-    line("Amostras", panel.amostras?.join(", ")),
-  ].filter(Boolean).join("\n");
-
-  const indicacoes = panel.clinicalIndications?.length
-    ? "INDICAÇÕES CLÍNICAS\n" + panel.clinicalIndications.map(
-        (ind) => `  • ${ind.tumor} [${ind.strength}]\n    ${ind.rationale}`
-      ).join("\n")
+  const genesLine = specificGenes.trim()
+    ? `Genes de interesse específico: ${specificGenes.trim()}.`
     : "";
 
-  const biomarcadores = [
-    "BIOMARCADORES E CAPACIDADE ANALÍTICA",
-    line("  Biomarcadores", panel.biomarcadores?.join(", ")),
-    `  MSI: ${panel.capacidade?.msi ? "Disponível" : "Não incluído"}`,
-    `  TMB: ${panel.capacidade?.tmb ? "Disponível (painel alargado — estimativa fiável)" : "Não incluído"}`,
-  ].filter(Boolean).join("\n");
-
-  const limitacoes = panel.limitations?.length
-    ? "LIMITAÇÕES ANALÍTICAS\n" + panel.limitations.map((l) => `  • ${l}`).join("\n")
+  const combo = panel.recommendedCombinations?.[0];
+  const comboLine = combo && indication.strength === "componente de combinação"
+    ? `Nota de combinação: ${combo.label} — ${combo.rationale}`
     : "";
 
-  const evidencias = panel.evidenceSources?.length
-    ? "BASES DE EVIDÊNCIA\n" + panel.evidenceSources.map(
-        (e) => `  • ${e.source} [${e.role}] — ${e.note}`
-      ).join("\n")
-    : "";
+  const limitations = (panel.limitations || []).map(l => `  • ${l}`).join("\n");
 
-  const rodape = [
-    "NOTA",
-    "  Este documento é um guia orientador de apoio à decisão.",
-    "  A seleção final deve seguir as guidelines vigentes (ESMO, NCCN),",
-    "  a adequação da amostra e prévia discussão clínica.",
+  return [
+    `JUSTIFICAÇÃO DE PEDIDO NGS — ${date}`,
+    sep,
+    `Painel:      ${panel.nome}`,
+    `Tecnologia:  ${panel.tecnologia}`,
+    `Amostras:    ${panel.amostras?.join(", ") || "—"}`,
+    sep,
+    `CONTEXTO CLÍNICO`,
+    `Indicação:   ${indication.tumor}`,
+    `Força:       ${indication.strength}`,
+    "",
+    `RACIONAL CLÍNICO`,
+    indication.rationale,
+    genesLine,
+    msiTmb.length ? `Capacidades adicionais: ${msiTmb.join("; ")}.` : "",
+    comboLine,
+    sep,
+    limitations ? `LIMITAÇÕES ANALÍTICAS\n${limitations}` : "",
+    sep,
+    "Este documento é um guia orientador de apoio à decisão clínica.",
+    "A seleção final deve seguir as guidelines vigentes (ESMO, NCCN),",
+    "a adequação da amostra e prévia discussão em reunião multidisciplinar.",
     "",
     "ULS Almada-Seixal — Laboratório de Genómica Clínica",
-  ].join("\n");
-
-  return [header, indicacoes, biomarcadores, limitacoes, evidencias, rodape]
-    .filter(Boolean)
-    .join(sep);
+  ].filter(Boolean).join("\n");
 }
 
 function ClinicalExportModal({ open, onClose, panel, date }) {
+  const [selectedIndication, setSelectedIndication] = useState(null);
+  const [specificGenes, setSpecificGenes] = useState("");
   const [copied, setCopied] = useState(false);
-  const text = useMemo(() => panel ? buildClinicalExportText(panel, date) : "", [panel, date]);
+
+  const indications = panel?.clinicalIndications || [];
+
+  useEffect(() => {
+    setSelectedIndication(null);
+    setSpecificGenes("");
+    setCopied(false);
+  }, [panel?.id]);
+
+  const indication = indications.find(i => i.tumor === selectedIndication) || null;
+
+  const text = useMemo(() => {
+    if (!panel || !indication) return "";
+    return buildContextualJustification(panel, indication, specificGenes, date);
+  }, [panel, indication, specificGenes, date]);
 
   async function handleCopy() {
     await navigator.clipboard.writeText(text);
@@ -632,25 +643,64 @@ function ClinicalExportModal({ open, onClose, panel, date }) {
   }
 
   function handleDownload() {
-    downloadFile(text, `pedido-ngs-${panel?.id || "painel"}.txt`, "text/plain;charset=utf-8");
+    downloadFile(text, `justificacao-ngs-${panel?.id || "painel"}.txt`, "text/plain;charset=utf-8");
   }
 
   return (
-    <Modal open={open} onClose={onClose} title="Export clínico — Justificação NGS" icon={FileSpreadsheet} wide>
-      <p className="text-sm text-slate-600 leading-6 mb-4">
-        Texto estruturado para pedido ou justificação de teste NGS. Revê e adapta ao contexto clínico específico antes de utilizar.
+    <Modal open={open} onClose={onClose} title="Justificação clínica NGS" icon={FileSpreadsheet} wide>
+      <p className="text-sm text-slate-600 leading-6 mb-5">
+        Seleciona o contexto clínico para gerar texto de justificação adaptado ao pedido.
       </p>
-      <div className="flex gap-2 mb-4">
-        <button onClick={handleCopy} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition">
-          {copied ? <><Check className="h-4 w-4" /> Copiado</> : <><Copy className="h-4 w-4" /> Copiar texto</>}
-        </button>
-        <button onClick={handleDownload} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
-          <FileSpreadsheet className="h-4 w-4" /> Descarregar .txt
-        </button>
+
+      <div className="mb-5">
+        <div className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-2">Contexto clínico / indicação</div>
+        <div className="flex flex-wrap gap-2">
+          {indications.map((ind) => (
+            <button
+              key={ind.tumor}
+              onClick={() => setSelectedIndication(selectedIndication === ind.tumor ? null : ind.tumor)}
+              className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedIndication === ind.tumor ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+            >
+              {ind.tumor}
+              {ind.strength === "primeira linha" && <span className="ml-1.5 rounded-full bg-emerald-500 px-1.5 py-0.5 text-[9px] font-bold text-white">1ª</span>}
+            </button>
+          ))}
+        </div>
       </div>
-      <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-700 overflow-auto max-h-[55vh] font-mono">
-        {text}
-      </pre>
+
+      {selectedIndication && (
+        <div className="mb-5">
+          <label className="block text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 mb-2">
+            Genes de interesse (opcional)
+          </label>
+          <input
+            value={specificGenes}
+            onChange={(e) => setSpecificGenes(e.target.value)}
+            placeholder="Ex.: EGFR, ALK, ROS1"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
+          />
+        </div>
+      )}
+
+      {indication && text ? (
+        <>
+          <div className="flex gap-2 mb-4">
+            <button onClick={handleCopy} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition">
+              {copied ? <><Check className="h-4 w-4" /> Copiado</> : <><Copy className="h-4 w-4" /> Copiar</>}
+            </button>
+            <button onClick={handleDownload} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+              <FileSpreadsheet className="h-4 w-4" /> .txt
+            </button>
+          </div>
+          <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-700 overflow-auto max-h-[50vh] font-mono">
+            {text}
+          </pre>
+        </>
+      ) : (
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
+          Seleciona uma indicação clínica acima para gerar o texto de justificação.
+        </div>
+      )}
     </Modal>
   );
 }
@@ -1365,7 +1415,7 @@ export default function GenePanelsCatalog() {
                 </div>
                 <h1 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 sm:mt-4 sm:text-3xl lg:text-4xl xl:text-5xl">Painéis de genes</h1>
                 <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:mt-4 sm:text-base sm:leading-7">
-                  Consulta rápida dos painéis somáticos, RNA, hematológicos, germinativos e farmacogenómicos, com pesquisa por painel, categoria, tags ou gene.
+                  Painéis NGS — somático, RNA, hematológico e germinativo. Pesquisa por gene, painel, categoria ou contexto clínico.
                 </p>
               </div>
             </div>
@@ -1431,7 +1481,6 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={Copy} onClick={copyFilteredGenes} title="Copiar apenas os genes filtrados no painel selecionado">{copiedState === "filteredGenes" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar genes filtrados</>}</ActionButton>
                 <ActionButton icon={Wand2} onClick={copyJustification} title="Copiar texto automático de justificação">{copiedState === "justification" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar texto</>}</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={exportCsv} title="Exportar CSV do painel">CSV</ActionButton>
-                <ActionButton icon={FileJson} onClick={exportJson} title="Exportar JSON do painel">JSON</ActionButton>
                 <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros" variant="red">Reset filtros</ActionButton>
                 <ActionButton icon={GitCompare} onClick={() => setShowComparator(true)} title="Comparar 2-3 painéis lado a lado" variant="blue">Comparar</ActionButton>
                 <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green">Recomendar</ActionButton>
