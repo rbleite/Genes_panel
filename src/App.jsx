@@ -33,7 +33,11 @@ import {
 } from "lucide-react";
 
 import _allPanels from "./panels.json";
+import clinicalRules from "./clinicalRules.json";
+import { recommendByRules } from "./ruleEngine";
 import institutionalLogo from "./assets/ulsas-logo.png";
+
+const APP_VERSION = "1.0.0";
 
 const painels = _allPanels.filter(p => p.categoria !== "Farmacogenómica");
 
@@ -612,7 +616,7 @@ function buildContextualJustification(panel, indication, specificGenes, date) {
     "A seleção final deve seguir as guidelines vigentes (ESMO, NCCN),",
     "a adequação da amostra e prévia discussão em reunião multidisciplinar.",
     "",
-    "ULS Almada-Seixal — Laboratório de Genómica Clínica",
+    "Patologia molecular — Serviço de Anatomia Patológica, ULS Almada-Seixal",
   ].filter(Boolean).join("\n");
 }
 
@@ -960,83 +964,42 @@ function PanelComparator({ open, onClose }) {
 }
 
 /* ─────────────────── Panel Recommender ─────────────────── */
+const CONTEXT_OPTIONS = [
+  "avançado", "metastático", "1ª linha", "imunoterapia", "hereditário",
+  "diagnóstico", "fusão", "TMB", "MSI", "terapêutica alvo",
+];
+const GOAL_OPTIONS = [
+  "mutações acionáveis", "fusões", "RNA", "TMB", "MSI",
+  "perfil abrangente", "germline", "classificação molecular",
+];
+
 function PanelRecommender({ open, onClose, onSelectPanel }) {
   const [step, setStep] = useState(1);
-  const [selectedDisease, setSelectedDisease] = useState("");
-  const [selectedTumor, setSelectedTumor] = useState("");
-  const [requiredGenes, setRequiredGenes] = useState("");
-  const [needMsi, setNeedMsi] = useState(false);
-  const [needTmb, setNeedTmb] = useState(false);
+  const [tumorInput, setTumorInput] = useState("");
+  const [selectedContext, setSelectedContext] = useState([]);
+  const [selectedGoals, setSelectedGoals] = useState([]);
 
-  // Collect all tumor types and diseases, excluding Farmacogenómica panels
-  const nonPgxPanels = useMemo(() => painels.filter((p) => p.categoria !== "Farmacogenómica" && p.categoria !== "Germinativo"), []);
-  const allTumorTypes = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.tumorTypes || []))].sort(), [nonPgxPanels]);
-  const allDiseases = useMemo(() => [...new Set(nonPgxPanels.flatMap((p) => p.diseases || []))].sort(), [nonPgxPanels]);
+  const clinicalInput = useMemo(() => ({
+    tumor: tumorInput.trim(),
+    context: selectedContext,
+    goals: selectedGoals,
+  }), [tumorInput, selectedContext, selectedGoals]);
 
-  const geneList = useMemo(() => parseSearchTerms(requiredGenes).map((t) => t.toUpperCase()), [requiredGenes]);
+  const recommendation = useMemo(() => {
+    if (step < 3) return null;
+    return recommendByRules(clinicalInput, clinicalRules, painels);
+  }, [step, clinicalInput]);
 
-  const results = useMemo(() => {
-    return nonPgxPanels.map((p) => {
-      let score = 0;
-      let reasons = [];
+  function toggleItem(list, setList, item) {
+    setList((prev) => prev.includes(item) ? prev.filter((x) => x !== item) : [...prev, item]);
+  }
 
-      // Disease match
-      if (selectedDisease && (p.diseases || []).includes(selectedDisease)) {
-        score += 30;
-        reasons.push(`Cobre ${selectedDisease}`);
-      }
-
-      // Tumor type match
-      if (selectedTumor && (p.tumorTypes || []).includes(selectedTumor)) {
-        score += 20;
-        reasons.push(`Indicado para ${selectedTumor}`);
-      }
-
-      // Gene coverage
-      if (geneList.length > 0) {
-        const panelGenesUpper = new Set(p.genes.map((g) => g.toUpperCase()));
-        const covered = geneList.filter((g) => panelGenesUpper.has(g));
-        const pct = Math.round((covered.length / geneList.length) * 100);
-        score += pct * 0.4; // up to 40 points
-        if (covered.length > 0) reasons.push(`${covered.length}/${geneList.length} genes cobertos (${pct}%)`);
-        if (covered.length < geneList.length) {
-          const missing = geneList.filter((g) => !panelGenesUpper.has(g));
-          reasons.push(`Em falta: ${missing.join(", ")}`);
-        }
-      }
-
-      // MSI/TMB bonus
-      if (needMsi && p.capacidade?.msi) { score += 5; reasons.push("MSI disponível"); }
-      if (needTmb && p.capacidade?.tmb) { score += 5; reasons.push("TMB disponível"); }
-
-      return { panel: p, score: Math.round(score), reasons };
-    }).filter((r) => r.score > 0).sort((a, b) => b.score - a.score);
-  }, [selectedDisease, selectedTumor, geneList, needMsi, needTmb]);
-
-  const combinationSuggestion = useMemo(() => {
-    if (results.length < 2) return null;
-    const dnaResult = results.find((r) => r.panel.tecnologia === "DNA" && r.panel.categoria === "Somático");
-    const rnaResult = results.find((r) => r.panel.categoria === "RNA");
-    if (!dnaResult || !rnaResult) return null;
-    // Suggest combination when both score meaningfully (each ≥ 40 pts) and RNA is in top 3
-    const rnaIdx = results.indexOf(rnaResult);
-    if (dnaResult.score < 40 || rnaResult.score < 40 || rnaIdx > 2) return null;
-    const combinedGenes = geneList.length > 0
-      ? (() => {
-          const union = new Set([
-            ...dnaResult.panel.genes.map((g) => g.toUpperCase()),
-            ...rnaResult.panel.genes.map((g) => g.toUpperCase()),
-          ]);
-          const covered = geneList.filter((g) => union.has(g));
-          return covered.length > dnaResult.panel.genes.filter((g) => geneList.includes(g.toUpperCase())).length
-            ? `${covered.length}/${geneList.length} genes cobertos em conjunto`
-            : null;
-        })()
-      : null;
-    return { dna: dnaResult.panel, rna: rnaResult.panel, combinedGenes };
-  }, [results, geneList]);
-
-  function reset() { setStep(1); setSelectedDisease(""); setSelectedTumor(""); setRequiredGenes(""); setNeedMsi(false); setNeedTmb(false); }
+  function reset() {
+    setStep(1);
+    setTumorInput("");
+    setSelectedContext([]);
+    setSelectedGoals([]);
+  }
 
   return (
     <Modal open={open} onClose={() => { reset(); onClose(); }} title="Recomendar painel" icon={Stethoscope} wide>
@@ -1055,156 +1018,181 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
         ))}
       </div>
 
-      {/* Step 1: Clinical context — disease first, then tumor type */}
+      {/* Step 1: Tumor type */}
       {step === 1 && (
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">Doença / órgão</label>
-            <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
-              {allDiseases.map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setSelectedDisease(selectedDisease === d ? "" : d)}
-                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedDisease === d ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
-                >
-                  {d}
-                </button>
-              ))}
-            </div>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Tipo tumoral / entidade clínica</label>
+            <input
+              value={tumorInput}
+              onChange={(e) => setTumorInput(e.target.value)}
+              placeholder="Ex.: CPNPC, Melanoma, LMA, Carcinoma da mama…"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
+              autoFocus
+            />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">Tipo de tumor / contexto</label>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Contexto clínico (opcional)</label>
             <div className="flex flex-wrap gap-2">
-              {allTumorTypes.map((t) => (
+              {CONTEXT_OPTIONS.map((opt) => (
                 <button
-                  key={t}
-                  onClick={() => setSelectedTumor(selectedTumor === t ? "" : t)}
-                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedTumor === t ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+                  key={opt}
+                  onClick={() => toggleItem(selectedContext, setSelectedContext, opt)}
+                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedContext.includes(opt) ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
                 >
-                  {t}
+                  {opt}
                 </button>
               ))}
             </div>
           </div>
-          <button onClick={() => setStep(2)} disabled={!selectedTumor && !selectedDisease} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition">
+          <button
+            onClick={() => setStep(2)}
+            disabled={!tumorInput.trim()}
+            className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition"
+          >
             Seguinte <ArrowRight className="h-4 w-4" />
           </button>
         </div>
       )}
 
-      {/* Step 2: Gene requirements */}
+      {/* Step 2: Goals / biomarkers */}
       {step === 2 && (
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">Genes obrigatórios (opcional)</label>
-            <textarea
-              value={requiredGenes}
-              onChange={(e) => setRequiredGenes(e.target.value)}
-              placeholder="Ex.: EGFR, ALK, ROS1, KRAS, BRAF"
-              rows={3}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
-            />
-            <p className="mt-1.5 text-xs text-slate-500">Separa por vírgula, ponto e vírgula ou nova linha.</p>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-slate-700">
-              <input type="checkbox" checked={needMsi} onChange={(e) => setNeedMsi(e.target.checked)} className="rounded border-slate-300" />
-              Preciso de MSI
-            </label>
-            <label className="inline-flex items-center gap-2 cursor-pointer text-sm text-slate-700">
-              <input type="checkbox" checked={needTmb} onChange={(e) => setNeedTmb(e.target.checked)} className="rounded border-slate-300" />
-              Preciso de TMB
-            </label>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">O que pretende avaliar? (opcional)</label>
+            <div className="flex flex-wrap gap-2">
+              {GOAL_OPTIONS.map((opt) => (
+                <button
+                  key={opt}
+                  onClick={() => toggleItem(selectedGoals, setSelectedGoals, opt)}
+                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedGoals.includes(opt) ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="flex gap-3">
             <button onClick={() => setStep(1)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Anterior</button>
             <button onClick={() => setStep(3)} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800 transition">
-              Ver resultados <ArrowRight className="h-4 w-4" />
+              Ver recomendação <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
       )}
 
-      {/* Step 3: Results */}
-      {step === 3 && (
+      {/* Step 3: Rule-based results */}
+      {step === 3 && recommendation && (
         <div className="space-y-4">
-          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-700">
-            <span className="font-semibold">Critérios:</span>{" "}
-            {selectedTumor && <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium mr-2">{selectedTumor}</span>}
-            {selectedDisease && <span className="inline-flex items-center gap-1 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium mr-2">{selectedDisease}</span>}
-            {geneList.length > 0 && <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700 mr-2">{geneList.length} gene(s)</span>}
-            {needMsi && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 mr-2">MSI</span>}
-            {needTmb && <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 mr-2">TMB</span>}
+          {/* Summary chips */}
+          <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-700 flex flex-wrap gap-2 items-center">
+            <span className="font-semibold mr-1">Critérios:</span>
+            <span className="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium">{tumorInput}</span>
+            {selectedContext.map((c) => <span key={c} className="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700">{c}</span>)}
+            {selectedGoals.map((g) => <span key={g} className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">{g}</span>)}
           </div>
 
-          {combinationSuggestion && (
-            <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
-              <div className="flex items-center gap-2 text-sm font-semibold text-indigo-900">
-                <Layers3 className="h-4 w-4" />
-                Combinação recomendada
-              </div>
-              <p className="mt-2 text-sm leading-6 text-indigo-800">
-                Para este contexto, a abordagem mais completa é usar <span className="font-semibold">{combinationSuggestion.dna.nome}</span> em conjunto com <span className="font-semibold">{combinationSuggestion.rna.nome}</span> — o DNA cobre mutações, CNV e MSI; o RNA deteta fusões com maior sensibilidade para intrões grandes e parceiros novos.
-                {combinationSuggestion.combinedGenes && <span className="ml-1">({combinationSuggestion.combinedGenes})</span>}
-              </p>
-              <div className="mt-3 flex gap-2">
-                <button onClick={() => { onSelectPanel(combinationSuggestion.dna.id); reset(); onClose(); }} className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-medium text-indigo-800 hover:bg-indigo-50 transition">
-                  Ver {combinationSuggestion.dna.nome.replace("Painel de ", "").replace("Painel ", "")}
-                </button>
-                <button onClick={() => { onSelectPanel(combinationSuggestion.rna.id); reset(); onClose(); }} className="rounded-xl border border-indigo-200 bg-white px-3 py-1.5 text-xs font-medium text-indigo-800 hover:bg-indigo-50 transition">
-                  Ver {combinationSuggestion.rna.nome.replace("Painel de ", "").replace("Painel ", "")}
-                </button>
-              </div>
-            </div>
+          {recommendation.message && !recommendation.rule && (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">{recommendation.message}</div>
           )}
 
-          {needTmb && results.length > 0 && !results[0].panel.capacidade?.tmb && (
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              <span className="font-semibold">Atenção — TMB:</span> o painel com maior score não inclui estimativa de TMB. A estimativa fiável de TMB requer um painel alargado (≥1 Mb); valores obtidos em painéis pequenos não são comparáveis e não devem fundamentar decisões de imunoterapia.
-            </div>
-          )}
-
-          {results.length === 0 ? (
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              Nenhum painel corresponde aos critérios indicados. Tenta ajustar os filtros.
-            </div>
-          ) : results.map((r, idx) => {
-            const Icon = iconByCategory[r.panel.categoria] || Dna;
-            return (
-              <div key={r.panel.id} className={`rounded-2xl border p-5 transition ${idx === 0 ? "border-emerald-300 bg-emerald-50/50 shadow-sm" : "border-slate-200 bg-white"}`}>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    {idx === 0 && <span className="rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">Melhor</span>}
-                    <Icon className="h-5 w-5 text-slate-600" />
-                    <div>
-                      <div className="text-sm font-semibold text-slate-900">{r.panel.nome}</div>
-                      <div className="text-xs text-slate-500">{r.panel.categoria} · {r.panel.totalGenes} genes</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className={`rounded-full px-3 py-1 text-sm font-bold ${idx === 0 ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-700"}`}>{r.score}</div>
-                    <button
-                      onClick={() => { onSelectPanel(r.panel.id); reset(); onClose(); }}
-                      className="rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition"
-                    >
-                      Ver painel
-                    </button>
+          {recommendation.rule && (
+            <>
+              {/* Best matching rule */}
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+                <div className="flex items-start justify-between gap-3 flex-wrap">
+                  <div>
+                    <span className="inline-flex rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white mb-2">
+                      {recommendation.rule.strength}
+                    </span>
+                    <h3 className="text-base font-semibold text-slate-900">{recommendation.rule.label}</h3>
                   </div>
                 </div>
-                <ul className="mt-3 space-y-1">
-                  {r.reasons.map((reason, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
-                      <CheckCircle2 className={`mt-0.5 h-3.5 w-3.5 flex-shrink-0 ${reason.includes("Em falta") ? "text-amber-500" : "text-emerald-500"}`} />
-                      {reason}
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Recommended panels */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {recommendation.panels.map((panel) => {
+                    const Icon = iconByCategory[panel.categoria] || Dna;
+                    return (
+                      <button
+                        key={panel.id}
+                        onClick={() => { onSelectPanel(panel.id); reset(); onClose(); }}
+                        className="inline-flex items-center gap-2 rounded-xl border border-emerald-300 bg-white px-3 py-2 text-xs font-medium text-emerald-900 hover:bg-emerald-50 transition shadow-sm"
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                        {panel.nome}
+                        <span className="text-emerald-500">· {panel.totalGenes}g</span>
+                      </button>
+                    );
+                  })}
+                  {recommendation.rule.combination && recommendation.panels.length > 1 && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700">
+                      <Layers3 className="h-3 w-3" /> Usar em combinação
+                    </span>
+                  )}
+                </div>
+
+                {/* Rationale */}
+                <div className="mt-4">
+                  <div className="text-xs font-semibold uppercase tracking-[0.12em] text-emerald-800 mb-2">Racional</div>
+                  <ul className="space-y-1.5">
+                    {recommendation.rule.rationale.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Caveats */}
+                {recommendation.rule.caveats?.length > 0 && (
+                  <div className="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3">
+                    <div className="text-xs font-semibold uppercase tracking-[0.12em] text-amber-800 mb-2">Notas / limitações</div>
+                    <ul className="space-y-1.5">
+                      {recommendation.rule.caveats.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-amber-900">
+                          <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-            );
-          })}
+
+              {/* Alternative rules */}
+              {recommendation.alternatives?.length > 0 && (
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 mb-2">Considerar também</div>
+                  <div className="space-y-2">
+                    {recommendation.alternatives.map((alt) => (
+                      <div key={alt.id} className="rounded-xl border border-slate-200 bg-white px-4 py-3 flex items-center justify-between gap-3">
+                        <div>
+                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold mr-2 ${alt.strength === "Recomendado" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>{alt.strength}</span>
+                          <span className="text-sm font-medium text-slate-800">{alt.label}</span>
+                        </div>
+                        <div className="flex gap-1.5 flex-shrink-0">
+                          {alt.recommendedPanels.map((pid) => {
+                            const p = painels.find((x) => x.id === pid);
+                            if (!p) return null;
+                            return (
+                              <button key={pid} onClick={() => { onSelectPanel(p.id); reset(); onClose(); }} className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                                {p.nome.replace("Painel de ", "").replace("Painel ", "").replace("DNA ", "").slice(0, 24)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
 
           <div className="flex gap-3 pt-2">
-            <button onClick={() => setStep(2)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Ajustar critérios</button>
+            <button onClick={() => setStep(2)} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Ajustar</button>
             <button onClick={reset} className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">Recomeçar</button>
           </div>
         </div>
@@ -1215,8 +1203,6 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
 
 export default function GenePanelsCatalog() {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("Todos");
-  const [structureFilter, setStructureFilter] = useState("Todos");
   const [tumorTypeFilter, setTumorTypeFilter] = useState("Todos");
   const [diseaseFilter, setDiseaseFilter] = useState("Todos");
   const [selectedId, setSelectedId] = useState(() => {
@@ -1225,7 +1211,6 @@ export default function GenePanelsCatalog() {
   });
   const [copiedState, setCopiedState] = useState("");
   const [showAllMatches, setShowAllMatches] = useState(false);
-  const [viewMode, setViewMode] = useState("cards");
   const [evidenceGene, setEvidenceGene] = useState("");
   const [evidenceAlteration, setEvidenceAlteration] = useState("");
   const [evidenceTumorType, setEvidenceTumorType] = useState("");
@@ -1249,28 +1234,20 @@ export default function GenePanelsCatalog() {
     setEvidenceError("");
   }, [selectedId]);
 
-  useEffect(() => {
-    setTumorTypeFilter("Todos");
-    setDiseaseFilter("Todos");
-  }, [category]);
-
   const filteredPanels = useMemo(() => {
     return painels.filter((panel) => {
-      const matchesCategory = category === "Todos" || panel.categoria === category;
       const structureTags = getPanelStructureTags(panel);
       const tumorTypes = getPanelTumorTypes(panel);
       const diseases = getPanelDiseases(panel);
-      const matchesStructure = structureFilter === "Todos" || structureTags.includes(structureFilter);
       const matchesTumorType = tumorTypeFilter === "Todos" || tumorTypes.includes(tumorTypeFilter);
-      const matchesDisease = diseaseFilter === "Todos" || diseases.includes(diseaseFilter);
-      if (!matchesCategory || !matchesStructure || !matchesTumorType || !matchesDisease) return false;
+      if (!matchesTumorType) return false;
       if (!searchTerms.length) return true;
       const searchable = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags, ...tumorTypes, ...diseases].join(" ");
       const inBasic = matchesSearchTerms(searchable, searchTerms);
       const inGenes = searchTerms.every((term) => panel.genes.some((gene) => gene.toLowerCase().includes(term)));
       return inBasic || inGenes;
     });
-  }, [searchTerms, category, structureFilter, tumorTypeFilter, diseaseFilter]);
+  }, [searchTerms, tumorTypeFilter]);
 
   const selected = filteredPanels.find((p) => p.id === selectedId) || painels.find((p) => p.id === selectedId) || painels[0];
   const selectedStructureTags = useMemo(() => getPanelStructureTags(selected), [selected]);
@@ -1377,19 +1354,12 @@ export default function GenePanelsCatalog() {
     downloadFile(buildCsv(rows), `${selected.id}.csv`, "text/csv;charset=utf-8");
   }
 
-  const categories = ["Todos", ...new Set(painels.map((p) => p.categoria))];
   const tumorTypeOptions = useMemo(() => {
-    const relevant = category === "Todos" ? painels : painels.filter((p) => p.categoria === category);
-    return ["Todos", ...new Set(relevant.flatMap((p) => getPanelTumorTypes(p)))];
-  }, [category]);
-  const diseaseOptions = useMemo(() => ["Todos", ...new Set(painels
-    .filter((p) => (category === "Todos" || p.categoria === category) && (tumorTypeFilter === "Todos" || getPanelTumorTypes(p).includes(tumorTypeFilter)))
-    .flatMap((p) => getPanelDiseases(p)))], [category, tumorTypeFilter]);
+    return ["Todos", ...new Set(painels.flatMap((p) => getPanelTumorTypes(p)))];
+  }, []);
 
   function resetFilters() {
     setQuery("");
-    setCategory("Todos");
-    setStructureFilter("Todos");
     setTumorTypeFilter("Todos");
     setDiseaseFilter("Todos");
     setShowAllMatches(false);
@@ -1422,7 +1392,7 @@ export default function GenePanelsCatalog() {
           </header>
 
           <section className="border-b border-slate-200 bg-slate-50/80 px-5 py-5 sm:px-8 lg:px-10">
-            <div className="grid gap-3 2xl:grid-cols-[minmax(0,1fr)_220px_240px_260px]">
+            <div className="grid gap-3 2xl:grid-cols-[minmax(0,1fr)_280px]">
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Search className="h-5 w-5 text-slate-400" />
                 <input
@@ -1431,19 +1401,6 @@ export default function GenePanelsCatalog() {
                   placeholder="Pesquisar gene(s), painel, categoria ou tag… Ex.: NF1, NF2"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
                 />
-              </label>
-
-              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
-                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
-              </div>
-
-              <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <Filter className="h-5 w-5 text-slate-400" />
-                <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-transparent text-sm outline-none">
-                  {categories.map((item) => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </select>
               </label>
 
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
@@ -1455,28 +1412,11 @@ export default function GenePanelsCatalog() {
                 </select>
               </label>
 
-              <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <TestTube2 className="h-5 w-5 text-slate-400" />
-                <select value={diseaseFilter} onChange={(e) => setDiseaseFilter(e.target.value)} className="w-full bg-transparent text-sm outline-none">
-                  {diseaseOptions.map((item) => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </select>
-              </label>
-
-              <div className="flex flex-wrap items-center gap-2.5">
-                {STRUCTURE_FILTERS.map((item) => (
-                  <button
-                    key={item}
-                    onClick={() => setStructureFilter(item)}
-                    className={`rounded-2xl px-4 py-2 text-xs font-medium transition ${structureFilter === item ? "bg-slate-900 text-white shadow-sm" : "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"}`}
-                  >
-                    {item}
-                  </button>
-                ))}
+              <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
+                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
               </div>
 
-              <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2.5 2xl:col-span-full">
                 <ActionButton icon={Copy} onClick={copyGenes} title="Copiar todos os genes do painel selecionado">{copiedState === "genes" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar genes</>}</ActionButton>
                 <ActionButton icon={Copy} onClick={copyFilteredGenes} title="Copiar apenas os genes filtrados no painel selecionado">{copiedState === "filteredGenes" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar genes filtrados</>}</ActionButton>
                 <ActionButton icon={Wand2} onClick={copyJustification} title="Copiar texto automático de justificação">{copiedState === "justification" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar texto</>}</ActionButton>
@@ -1485,10 +1425,6 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={GitCompare} onClick={() => setShowComparator(true)} title="Comparar 2-3 painéis lado a lado" variant="blue">Comparar</ActionButton>
                 <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green">Recomendar</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={() => setShowClinicalExport(true)} title="Gerar texto de justificação clínica para pedido NGS">Justificação NGS</ActionButton>
-                <div className="ml-auto inline-flex rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-                  <button onClick={() => setViewMode("cards")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "cards" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Cards</button>
-                  <button onClick={() => setViewMode("table")} className={`rounded-xl px-3 py-2 text-xs font-medium transition ${viewMode === "table" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50"}`}>Tabela</button>
-                </div>
               </div>
             </div>
           </section>
@@ -1512,7 +1448,7 @@ export default function GenePanelsCatalog() {
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
               <div className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500">Resultados</div>
               <div className="mt-2 text-2xl font-semibold text-slate-900">{filteredPanels.length}</div>
-              <div className="mt-1 text-sm text-slate-500">{query || category !== "Todos" || structureFilter !== "Todos" || tumorTypeFilter !== "Todos" || diseaseFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
+              <div className="mt-1 text-sm text-slate-500">{query || tumorTypeFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
             </div>
           </section>
 
@@ -1523,8 +1459,7 @@ export default function GenePanelsCatalog() {
                 Lista de painéis
               </div>
 
-              {viewMode === "cards" ? (
-                <div className="grid gap-4 2xl:grid-cols-2">
+              <div className="grid gap-4 2xl:grid-cols-2">
                   {filteredPanels.map((panel) => {
                     const Icon = iconByCategory[panel.categoria] || Dna;
                     const isSelected = selected.id === panel.id;
@@ -1562,75 +1497,6 @@ export default function GenePanelsCatalog() {
                     );
                   })}
                 </div>
-              ) : (
-                <div className="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-sm">
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full text-left">
-                      <thead className="bg-slate-50 text-xs uppercase tracking-[0.14em] text-slate-500">
-                        <tr>
-                          <th className="px-4 py-3 font-semibold">Painel</th>
-                          <th className="px-4 py-3 font-semibold">Categoria</th>
-                          <th className="px-4 py-3 font-semibold">Tecnologia</th>
-                          <th className="px-4 py-3 font-semibold">Tipo tumoral</th>
-                          <th className="px-4 py-3 font-semibold">Doença / órgão</th>
-                          <th className="px-4 py-3 font-semibold">Genes</th>
-                          <th className="px-4 py-3 font-semibold">MSI</th>
-                          <th className="px-4 py-3 font-semibold">TMB</th>
-                          <th className="px-4 py-3 font-semibold">OncoKB</th>
-                          <th className="px-4 py-3 font-semibold">ClinVar</th>
-                          <th className="px-4 py-3 font-semibold">ClinPGx</th>
-                          <th className="px-4 py-3 font-semibold">CIViC</th>
-                          <th className="px-4 py-3 font-semibold">CPIC</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 text-sm">
-                        {filteredPanels.map((panel) => {
-                          const isSelected = selected.id === panel.id;
-                          const evidenceAvailability = getPanelEvidenceAvailability(panel);
-                          const tumorTypes = getPanelTumorTypes(panel);
-                          const diseases = getPanelDiseases(panel);
-                          return (
-                            <tr
-                              key={panel.id}
-                              onClick={() => setSelectedId(panel.id)}
-                              className={`cursor-pointer transition ${isSelected ? "bg-slate-900 text-white" : "hover:bg-slate-50"}`}
-                            >
-                              <td className="px-4 py-3">
-                                <div className="font-medium">{panel.nome}</div>
-                                <div className={`mt-1 text-xs ${isSelected ? "text-slate-300" : "text-slate-500"}`}>{panel.versao}</div>
-                              </td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : categoryColors[panel.categoria]}`}>{panel.categoria}</span></td>
-                              <td className="px-4 py-3">{panel.tecnologia}</td>
-                              <td className="px-4 py-3">
-                                <div className="flex flex-wrap gap-2">
-                                  {tumorTypes.map((item) => (
-                                    <span key={item} className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>{item}</span>
-                                  ))}
-                                </div>
-                              </td>
-                              <td className="px-4 py-3">
-                                <div className="flex flex-wrap gap-2">
-                                  {diseases.map((item) => (
-                                    <span key={item} className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>{item}</span>
-                                  ))}
-                                </div>
-                              </td>
-                              <td className="px-4 py-3 font-medium">{panel.totalGenes}</td>
-                              <td className="px-4 py-3">{panel.capacidade?.msi ? "Sim" : "Não"}</td>
-                              <td className="px-4 py-3">{panel.capacidade?.tmb ? "Sim" : "Não"}</td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-rose-50 text-rose-700"}`}>{evidenceAvailability.oncokb}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-emerald-50 text-emerald-700"}`}>{evidenceAvailability.clinvar}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-sky-50 text-sky-700"}`}>{evidenceAvailability.clinpgx}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-violet-50 text-violet-700"}`}>{evidenceAvailability.civic}</span></td>
-                              <td className="px-4 py-3"><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${isSelected ? "bg-white/10 text-white" : "bg-cyan-50 text-cyan-700"}`}>{evidenceAvailability.cpic}</span></td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
             </div>
 
             <aside className="lg:sticky lg:top-4 lg:self-start">
@@ -1849,9 +1715,9 @@ export default function GenePanelsCatalog() {
           </section>
           <footer className="border-t border-slate-200 bg-slate-50/80 px-4 py-4 sm:px-6 lg:px-10">
             <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
-              <div>Ricardo B. Leite · Patologia Molecular</div>
+              <div>Ricardo B. Leite · Patologia molecular — Serviço de Anatomia Patológica</div>
               <div className="flex items-center gap-2">
-                <span>v. 0.14</span>
+                <span>v. {APP_VERSION}</span>
                 <span aria-hidden="true">·</span>
                 <span>{appDate}</span>
               </div>

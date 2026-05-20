@@ -1,0 +1,616 @@
+[
+  {
+    "id": "cpnpc-avancado",
+    "domain": "oncologia-solida",
+    "label": "CPNPC avançado — perfil completo",
+    "tumor": ["CPNPC", "Adenocarcinoma do pulmão", "Carcinoma pulmonar", "Pulmão", "Carcinoma epidermóide do pulmão"],
+    "context": ["avançado", "metastático", "terapêutica alvo", "1ª linha", "primeira linha", "estadio IV", "estadio III"],
+    "goals": ["mutações acionáveis", "fusões", "RNA", "ALK", "ROS1", "RET", "NTRK", "EGFR", "KRAS", "MET"],
+    "recommendedPanels": ["dna-tumores-solidos", "fusoes-rna"],
+    "combination": true,
+    "strength": "Recomendado",
+    "rationale": [
+      "CPNPC avançado requer avaliação simultânea de mutações acionáveis (ADN) e fusões/rearranjos (RNA) para cumprir guidelines ESMO/CAP.",
+      "O painel de ADN cobre EGFR, KRAS G12C, BRAF V600, MET exon 14, ERBB2 amp e CNV.",
+      "O RNA aumenta significativamente a sensibilidade para ALK, ROS1, RET, NTRK1/2/3, NRG1 e MET exon 14 skipping — eventos que escapam parcialmente ao ADN.",
+      "Combinação ADN + RNA é o padrão em centros de referência e cumpre o requisito de teste reflexo obrigatório para ALK/ROS1."
+    ],
+    "caveats": [
+      "ADN isolado pode subdetetar fusões e eventos de splicing — RNA é complementar, não redundante.",
+      "Se tecido for muito limitado, priorizar o painel com maior impacto clínico imediato (geralmente ADN).",
+      "Para perfil TMB (candidatura a pembrolizumab tumor-agnóstico), considerar painel alargado."
+    ]
+  },
+  {
+    "id": "cpnpc-tmb-io",
+    "domain": "oncologia-solida",
+    "label": "CPNPC — TMB e imunoterapia",
+    "tumor": ["CPNPC", "Adenocarcinoma do pulmão", "Carcinoma pulmonar", "Pulmão"],
+    "context": ["imunoterapia", "TMB", "pembrolizumab", "IO", "checkpoint", "PD-L1", "tumor mutational burden"],
+    "goals": ["TMB", "imunoterapia", "IO", "perfil abrangente"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "Estimativa robusta de TMB requer painel de ≥ 1 Mb (mínimo recomendado ~300 genes); o painel de 188 genes não é suficiente.",
+      "O painel alargado (1021 genes) fornece TMB fiável e MSI em simultâneo.",
+      "Útil quando a decisão de IO tumor-agnóstica depende de TMB-H (≥ 10 mut/Mb) ou MSI-H."
+    ],
+    "caveats": [
+      "TMB deve ser interpretado com corte validado pela plataforma — valores entre 5-10 mut/Mb são zona cinzenta.",
+      "PD-L1 por IHQ mantém-se obrigatório e complementar ao TMB.",
+      "Se já existe resultado do painel de 188g, não repetir apenas para TMB sem justificação clínica adicional."
+    ]
+  },
+  {
+    "id": "tireoide-fusoes",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma da tiróide — fusões e perfil molecular",
+    "tumor": ["Tiróide", "Carcinoma da tiróide", "Carcinoma diferenciado da tiróide", "Carcinoma papilar", "Carcinoma folicular", "Carcinoma anaplásico", "Carcinoma medular"],
+    "context": ["terapêutica alvo", "refratário", "iodo radioactivo", "fusão", "rearranjo", "BRAF", "RET"],
+    "goals": ["BRAF", "RAS", "RET", "NTRK", "fusões", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos", "fusoes-rna"],
+    "combination": true,
+    "strength": "Recomendado",
+    "rationale": [
+      "Carcinoma diferenciado refratário ao iodo requer perfil completo: BRAF V600 (dabrafenib+trametinib), RAS, fusões RET (selpercatinib), NTRK (larotrectinib/entrectinib).",
+      "O RNA é essencial para deteção sensível de fusões RET — método de referência.",
+      "Carcinoma anaplásico pode ter BRAF V600 e beneficiar de terapêutica combinada urgente."
+    ],
+    "caveats": [
+      "Carcinoma medular da tiróide: avaliar RET por técnica molecular específica — o painel de 188g cobre RET mas pode ser suficiente sem RNA.",
+      "Se apenas se pesquisa BRAF V600 para decisão imediata, o painel de 188g isolado pode ser adequado."
+    ]
+  },
+  {
+    "id": "colorretal",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma colorretal — perfil padrão",
+    "tumor": ["Colorretal", "Carcinoma colorretal", "CCR", "Cólon", "Recto", "Carcinoma do cólon", "Carcinoma do recto"],
+    "context": ["metastático", "avançado", "terapêutica alvo", "anti-EGFR", "bevacizumab", "MSI", "Lynch"],
+    "goals": ["KRAS", "NRAS", "BRAF", "MSI", "PIK3CA", "HER2", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "KRAS/NRAS wild-type é pré-requisito obrigatório para anti-EGFR (cetuximab/panitumumab).",
+      "BRAF V600E confere mau prognóstico e indica combinação BRAF+MEK+EGFR inibidor.",
+      "MSI-H identifica candidatos a pembrolizumab em 1ª linha (metastático) e exclui anti-EGFR.",
+      "HER2 amplificação (≈3-5%) é alvo emergente (trastuzumab+pertuzumab / tucatinib)."
+    ],
+    "caveats": [
+      "MSI por IHQ ou PCR é reflexo — NGS confirma e é mais abrangente.",
+      "Para avaliação de TMB ou candidatura a IO tumor-agnóstica, considerar painel alargado.",
+      "Suspeita de síndrome de Lynch: complementar com estudo germinativo."
+    ]
+  },
+  {
+    "id": "colorretal-io-tmb",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma colorretal / endométrio — dMMR / MSI-H + TMB",
+    "tumor": ["Colorretal", "CCR", "Endométrio", "Carcinoma do endométrio", "Gástrico", "Carcinoma gástrico"],
+    "context": ["MSI-H", "dMMR", "imunoterapia", "pembrolizumab", "IO", "TMB", "tumor mutational burden"],
+    "goals": ["TMB", "MSI", "imunoterapia", "IO", "dMMR"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "MSI-H / dMMR confirma indicação para pembrolizumab tumor-agnóstico (FDA/EMA aprovado).",
+      "O painel alargado fornece MSI e TMB em simultâneo, com maior sensibilidade que métodos reflexos.",
+      "TMB-H (≥ 10 mut/Mb) neste contexto reforça a candidatura a IO e pode identificar doentes MSS mas TMB-H."
+    ],
+    "caveats": [
+      "MSI por IHQ/PCR é aceitável como teste reflexo inicial — NGS é confirmatório e mais abrangente.",
+      "Não substituir IHQ de proteínas MMR por NGS quando o objectivo é diagnóstico de Lynch."
+    ]
+  },
+  {
+    "id": "mama-somatico",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma da mama — perfil somático",
+    "tumor": ["Mama", "Carcinoma da mama", "Carcinoma mamário", "Carcinoma lobular", "Carcinoma ductal"],
+    "context": ["metastático", "avançado", "terapêutica alvo", "PIK3CA", "HER2", "ESR1", "alpelisib", "everolimus"],
+    "goals": ["PIK3CA", "ESR1", "HER2", "ERBB2", "CDK12", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "PIK3CA (≈40% HR+/HER2-): indica alpelisib + fulvestrant após progressão hormonal.",
+      "ESR1: mutações de resistência adquirida ao aromatase inibidor — guia switch para elacestrant.",
+      "HER2/ERBB2 amplificação ou mutação somática: alvo para trastuzumab-deruxtecan.",
+      "BRCA1/2 somático (≈5-8%): indica olaparib/talazoparib — mas confirmar germinativo se relevante."
+    ],
+    "caveats": [
+      "Se suspeita de BRCA hereditário, complementar com painel germinativo — resultado somático não exclui germinativo.",
+      "HER2 low por IHQ não é substituível por NGS — manter IHQ como padrão para HER2 low."
+    ]
+  },
+  {
+    "id": "gastrico-gej",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma gástrico e junção GEJ",
+    "tumor": ["Gástrico", "Carcinoma gástrico", "Junção GEJ", "Carcinoma da junção gastroesofágica", "Esófago", "Carcinoma do esófago"],
+    "context": ["metastático", "avançado", "HER2", "MSI", "FGFR", "imunoterapia", "nivolumab"],
+    "goals": ["HER2", "MSI", "FGFR2", "TMB", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "HER2 amplificação (≈15%): trastuzumab em 1ª linha + trastuzumab-deruxtecan em 2ª linha.",
+      "MSI-H (≈5%): nivolumab + quimioterapia em 1ª linha ou pembrolizumab tumor-agnóstico.",
+      "FGFR2 amplificação: bemarituzumab em ensaio clínico.",
+      "PD-L1 (CPS) e MSI são biomarcadores complementares para IO."
+    ],
+    "caveats": [
+      "HER2 deve ser avaliado por IHQ com confirmação por ISH — NGS é complementar mas não substitui IHQ.",
+      "Para TMB como critério de IO, considerar painel alargado."
+    ]
+  },
+  {
+    "id": "pancreas",
+    "domain": "oncologia-solida",
+    "label": "Adenocarcinoma do pâncreas",
+    "tumor": ["Pâncreas", "Adenocarcinoma do pâncreas", "Carcinoma pancreático", "Carcinoma do pâncreas"],
+    "context": ["metastático", "avançado", "BRCA", "PARP", "olaparib", "terapêutica alvo"],
+    "goals": ["KRAS", "BRCA", "PALB2", "ATM", "NTRK", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "BRCA1/2 ou PALB2 somáticos: manutenção com olaparib após platino.",
+      "KRAS G12C (1-2%): sotorasib/adagrasib em ensaio.",
+      "NTRK fusões raras: larotrectinib/entrectinib.",
+      "ATM: potencial sensibilidade a agentes que induzem dano no ADN."
+    ],
+    "caveats": [
+      "Se mutação BRCA somática encontrada, confirmar germinativo — tem implicações familiares.",
+      "Tecido pancreático é frequentemente limitado e de baixa celularidade — validar adequação da amostra."
+    ]
+  },
+  {
+    "id": "gist",
+    "domain": "oncologia-solida",
+    "label": "GIST — tumor estromal gastrointestinal",
+    "tumor": ["GIST", "Tumor estromal gastrointestinal", "Tumor estromal"],
+    "context": ["imatinib", "terapêutica alvo", "ressecção", "metastático", "KIT", "PDGFRA", "resistência"],
+    "goals": ["KIT", "PDGFRA", "SDH", "NF1", "BRAF", "mutações acionáveis"],
+    "recommendedPanels": ["dna-tumores-solidos"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Mutação KIT exon 9, 11, 13, 17 ou PDGFRA D842V determina sensibilidade/resistência ao imatinib.",
+      "PDGFRA D842V: resistente ao imatinib — avapritinib é a opção.",
+      "GIST SDH-deficiente (SDHx mut ou IHQ neg): perfil molecular distinto, não responde a imatinib.",
+      "Genotipagem molecular é mandatória antes de iniciar imatinib."
+    ],
+    "caveats": [
+      "GIST pediátrico ou SDH-deficiente pode não ter mutação KIT/PDGFRA — SDH IHQ é complementar.",
+      "Resistência secundária ao imatinib: ponderar rebiópsia para identificar mutações KIT secundárias."
+    ]
+  },
+  {
+    "id": "melanoma",
+    "domain": "oncologia-solida",
+    "label": "Melanoma — perfil somático completo",
+    "tumor": ["Melanoma", "Melanoma maligno", "Melanoma cutâneo", "Melanoma mucoso", "Melanoma uveal", "Melanoma acral"],
+    "context": ["avançado", "metastático", "BRAF", "imunoterapia", "TMB", "IO", "terapêutica alvo"],
+    "goals": ["BRAF", "NRAS", "NF1", "KIT", "TMB", "perfil abrangente", "IO"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "BRAF V600 (≈50%): indicação para dabrafenib+trametinib ou vemurafenib+cobimetinib.",
+      "TMB-H (frequente no melanoma cutâneo): suporta IO e pode orientar sequência.",
+      "NRAS, NF1, KIT (melanoma acral/mucoso): perfil molecular alternativo com implicações terapêuticas.",
+      "Painel alargado fornece TMB fiável — painéis pequenos subestimam TMB."
+    ],
+    "caveats": [
+      "BRAF isolado pode ser obtido por painel de 188g se necessário urgente — mas perdem-se TMB e contexto genómico.",
+      "Melanoma uveal: perfil distinto (GNAQ/GNA11, BAP1) — painel alargado é mais adequado.",
+      "IHQ PD-L1 mantém-se relevante para decisão de IO em 1ª linha."
+    ]
+  },
+  {
+    "id": "urotelial",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma urotelial / bexiga",
+    "tumor": ["Urotelial", "Carcinoma urotelial", "Bexiga", "Carcinoma da bexiga", "Ureter", "Bacinete"],
+    "context": ["metastático", "avançado", "FGFR", "imunoterapia", "IO", "TMB", "erdafitinib"],
+    "goals": ["FGFR3", "FGFR2", "TMB", "MSI", "IO", "mutações acionáveis"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "FGFR3 mutação ou fusão (≈20%): erdafitinib após progressão a platino.",
+      "TMB-H (frequente em urotelial): suporta pembrolizumab tumor-agnóstico.",
+      "MSI-H (raro, <5%): pembrolizumab indicado.",
+      "Painel alargado cobre FGFR3 fusões (que escapam ao painel ADN sem RNA) e fornece TMB fiável."
+    ],
+    "caveats": [
+      "FGFR3 fusões requerem cobertura de RNA para máxima sensibilidade — se disponível, considerar adicionar RNA.",
+      "PD-L1 (CPS) por IHQ mantém-se necessário para decisão de IO em certos contextos."
+    ]
+  },
+  {
+    "id": "sarcoma-transloc",
+    "domain": "oncologia-solida",
+    "label": "Sarcomas de translocação — pesquisa de fusão",
+    "tumor": ["Sarcoma", "Sarcomas", "Sarcoma de Ewing", "Rabdomiossarcoma", "Lipossarcoma mixóide", "Sarcoma sinovial", "DSRCT", "CCS", "Dermatofibrossarcoma"],
+    "context": ["diagnóstico", "fusão", "translocação", "rearranjo", "caracterização molecular"],
+    "goals": ["fusões", "RNA", "translocação", "rearranjo", "diagnóstico molecular"],
+    "recommendedPanels": ["fusoes-rna"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Sarcomas de translocação têm fusões características diagnósticas (EWSR1-FLI1, SS18-SSX, FUS-DDIT3, PAX3-FOXO1).",
+      "RNA é o método de maior sensibilidade para deteção de fusões — superior ao ADN neste contexto.",
+      "Resultado molecular orienta diagnóstico histológico e pode determinar elegibilidade a ensaio clínico."
+    ],
+    "caveats": [
+      "Para sarcomas sem fusão conhecida ou com perfil genómico complexo, considerar painel alargado de ADN.",
+      "Qualidade do RNA é crítica — tecido fresco ou FFPE recente em boas condições de fixação."
+    ]
+  },
+  {
+    "id": "sarcoma-alargado",
+    "domain": "oncologia-solida",
+    "label": "Sarcomas — perfil genómico alargado",
+    "tumor": ["Sarcoma", "Sarcomas", "Leiomiossarcoma", "Lipossarcoma", "Sarcoma pleomórfico", "Angiossarcoma", "Osteossarcoma", "Condrossarcoma"],
+    "context": ["avançado", "metastático", "perfil abrangente", "TMB", "terapêutica alvo", "ensaio clínico"],
+    "goals": ["perfil abrangente", "TMB", "CDK4", "MDM2", "CDKN2A", "mutações acionáveis"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "Sarcomas de alto grau sem fusão conhecida beneficiam de perfil alargado para identificar alterações acionáveis (CDK4/MDM2 amp em lipossarcoma, CDK4 em osteossarcoma).",
+      "TMB é geralmente baixo em sarcomas mas pode ser avaliado.",
+      "Perfil abrangente é mandatório para inclusão em ensaios clínicos basket ou tumor-agnósticos."
+    ],
+    "caveats": [
+      "Celularidade tumoral pode ser baixa em sarcomas — validar adequação da amostra.",
+      "Se suspeita de translocação específica, iniciar por RNA (mais sensível e rápido)."
+    ]
+  },
+  {
+    "id": "snc-glioma",
+    "domain": "oncologia-solida",
+    "label": "Tumores do SNC — gliomas e outros",
+    "tumor": ["SNC", "Glioma", "Glioblastoma", "Glioma de baixo grau", "Oligodendroglioma", "Astrocitoma", "Tumor do SNC", "Tumor cerebral", "Ependimoma", "Meduloblastoma"],
+    "context": ["diagnóstico molecular", "classificação WHO", "IDH", "TERT", "1p/19q", "MGMT", "BRAF"],
+    "goals": ["IDH", "TERT", "1p19q", "CDKN2A", "EGFR", "BRAF", "NTRK", "classificação molecular"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Classificação WHO 2021 de gliomas é baseada em perfil molecular: IDH1/2, codeleção 1p/19q, TERT promotor, ATRX.",
+      "EGFR amplificação e PTEN/CDKN2A/B são marcadores de grau e prognóstico em GBM.",
+      "BRAF V600E (glioma pediátrico, pleomórfico) e NTRK fusões: alvos terapêuticos com opções aprovadas.",
+      "Painel alargado com CNV é necessário para cobrir codeleção 1p/19q e amplificações."
+    ],
+    "caveats": [
+      "MGMT metilação não é coberta por NGS — requer PCR/pirossequenciação específica.",
+      "Glioma pediátrico de baixo grau com fusão BRAF-KIAA1549: RNA é mais sensível para esta fusão específica.",
+      "Biópsia estereotáxica pode ter celularidade limitada — validar amostra antes de sequenciar."
+    ]
+  },
+  {
+    "id": "cup",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma de primário desconhecido (CUP)",
+    "tumor": ["CUP", "Primário desconhecido", "Carcinoma de origem desconhecida", "Carcinoma primário desconhecido"],
+    "context": ["origem desconhecida", "diagnóstico", "perfil abrangente", "TMB", "imunoterapia"],
+    "goals": ["perfil abrangente", "TMB", "MSI", "mutações acionáveis", "IO"],
+    "recommendedPanels": ["dna-alargado"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "CUP requer perfil genómico abrangente para identificar alterações acionáveis independentemente do órgão de origem.",
+      "TMB-H e MSI-H têm aprovação tumor-agnóstica e são avaliados de forma fiável pelo painel alargado.",
+      "Perfil molecular pode sugerir origem tumoral provável (tissue of origin scoring)."
+    ],
+    "caveats": [
+      "Complementar com IHQ extensa e outros estudos de origem antes de recorrer a NGS.",
+      "Painel alargado não substitui estudo de origem histológico mas é complementar e pode guiar terapêutica."
+    ]
+  },
+  {
+    "id": "ntrk-pan-tumoral",
+    "domain": "oncologia-solida",
+    "label": "NTRK fusão — rastreio pan-tumoral",
+    "tumor": ["Qualquer tumor sólido", "Pan-tumoral", "NTRK"],
+    "context": ["NTRK", "larotrectinib", "entrectinib", "fusão", "teste reflexo", "pan-tumoral"],
+    "goals": ["NTRK", "fusões", "RNA", "larotrectinib", "entrectinib"],
+    "recommendedPanels": ["fusoes-rna"],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "NTRK1/2/3 fusões são alvo de larotrectinib e entrectinib com aprovação pan-tumoral (FDA/EMA).",
+      "RNA é mais sensível que ADN para deteção de fusões NTRK — método preferencial.",
+      "Frequência baixa (0.5-1%) mas resposta robusta justifica rastreio em tumores refratários sem alvo alternativo."
+    ],
+    "caveats": [
+      "IHQ pan-TRK pode ser usada como triagem — positiva requer confirmação molecular.",
+      "Em tumores com alta prevalência NTRK (carcinoma secretor, MASC, glioma pediátrico), priorizar pesquisa precoce."
+    ]
+  },
+  {
+    "id": "carcinoma-secretor",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma secretor — mama, glândula salivar",
+    "tumor": ["Carcinoma secretor", "Carcinoma secretor da mama", "Carcinoma secretor análogo da glândula salivar", "Glândula salivar", "MASC"],
+    "context": ["diagnóstico molecular", "fusão", "ETV6-NTRK3", "NTRK", "larotrectinib"],
+    "goals": ["fusões", "ETV6-NTRK3", "RNA", "NTRK", "diagnóstico molecular"],
+    "recommendedPanels": ["fusoes-rna"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Carcinoma secretor é definido pela fusão ETV6-NTRK3 (>90% dos casos) — diagnóstico molecular.",
+      "RNA é o método de referência para deteção desta fusão específica.",
+      "Confirmação molecular é necessária para acesso a larotrectinib/entrectinib."
+    ],
+    "caveats": [
+      "FISH para ETV6 é alternativa quando RNA não está disponível.",
+      "IHQ pan-TRK pode ser usada como triagem mas requer confirmação molecular."
+    ]
+  },
+  {
+    "id": "lma",
+    "domain": "hematologia",
+    "label": "Leucemia mieloide aguda (LMA)",
+    "tumor": ["LMA", "Leucemia mieloide aguda", "AML", "Leucemia aguda mieloide"],
+    "context": ["diagnóstico", "prognóstico", "terapêutica alvo", "FLT3", "IDH", "NPM1", "estratificação de risco"],
+    "goals": ["FLT3", "IDH1", "IDH2", "NPM1", "CEBPA", "TP53", "fusões", "DNA", "RNA"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "FLT3 ITD/TKD: midostaurina (1ª linha) ou gilteritinib (refratária/recaída) — obrigatório ao diagnóstico.",
+      "IDH1/IDH2: ivosidenib/enasidenib em LMA IDH-mutada.",
+      "NPM1 e CEBPA biallelic: estratificação de risco ELN — determinam intensidade de tratamento.",
+      "Painel hemato cobre DNA e RNA em simultâneo — fusões RUNX1-RUNX1T1, CBFB-MYH11 por RNA."
+    ],
+    "caveats": [
+      "FLT3 ITD tem ratio alélico variável — método quantitativo é preferível para monitorização.",
+      "Este painel é exclusivo para neoplasias hematológicas — não usar painéis de tumores sólidos.",
+      "Resultado urgente para FLT3/IDH pode ser obtido por técnicas reflexas enquanto aguarda NGS."
+    ]
+  },
+  {
+    "id": "smd-nmp",
+    "domain": "hematologia",
+    "label": "SMD e neoplasias mieloproliferativas (NMP)",
+    "tumor": ["SMD", "Síndrome mielodisplásico", "MDS", "NMP", "Neoplasia mieloproliferativa", "Policitemia vera", "Trombocitemia essencial", "Mielofibrose"],
+    "context": ["diagnóstico", "prognóstico", "classificação", "SF3B1", "JAK2", "CALR", "MPL", "TET2", "DNMT3A"],
+    "goals": ["SF3B1", "JAK2", "CALR", "MPL", "ASXL1", "TET2", "DNMT3A", "TP53", "mutações acionáveis"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "SMD: SF3B1 define SMD com sideroblastos em anel; TP53 biallelic confere prognóstico muito desfavorável (IPSS-M).",
+      "NMP: JAK2 V617F, CALR tipo 1/2, MPL — diagnóstico e prognóstico de trombocitemia essencial e mielofibrose.",
+      "ASXL1, DNMT3A, EZH2: mutações de alto risco para estratificação MIPSS/IPSS-M.",
+      "Painel hemato cobre o perfil mutacional completo para classificação WHO 2022."
+    ],
+    "caveats": [
+      "JAK2 V617F pode ser pesquisada por técnica específica como reflexo antes de NGS.",
+      "BCR-ABL1 (LMC): exclusão obrigatória por FISH/PCR — não depende de NGS.",
+      "Não usar painéis de tumores sólidos — genes relevantes para hemato não estão cobertos."
+    ]
+  },
+  {
+    "id": "lla",
+    "domain": "hematologia",
+    "label": "Leucemia linfoblástica aguda (LLA)",
+    "tumor": ["LLA", "Leucemia linfoblástica aguda", "ALL", "LLA-B", "LLA-T", "LLA Ph+"],
+    "context": ["diagnóstico", "prognóstico", "estratificação de risco", "Ph+", "fusões", "BCR-ABL1", "terapêutica alvo"],
+    "goals": ["IKZF1", "CDKN2A", "TP53", "fusões", "BCR-ABL1", "Ph-like", "PAX5", "RNA"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "LLA Ph-like: fusões de cinases (ABL1, JAK2, EPOR) detectadas por RNA — implicam uso de imatinib/ruxolitinib.",
+      "IKZF1 deletion: marcador de mau prognóstico em LLA-B.",
+      "Painel hemato integrado DNA+RNA é essencial para capturar todo o espectro de alterações relevantes.",
+      "BCR-ABL1 por RNA é mais sensível que FISH para LLA Ph+."
+    ],
+    "caveats": [
+      "BCR-ABL1 quantitativo por PCR é obrigatório para monitorização — NGS não substitui PCR de seguimento.",
+      "Citogenética convencional (cariótipo) é complementar obrigatória.",
+      "LLA-T tem alterações moleculares distintas (NOTCH1, FBXW7, PHF6) — painel hemato cobre."
+    ]
+  },
+  {
+    "id": "llc",
+    "domain": "hematologia",
+    "label": "Leucemia linfocítica crónica (LLC)",
+    "tumor": ["LLC", "Leucemia linfocítica crónica", "CLL", "Leucemia linfocítica"],
+    "context": ["diagnóstico", "prognóstico", "TP53", "IGHV", "ibrutinib", "venetoclax", "terapêutica alvo", "recaída"],
+    "goals": ["TP53", "NOTCH1", "SF3B1", "ATM", "BIRC3", "IGHV", "mutações acionáveis"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "TP53 mutação e/ou del(17p): resistência à quimioterapia — indicação para ibrutinib/venetoclax.",
+      "IGHV mutational status: factor prognóstico major (não coberto por NGS — requer sequenciação IGHV específica).",
+      "NOTCH1, SF3B1, ATM, BIRC3: impacto prognóstico e preditivo crescente.",
+      "Painel hemato permite análise integrada do painel mutacional completo de LLC."
+    ],
+    "caveats": [
+      "IGHV mutational status requer sequenciação específica — não coberto pelo painel hemato.",
+      "FISH para del(13q), del(11q), del(17p), trisomia 12 mantém-se indicada como complemento.",
+      "TP53 deve ser testado antes de cada linha de tratamento — evolução clonal frequente."
+    ]
+  },
+  {
+    "id": "linfoma",
+    "domain": "hematologia",
+    "label": "Linfomas B e T",
+    "tumor": ["Linfoma", "DLBCL", "Linfoma difuso de grandes células B", "Linfoma folicular", "Linfoma de Hodgkin", "Linfoma de células do manto", "Linfoma de células T", "Linfoma marginal"],
+    "context": ["diagnóstico", "classificação molecular", "COO", "MYC", "BCL2", "BCL6", "EZH2", "terapêutica alvo"],
+    "goals": ["MYC", "BCL2", "BCL6", "EZH2", "CD79B", "MYD88", "TP53", "fusões", "RNA"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "DLBCL: COO (GCB vs ABC) por IHQ/sequenciação; MYC+BCL2 double hit define linfoma de alto grau.",
+      "EZH2 mutação (GCB): tazemetostat indicado em linfoma folicular.",
+      "MYD88 L265P + CD79B: mutações características de DLBCL ABC/PCNSL — indicam ibrutinib.",
+      "Fusões MYC/BCL2/BCL6 por RNA confirmam double/triple hit — prognóstico e intensidade de tratamento."
+    ],
+    "caveats": [
+      "FISH para MYC, BCL2, BCL6 mantém-se gold standard para double/triple hit — NGS é complementar.",
+      "IHQ para Hans/COO é adequada para decisão inicial — NGS dá maior granularidade.",
+      "Linfoma de Hodgkin clássico: painel hemato tem utilidade limitada pela arquitectura tumoral."
+    ]
+  },
+  {
+    "id": "mastocitose",
+    "domain": "hematologia",
+    "label": "Mastocitose sistémica",
+    "tumor": ["Mastocitose", "Mastocitose sistémica", "Mastocitose sistémica agressiva", "MCL"],
+    "context": ["diagnóstico", "KIT D816V", "midostaurina", "avapritinib", "terapêutica alvo"],
+    "goals": ["KIT", "KIT D816V", "TET2", "SRSF2", "ASXL1", "mutações acionáveis"],
+    "recommendedPanels": ["dna-rna-hemato"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "KIT D816V (≈95%): diagnóstico molecular de mastocitose sistémica; avapritinib indicado.",
+      "Mutações adicionais (TET2, SRSF2, ASXL1): determinam prognóstico e risco de evolução para mastocitose agressiva.",
+      "Painel hemato cobre KIT D816V e painel mutacional completo de mieloides associados."
+    ],
+    "caveats": [
+      "KIT D816V pode ser obtido por allele-specific PCR sensível como reflexo inicial.",
+      "Triptase sérica e biópsia de medula são complementos obrigatórios."
+    ]
+  },
+  {
+    "id": "mama-ovario-hereditario",
+    "domain": "germinativo",
+    "label": "Cancro da mama / ovário hereditário",
+    "tumor": ["Mama", "Ovário", "Trompa de Falópio", "Peritoneal", "Carcinoma da mama", "Carcinoma do ovário"],
+    "context": ["hereditário", "familiar", "BRCA", "germline", "predisposição", "olaparib", "rastreio familiar", "aconselhamento genético"],
+    "goals": ["BRCA1", "BRCA2", "germline", "hereditário", "predisposição", "ATM", "CHEK2", "PALB2"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "BRCA1/2: risco cumulativo de mama 60-70% e ovário 20-44% — orientam vigilância intensiva e cirurgia de redução de risco.",
+      "PALB2, ATM, CHEK2, RAD51C/D: genes de risco moderado-alto incluídos no painel germinativo.",
+      "Resultado germinativo tem implicações para familiares em 1º grau — aconselhamento genético obrigatório.",
+      "BRCA1/2 germinativo confirma elegibilidade para olaparib/talazoparib em mama metastática."
+    ],
+    "caveats": [
+      "Critérios de referência: age ≤ 45 anos, história familiar, histologia triplo-negativa, ascendência alto risco.",
+      "Resultado somático positivo não exclui germinativo — necessita confirmação em sangue.",
+      "Variante de significado incerto (VUS): não actuar clinicamente; reavaliar com reclassificação futura."
+    ]
+  },
+  {
+    "id": "lynch",
+    "domain": "germinativo",
+    "label": "Síndrome de Lynch — MMR hereditário",
+    "tumor": ["Colorretal", "CCR", "Endométrio", "Gástrico", "Ovário", "Urotelial", "SNC", "Intestino delgado"],
+    "context": ["Lynch", "dMMR", "MSI-H", "hereditário", "familiar", "MMR", "MLH1", "MSH2", "MSH6", "PMS2"],
+    "goals": ["MLH1", "MSH2", "MSH6", "PMS2", "EPCAM", "germline", "hereditário", "MMR"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Síndrome de Lynch é a causa hereditária mais frequente de CCR e endométrio.",
+      "MLH1, MSH2, MSH6, PMS2, EPCAM: cobertos pelo painel germinativo — identificação de portadores.",
+      "Resultado positivo orienta vigilância (colonoscopia, ginecológica) e rastreio familiar.",
+      "Confirmação germinativa é necessária quando IHQ tumoral perde expressão MMR."
+    ],
+    "caveats": [
+      "Perda de MLH1 no tumor pode ser somática (metilação do promotor MLH1) — excluir por metilação antes de germinativo.",
+      "IHQ de proteínas MMR no tumor é o teste de rastreio recomendado — germinativo é confirmatório.",
+      "VUS em genes MMR é frequente — não actuar sem reclassificação."
+    ]
+  },
+  {
+    "id": "ccr-hereditario-polipose",
+    "domain": "germinativo",
+    "label": "CCR hereditário e síndromes de polipose",
+    "tumor": ["Colorretal", "CCR", "Cólon", "Recto", "Duodeno", "Pólipos"],
+    "context": ["hereditário", "polipose", "FAP", "APC", "MUTYH", "Peutz-Jeghers", "polipose serreada", "familiar"],
+    "goals": ["APC", "MUTYH", "SMAD4", "BMPR1A", "STK11", "PTEN", "germline", "hereditário"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "PAF clássica (APC): risco CCR 100% sem colectomia — diagnóstico molecular orienta vigilância e timing cirúrgico.",
+      "MUTYH-associated polyposis (MAP): padrão autossómico recessivo — testar nos dois alelos.",
+      "Síndromes hamartomatosas (Peutz-Jeghers: STK11; Cowden: PTEN; Polipose juvenil: SMAD4/BMPR1A): raros mas com alto risco.",
+      "Painel germinativo permite diagnóstico diferencial de todos os síndromes de polipose num único teste."
+    ],
+    "caveats": [
+      "PAF com ≥ 100 pólipos: diagnóstico clínico presuntivo — pesquisar APC germinativo e grandes rearranjos.",
+      "MAP: testar parceiro para risco de descendência (25% por filho).",
+      "Aconselhamento genético antes e após teste é mandatório."
+    ]
+  },
+  {
+    "id": "endocrino-hereditario",
+    "domain": "germinativo",
+    "label": "Síndromes endócrinos hereditários",
+    "tumor": ["Tiróide", "Carcinoma medular da tiróide", "Paratiroide", "Hipófise", "Suprarrenal", "Neuroendócrino", "MEN1", "MEN2"],
+    "context": ["hereditário", "MEN1", "MEN2", "RET", "VHL", "NF1", "familiar", "síndrome endócrino"],
+    "goals": ["RET", "MEN1", "VHL", "NF1", "CDKN1B", "germline", "hereditário"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "MEN2A/B (RET): carcinoma medular hereditário — tiroidectomia profilática em portadores antes dos 5 anos.",
+      "MEN1 (MEN1): hiperparatiroidismo + adenoma hipofisário + tumores neuroendócrinos pancreáticos.",
+      "VHL: hemangioblastomas, feocromocitoma, carcinoma de células claras — vigilância multiorgânica.",
+      "Painel germinativo cobre toda a rede de genes endócrinos hereditários."
+    ],
+    "caveats": [
+      "Carcinoma medular esporádico: excluir mutação RET germinativa antes de classificar como esporádico.",
+      "Timing de cirurgia profilática em MEN2 depende do codão RET — consulta especializada."
+    ]
+  },
+  {
+    "id": "paraganglioma-feo",
+    "domain": "germinativo",
+    "label": "Paraganglioma e feocromocitoma hereditário",
+    "tumor": ["Paraganglioma", "Feocromocitoma", "Faeocromocitoma", "Tumor paraganglioma"],
+    "context": ["hereditário", "familiar", "SDHB", "SDHD", "SDHA", "VHL", "RET", "NF1", "MAX", "TMEM127"],
+    "goals": ["SDHB", "SDHC", "SDHD", "SDHA", "VHL", "RET", "MAX", "TMEM127", "germline", "hereditário"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "Feocromocitoma e paraganglioma têm causa germinativa em 30-40% — a maior proporção entre tumores endócrinos.",
+      "SDHx (SDHB, SDHC, SDHD, SDHA): síndromes de paraganglioma hereditário; SDHB associado a malignidade.",
+      "VHL, RET, NF1, MAX, TMEM127: cobertos pelo painel germinativo.",
+      "Resultado positivo orienta vigilância multiorgânica e rastreio familiar."
+    ],
+    "caveats": [
+      "IHQ para SDHB no tumor é triagem eficaz — negativa implica mutação SDHx (qualquer).",
+      "SDHD: imprinting materno — mutação paterna tem penetrância muito superior.",
+      "Aconselhamento genético obrigatório dado o grau de penetrância variável por gene."
+    ]
+  },
+  {
+    "id": "prostata-hereditario",
+    "domain": "germinativo",
+    "label": "Cancro da próstata hereditário",
+    "tumor": ["Próstata", "Carcinoma da próstata", "Adenocarcinoma da próstata"],
+    "context": ["hereditário", "familiar", "BRCA2", "metastático", "olaparib", "rucaparib", "germline", "HRR"],
+    "goals": ["BRCA2", "BRCA1", "ATM", "CHEK2", "CDK12", "germline", "hereditário", "HRR"],
+    "recommendedPanels": ["germinativo"],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "BRCA2 germinativo: risco de próstata de alto grau 6x aumentado; indica olaparib em metastático pós-taxano.",
+      "ATM, CHEK2, PALB2: genes HRR com risco intermédio — cobertos pelo painel germinativo.",
+      "Critérios para teste: metastático, alto risco, história familiar de mama/ovário/próstata, Gleason ≥ 8."
+    ],
+    "caveats": [
+      "CDK12 biallelic somático não é germinativo — pesquisar no painel somático.",
+      "Resultado germinativo tem implicações para familiares — aconselhamento genético.",
+      "Alguns doentes com BRCA2 somático não têm mutação germinativa — confirmar em sangue."
+    ]
+  }
+]
