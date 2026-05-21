@@ -33,7 +33,8 @@ import {
 } from "lucide-react";
 
 import _allPanels from "./panels.json";
-import clinicalRules from "./clinicalRules.json";
+import _clinicalRulesData from "./clinicalRules.json";
+const clinicalRules = _clinicalRulesData.rules;
 import { recommendByRules } from "./ruleEngine";
 import { resolveGeneAlias } from "./geneAliases";
 import institutionalLogo from "./assets/ulsas-logo.png";
@@ -1796,8 +1797,32 @@ export default function GenePanelsCatalog() {
           </section>
           <footer className="border-t border-slate-200 bg-slate-50/80 px-4 py-4 sm:px-6 lg:px-10">
             <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
-              <div>Ricardo B. Leite · Patologia molecular — Serviço de Anatomia Patológica</div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
+                <div>Ricardo B. Leite · Patologia molecular — Serviço de Anatomia Patológica, ULS Almada-Seixal</div>
+                <div className="text-[10px] text-slate-400 italic">
+                  Ferramenta de apoio à decisão — não substitui o juízo clínico do médico responsável.
+                </div>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] text-slate-400">
+                  <a
+                    href="https://github.com/rbleite/Genes_panel/blob/main/src/clinicalRules.json"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-indigo-600"
+                  >
+                    Regras clínicas (JSON)
+                  </a>
+                  <span aria-hidden="true">·</span>
+                  <a
+                    href="https://github.com/rbleite/Genes_panel"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-indigo-600"
+                  >
+                    Código fonte (GPL v2)
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
                 <span>v. {APP_VERSION}</span>
                 <span aria-hidden="true">·</span>
                 <span>{appDate}</span>
