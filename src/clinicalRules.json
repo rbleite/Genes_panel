@@ -113,7 +113,10 @@
         "Carcinoma papilar",
         "Carcinoma folicular",
         "Carcinoma anaplásico",
-        "Carcinoma medular"
+        "Carcinoma medular",
+        "Tireoide",
+        "Carcinoma da tireoide",
+        "Carcinoma diferenciado da tireoide"
       ],
       "context": [
         "terapêutica alvo",
@@ -204,9 +207,7 @@
         "Colorretal",
         "CCR",
         "Endométrio",
-        "Carcinoma do endométrio",
-        "Gástrico",
-        "Carcinoma gástrico"
+        "Carcinoma do endométrio"
       ],
       "context": [
         "MSI-H",
@@ -1171,6 +1172,57 @@
       ]
     },
     {
+      "id": "lmc",
+      "domain": "hematologia",
+      "label": "Leucemia mieloide crónica (LMC) — BCR-ABL1 e mutações de resistência",
+      "tumor": [
+        "LMC",
+        "Leucemia mieloide crónica",
+        "Leucemia mieloide cronica",
+        "CML",
+        "Leucemia mieloide"
+      ],
+      "context": [
+        "crónica",
+        "cronica",
+        "Ph+",
+        "Philadelphia",
+        "BCR-ABL",
+        "imatinib",
+        "TKI",
+        "resistência",
+        "resistencia",
+        "diagnóstico",
+        "diagnostico"
+      ],
+      "goals": [
+        "BCR-ABL",
+        "ABL1",
+        "mutações de resistência",
+        "mutacoes de resistencia",
+        "TKI",
+        "imatinib",
+        "dasatinib",
+        "bosutinib",
+        "ponatinib",
+        "nilotinib"
+      ],
+      "recommendedPanels": [
+        "dna-rna-hemato"
+      ],
+      "combination": false,
+      "strength": "forte",
+      "rationale": [
+        "BCR-ABL1 (t(9;22)) é a alteração definidora da LMC — diagnóstico e monitorização por RT-PCR quantitativo.",
+        "O painel hemato permite identificar mutações no domínio quinase do ABL1 associadas à resistência a inibidores de tirosina quinase (TKI).",
+        "A detecção de mutações T315I, E255K/V, Y253H orienta a escolha de TKI de 2ª/3ª geração (dasatinib, nilotinib, ponatinib)."
+      ],
+      "caveats": [
+        "O diagnóstico primário de LMC é feito por citogenética/FISH e RT-PCR para BCR-ABL1 — NGS é complementar para mutações de resistência.",
+        "O painel hemato inclui genes de progressão para fase acelerada/blástica (TP53, RUNX1, ASXL1, IDH1/2)."
+      ]
+    },
+    {
       "id": "smd-nmp",
       "domain": "hematologia",
       "label": "SMD e neoplasias mieloproliferativas (NMP)",
@@ -1572,7 +1624,10 @@
         "Suprarrenal",
         "Neuroendócrino",
         "MEN1",
-        "MEN2"
+        "MEN2",
+        "Tireoide",
+        "Carcinoma da tireoide",
+        "Carcinoma medular da tireoide"
       ],
       "context": [
         "hereditário",

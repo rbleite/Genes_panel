@@ -35,6 +35,7 @@ import {
 import _allPanels from "./panels.json";
 import _clinicalRulesData from "./clinicalRules.json";
 const clinicalRules = _clinicalRulesData.rules;
+const rulesMeta = _clinicalRulesData.meta;
 import { recommendByRules } from "./ruleEngine";
 import { resolveGeneAlias } from "./geneAliases";
 import institutionalLogo from "./assets/ulsas-logo.png";
@@ -1534,14 +1535,14 @@ export default function GenePanelsCatalog() {
             </div>
           </section>
 
-          <section className="grid gap-6 px-5 pb-6 sm:px-8 lg:grid-cols-[minmax(0,1.08fr)_420px] lg:px-10 lg:pb-10 xl:grid-cols-[minmax(0,1.12fr)_460px]">
+          <section className="grid gap-6 px-5 pb-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_560px] lg:px-10 lg:pb-10 xl:grid-cols-[minmax(0,1fr)_620px]">
             <div>
               <div className="mb-4 flex items-center gap-2 text-sm font-medium text-slate-500">
                 <Layers3 className="h-4 w-4" />
                 Lista de painéis
               </div>
 
-              <div className="grid gap-4 2xl:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
                   {filteredPanels.map((panel) => {
                     const Icon = iconByCategory[panel.categoria] || Dna;
                     const isSelected = selected.id === panel.id;
@@ -1649,14 +1650,6 @@ export default function GenePanelsCatalog() {
                   </div>
                 </div>
 
-                <div className="mt-6">
-                  <h3 className="text-sm font-semibold text-slate-900">Tags</h3>
-                  <div className="mt-3 flex flex-wrap gap-3.5">
-                    {selected.tags.map((item) => (
-                      <span key={item} className="rounded-full bg-indigo-50 px-4 py-2 text-xs font-medium text-indigo-700">{item}</span>
-                    ))}
-                  </div>
-                </div>
 
                 <div className="mt-6">
                   <h3 className="text-sm font-semibold text-slate-900">Estrutura alvo</h3>
@@ -1822,10 +1815,15 @@ export default function GenePanelsCatalog() {
                   </a>
                 </div>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span>v. {APP_VERSION}</span>
-                <span aria-hidden="true">·</span>
-                <span>{appDate}</span>
+              <div className="flex flex-col items-end gap-0.5 shrink-0 text-right">
+                <div className="flex items-center gap-2">
+                  <span>v. {APP_VERSION}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{appDate}</span>
+                </div>
+                <div className="text-[10px] text-slate-400">
+                  Regras v{rulesMeta?.version} · revisto {rulesMeta?.lastReviewed}
+                </div>
               </div>
             </div>
           </footer>

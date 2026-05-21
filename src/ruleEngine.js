@@ -11,6 +11,25 @@ function normAlias(term) {
   return normalizeText(resolveGeneAlias(term));
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Safe substring match. The guard uses the SHORTER of the two strings:
+// if the shorter is < 4 chars (e.g. "lma", "io", "ret") it must appear as
+// a whole word/token to avoid "pulmao".includes("lma") = true false positives.
+function termMatches(haystack, needle) {
+  if (haystack === needle) return true;
+  const minLen = Math.min(haystack.length, needle.length);
+  if (minLen >= 4) return haystack.includes(needle) || needle.includes(haystack);
+  // short term — the shorter string must stand alone as a token
+  const short = haystack.length <= needle.length ? haystack : needle;
+  const long  = haystack.length <= needle.length ? needle   : haystack;
+  return new RegExp(
+    `(?:^|[\\s/\\-])${escapeRegExp(short)}(?:$|[\\s/\\-])`
+  ).test(` ${long} `);
+}
+
 function calcConfidence(matched) {
   const goals = matched.goals || 0;
   const ctx   = matched.context || 0;
@@ -18,6 +37,10 @@ function calcConfidence(matched) {
   if (goals >= 1 || ctx >= 2)                  return "moderada";
   return "baixa";
 }
+
+// Minimum score for a rule to appear as an alternative (tumor-only = 10 pts,
+// which is too weak to recommend without any context/goal signal).
+const MIN_ALTERNATIVE_SCORE = 14;
 
 export function scoreRule(rule, clinicalInput) {
   const tumor   = normalizeText(clinicalInput.tumor);
@@ -33,12 +56,13 @@ export function scoreRule(rule, clinicalInput) {
   const ruleContext = (rule.context || []).map(normalizeText);
   const ruleGoals   = (rule.goals   || []).map(normalizeText);
 
-  // Tumor match is required — no match → rule is irrelevant
+  // Tumor match is required — uses termMatches to prevent short-token false positives
   if (tumor) {
     const tumorAlias = normAlias(clinicalInput.tumor);
     const hit = ruleTumors.some(
-      (t) => tumor.includes(t) || t.includes(tumor) ||
-             (tumorAlias !== tumor && (tumorAlias.includes(t) || t.includes(tumorAlias)))
+      (t) => termMatches(t, tumor) || termMatches(tumor, t) ||
+             (tumorAlias !== tumor &&
+               (termMatches(t, tumorAlias) || termMatches(tumorAlias, t)))
     );
     if (!hit) return { score: 0, matched, matchedContext, matchedGoals, confidence: "baixa" };
     score += 10;
@@ -46,7 +70,7 @@ export function scoreRule(rule, clinicalInput) {
   }
 
   context.forEach((item) => {
-    if (ruleContext.some((r) => r.includes(item) || item.includes(r))) {
+    if (ruleContext.some((r) => termMatches(r, item) || termMatches(item, r))) {
       score += 3;
       matched.context++;
       matchedContext.push(item);
@@ -56,8 +80,8 @@ export function scoreRule(rule, clinicalInput) {
   goals.forEach((goal) => {
     const goalAlias = normAlias(goal);
     const hit = ruleGoals.some(
-      (r) => r.includes(goal) || goal.includes(r) ||
-             (goalAlias !== goal && (r.includes(goalAlias) || goalAlias.includes(r)))
+      (r) => termMatches(r, goal) || termMatches(goal, r) ||
+             (goalAlias !== goal && (termMatches(r, goalAlias) || termMatches(goalAlias, r)))
     );
     if (hit) {
       score += 4;
@@ -77,7 +101,12 @@ export function recommendByRules(clinicalInput, rules, panels) {
     };
   }
 
+  // Domain filter: when the user selects a domain, restrict to that domain only.
+  // This prevents haematology rules from surfacing for solid-tumour inputs and vice-versa.
+  const inputDomain = clinicalInput.domain?.trim();
+
   const ranked = rules
+    .filter((r) => !inputDomain || r.domain === inputDomain)
     .map((rule) => {
       const { score, matched, matchedContext, matchedGoals, confidence } =
         scoreRule(rule, clinicalInput);
@@ -94,10 +123,17 @@ export function recommendByRules(clinicalInput, rules, panels) {
   }
 
   const best = ranked[0];
+
+  // Alternatives only surface if they have context/goal signal beyond tumor alone
+  const alternatives = ranked
+    .slice(1)
+    .filter((r) => r._score >= MIN_ALTERNATIVE_SCORE)
+    .slice(0, 3);
+
   return {
     rule: best,
     panels: panels.filter((p) => best.recommendedPanels.includes(p.id)),
-    alternatives: ranked.slice(1, 4),
+    alternatives,
     message: null,
   };
 }

@@ -67,6 +67,16 @@ export const GENE_ALIASES = {
   "N-MYC":      "MYCN",
   "NMYC":       "MYCN",
 
+  // ── Histone methyltransferases / chromatin remodelling ──────────────────
+  "MLL2":       "KMT2D",   // previous symbol for KMT2D (HGNC approved: KMT2D)
+  "MLL4":       "KMT2B",
+  "MLL":        "KMT2A",
+  "MLL1":       "KMT2A",
+  "MRTFB":      "MKL2",    // previous symbol; HGNC approved: MKL2
+  "MRTFA":      "MKL1",
+  "MAL":        "MKL1",
+  "EZH1":       "EZH1",
+
   // ── BCL / apoptosis ─────────────────────────────────────────────────────
   "BCL-2":      "BCL2",
   "BCL-6":      "BCL6",

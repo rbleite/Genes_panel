@@ -7,6 +7,16 @@ Ferramenta de apoio à decisão clínica para selecção de painéis de sequenci
 
 ---
 
+## Porquê esta aplicação?
+
+À medida que o catálogo de painéis NGS cresce — em número, em amplitude génica e em especialização por patologia —, torna-se progressivamente difícil saber, sem consultar múltiplos documentos, se um dado gene está coberto por um painel específico, em que painéis está presente, ou qual a diferença de cobertura entre eles. Esta aplicação nasceu também como resposta a essa fricção quotidiana: um ponto único onde é possível pesquisar qualquer gene ou alias clínico (HER2, p53, FLT3…) e perceber imediatamente em que painéis está incluído e com que contexto.
+
+Há uma motivação pedagógica. Num serviço onde técnicos, internos e especialistas convivem com a mesma complexidade, dispor de uma ferramenta que mostra o raciocínio — não só a resposta — tem valor formativo que um algoritmo opaco nunca teria. Saber que um painel é recomendado *porque* o tumor é CPNPC avançado, *e* o objetivo é pesquisa de alvo terapêutico, *e* o contexto é primeira linha, é qualitativamente diferente de receber uma recomendação sem justificação.
+
+Por fim, há uma convicção sobre transparência. As decisões de saúde apoiadas em software devem ser auditáveis. As regras clínicas que alimentam este motor estão num ficheiro de texto público, com versão, data de revisão e referências. Qualquer clínico ou investigador pode lê-las, questioná-las ou propor alterações — sem precisar de aceder ao código.
+
+---
+
 ## Funcionalidades
 
 - **Catálogo de painéis NGS** com pesquisa por gene, categoria e patologia
@@ -45,9 +55,9 @@ O motor pontua cada regra clínica contra o input do utilizador:
 
 ## Transparência e auditabilidade
 
-As regras clínicas estão num ficheiro JSON público e versionado, auditável por qualquer clínico ou investigador:
+As regras clínicas estão num ficheiro de texto público e versionado, auditável por qualquer clínico ou investigador:
 
-- **Regras clínicas:** [`src/clinicalRules.json`](https://github.com/rbleite/Genes_panel/blob/main/src/clinicalRules.json)
+- **Regras clínicas:** [`src/clinicalRules.json`](https://raw.githubusercontent.com/rbleite/Genes_panel/main/src/clinicalRules.json)
 - **Código fonte:** [github.com/rbleite/Genes_panel](https://github.com/rbleite/Genes_panel)
 
 ---
@@ -65,12 +75,25 @@ npm run build   # produção
 
 ---
 
-## Orientações de referência
+## Orientações de referência e bibliografia
 
-As regras clínicas são baseadas em:
-- ESMO Precision Medicine Working Group guidelines
-- NCCN Clinical Practice Guidelines in Oncology
-- Nomenclatura oficial HGNC (aliases de genes)
+As regras clínicas são derivadas das seguintes orientações e publicações de referência:
+
+**ESMO — Recomendações NGS e medicina de precisão**
+
+1. Mosele F, Remon J, Mateo J, et al. Recommendations for the use of next-generation sequencing (NGS) for patients with metastatic cancers: a report from the ESMO Precision Medicine Working Group. *Ann Oncol.* 2020;31(11):1491–1505. [doi:10.1016/j.annonc.2020.07.014](https://doi.org/10.1016/j.annonc.2020.07.014)
+
+2. Mateo J, Chakravarty D, Dienstmann R, et al. A framework to rank genomic alterations as targets for cancer precision medicine: the ESMO Scale for Clinical Actionability of Molecular Targets (ESCAT). *Ann Oncol.* 2018;29(9):1895–1902. [doi:10.1093/annonc/mdy263](https://doi.org/10.1093/annonc/mdy263)
+
+3. Pentheroudakis G (Ed.). *ESMO Clinical Practice Guidelines — Oncology.* European Society for Medical Oncology, 2024. Disponível em: [esmo.org/guidelines](https://www.esmo.org/guidelines)
+
+**NCCN — Orientações clínicas por patologia**
+
+4. National Comprehensive Cancer Network. *NCCN Clinical Practice Guidelines in Oncology.* Versão 2024. Disponível mediante registo em: [nccn.org/guidelines](https://www.nccn.org/guidelines/category_1)
+
+**Nomenclatura génica (HGNC)**
+
+5. Tweedie S, Braschi B, Gray K, et al. Genenames.org: the HGNC and VGNC resources in 2021. *Nucleic Acids Res.* 2021;49(D1):D939–D946. [doi:10.1093/nar/gkaa980](https://doi.org/10.1093/nar/gkaa980)
 
 ---
 
