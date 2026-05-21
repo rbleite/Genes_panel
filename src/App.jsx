@@ -1804,12 +1804,12 @@ export default function GenePanelsCatalog() {
                 </div>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] text-slate-400">
                   <a
-                    href="https://github.com/rbleite/Genes_panel/blob/main/src/clinicalRules.json"
+                    href="https://raw.githubusercontent.com/rbleite/Genes_panel/main/src/clinicalRules.json"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-indigo-600"
                   >
-                    Regras clínicas (JSON)
+                    Regras clínicas (txt)
                   </a>
                   <span aria-hidden="true">·</span>
                   <a
@@ -1818,7 +1818,7 @@ export default function GenePanelsCatalog() {
                     rel="noopener noreferrer"
                     className="underline hover:text-indigo-600"
                   >
-                    Código fonte (GPL v2)
+                    Código fonte (GPL v3)
                   </a>
                 </div>
               </div>

@@ -76,7 +76,7 @@ As regras clínicas são baseadas em:
 
 ## Licença
 
-Distribuído sob a licença **GNU General Public License v2.0**.  
+Distribuído sob a licença **GNU General Public License v3.0**.  
 Ver ficheiro [`LICENSE`](./LICENSE) para texto completo.
 
 O uso desta ferramenta em contexto clínico é da responsabilidade exclusiva da instituição e dos profissionais que a utilizam. Os autores não assumem qualquer responsabilidade por decisões clínicas tomadas com base nesta ferramenta.
