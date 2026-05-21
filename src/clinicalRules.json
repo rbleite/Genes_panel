@@ -3,10 +3,38 @@
     "id": "cpnpc-avancado",
     "domain": "oncologia-solida",
     "label": "CPNPC avançado — perfil completo",
-    "tumor": ["CPNPC", "Adenocarcinoma do pulmão", "Carcinoma pulmonar", "Pulmão", "Carcinoma epidermóide do pulmão"],
-    "context": ["avançado", "metastático", "terapêutica alvo", "1ª linha", "primeira linha", "estadio IV", "estadio III"],
-    "goals": ["mutações acionáveis", "fusões", "RNA", "ALK", "ROS1", "RET", "NTRK", "EGFR", "KRAS", "MET"],
-    "recommendedPanels": ["dna-tumores-solidos", "fusoes-rna"],
+    "tumor": [
+      "CPNPC",
+      "Adenocarcinoma do pulmão",
+      "Carcinoma pulmonar",
+      "Pulmão",
+      "Carcinoma epidermóide do pulmão"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "terapêutica alvo",
+      "1ª linha",
+      "primeira linha",
+      "estadio IV",
+      "estadio III"
+    ],
+    "goals": [
+      "mutações acionáveis",
+      "fusões",
+      "RNA",
+      "ALK",
+      "ROS1",
+      "RET",
+      "NTRK",
+      "EGFR",
+      "KRAS",
+      "MET"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos",
+      "fusoes-rna"
+    ],
     "combination": true,
     "strength": "Recomendado",
     "rationale": [
@@ -25,10 +53,30 @@
     "id": "cpnpc-tmb-io",
     "domain": "oncologia-solida",
     "label": "CPNPC — TMB e imunoterapia",
-    "tumor": ["CPNPC", "Adenocarcinoma do pulmão", "Carcinoma pulmonar", "Pulmão"],
-    "context": ["imunoterapia", "TMB", "pembrolizumab", "IO", "checkpoint", "PD-L1", "tumor mutational burden"],
-    "goals": ["TMB", "imunoterapia", "IO", "perfil abrangente"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "CPNPC",
+      "Adenocarcinoma do pulmão",
+      "Carcinoma pulmonar",
+      "Pulmão"
+    ],
+    "context": [
+      "imunoterapia",
+      "TMB",
+      "pembrolizumab",
+      "IO",
+      "checkpoint",
+      "PD-L1",
+      "tumor mutational burden"
+    ],
+    "goals": [
+      "TMB",
+      "imunoterapia",
+      "IO",
+      "perfil abrangente"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Considerar",
     "rationale": [
@@ -46,10 +94,36 @@
     "id": "tireoide-fusoes",
     "domain": "oncologia-solida",
     "label": "Carcinoma da tiróide — fusões e perfil molecular",
-    "tumor": ["Tiróide", "Carcinoma da tiróide", "Carcinoma diferenciado da tiróide", "Carcinoma papilar", "Carcinoma folicular", "Carcinoma anaplásico", "Carcinoma medular"],
-    "context": ["terapêutica alvo", "refratário", "iodo radioactivo", "fusão", "rearranjo", "BRAF", "RET"],
-    "goals": ["BRAF", "RAS", "RET", "NTRK", "fusões", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos", "fusoes-rna"],
+    "tumor": [
+      "Tiróide",
+      "Carcinoma da tiróide",
+      "Carcinoma diferenciado da tiróide",
+      "Carcinoma papilar",
+      "Carcinoma folicular",
+      "Carcinoma anaplásico",
+      "Carcinoma medular"
+    ],
+    "context": [
+      "terapêutica alvo",
+      "refratário",
+      "iodo radioactivo",
+      "fusão",
+      "rearranjo",
+      "BRAF",
+      "RET"
+    ],
+    "goals": [
+      "BRAF",
+      "RAS",
+      "RET",
+      "NTRK",
+      "fusões",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos",
+      "fusoes-rna"
+    ],
     "combination": true,
     "strength": "Recomendado",
     "rationale": [
@@ -66,10 +140,36 @@
     "id": "colorretal",
     "domain": "oncologia-solida",
     "label": "Carcinoma colorretal — perfil padrão",
-    "tumor": ["Colorretal", "Carcinoma colorretal", "CCR", "Cólon", "Recto", "Carcinoma do cólon", "Carcinoma do recto"],
-    "context": ["metastático", "avançado", "terapêutica alvo", "anti-EGFR", "bevacizumab", "MSI", "Lynch"],
-    "goals": ["KRAS", "NRAS", "BRAF", "MSI", "PIK3CA", "HER2", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos"],
+    "tumor": [
+      "Colorretal",
+      "Carcinoma colorretal",
+      "CCR",
+      "Cólon",
+      "Recto",
+      "Carcinoma do cólon",
+      "Carcinoma do recto"
+    ],
+    "context": [
+      "metastático",
+      "avançado",
+      "terapêutica alvo",
+      "anti-EGFR",
+      "bevacizumab",
+      "MSI",
+      "Lynch"
+    ],
+    "goals": [
+      "KRAS",
+      "NRAS",
+      "BRAF",
+      "MSI",
+      "PIK3CA",
+      "HER2",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -88,10 +188,33 @@
     "id": "colorretal-io-tmb",
     "domain": "oncologia-solida",
     "label": "Carcinoma colorretal / endométrio — dMMR / MSI-H + TMB",
-    "tumor": ["Colorretal", "CCR", "Endométrio", "Carcinoma do endométrio", "Gástrico", "Carcinoma gástrico"],
-    "context": ["MSI-H", "dMMR", "imunoterapia", "pembrolizumab", "IO", "TMB", "tumor mutational burden"],
-    "goals": ["TMB", "MSI", "imunoterapia", "IO", "dMMR"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "Colorretal",
+      "CCR",
+      "Endométrio",
+      "Carcinoma do endométrio",
+      "Gástrico",
+      "Carcinoma gástrico"
+    ],
+    "context": [
+      "MSI-H",
+      "dMMR",
+      "imunoterapia",
+      "pembrolizumab",
+      "IO",
+      "TMB",
+      "tumor mutational burden"
+    ],
+    "goals": [
+      "TMB",
+      "MSI",
+      "imunoterapia",
+      "IO",
+      "dMMR"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Considerar",
     "rationale": [
@@ -108,10 +231,34 @@
     "id": "mama-somatico",
     "domain": "oncologia-solida",
     "label": "Carcinoma da mama — perfil somático",
-    "tumor": ["Mama", "Carcinoma da mama", "Carcinoma mamário", "Carcinoma lobular", "Carcinoma ductal"],
-    "context": ["metastático", "avançado", "terapêutica alvo", "PIK3CA", "HER2", "ESR1", "alpelisib", "everolimus"],
-    "goals": ["PIK3CA", "ESR1", "HER2", "ERBB2", "CDK12", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos"],
+    "tumor": [
+      "Mama",
+      "Carcinoma da mama",
+      "Carcinoma mamário",
+      "Carcinoma lobular",
+      "Carcinoma ductal"
+    ],
+    "context": [
+      "metastático",
+      "avançado",
+      "terapêutica alvo",
+      "PIK3CA",
+      "HER2",
+      "ESR1",
+      "alpelisib",
+      "everolimus"
+    ],
+    "goals": [
+      "PIK3CA",
+      "ESR1",
+      "HER2",
+      "ERBB2",
+      "CDK12",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -129,10 +276,33 @@
     "id": "gastrico-gej",
     "domain": "oncologia-solida",
     "label": "Carcinoma gástrico e junção GEJ",
-    "tumor": ["Gástrico", "Carcinoma gástrico", "Junção GEJ", "Carcinoma da junção gastroesofágica", "Esófago", "Carcinoma do esófago"],
-    "context": ["metastático", "avançado", "HER2", "MSI", "FGFR", "imunoterapia", "nivolumab"],
-    "goals": ["HER2", "MSI", "FGFR2", "TMB", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos"],
+    "tumor": [
+      "Gástrico",
+      "Carcinoma gástrico",
+      "Junção GEJ",
+      "Carcinoma da junção gastroesofágica",
+      "Esófago",
+      "Carcinoma do esófago"
+    ],
+    "context": [
+      "metastático",
+      "avançado",
+      "HER2",
+      "MSI",
+      "FGFR",
+      "imunoterapia",
+      "nivolumab"
+    ],
+    "goals": [
+      "HER2",
+      "MSI",
+      "FGFR2",
+      "TMB",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -150,10 +320,31 @@
     "id": "pancreas",
     "domain": "oncologia-solida",
     "label": "Adenocarcinoma do pâncreas",
-    "tumor": ["Pâncreas", "Adenocarcinoma do pâncreas", "Carcinoma pancreático", "Carcinoma do pâncreas"],
-    "context": ["metastático", "avançado", "BRCA", "PARP", "olaparib", "terapêutica alvo"],
-    "goals": ["KRAS", "BRCA", "PALB2", "ATM", "NTRK", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos"],
+    "tumor": [
+      "Pâncreas",
+      "Adenocarcinoma do pâncreas",
+      "Carcinoma pancreático",
+      "Carcinoma do pâncreas"
+    ],
+    "context": [
+      "metastático",
+      "avançado",
+      "BRCA",
+      "PARP",
+      "olaparib",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "KRAS",
+      "BRCA",
+      "PALB2",
+      "ATM",
+      "NTRK",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -171,10 +362,31 @@
     "id": "gist",
     "domain": "oncologia-solida",
     "label": "GIST — tumor estromal gastrointestinal",
-    "tumor": ["GIST", "Tumor estromal gastrointestinal", "Tumor estromal"],
-    "context": ["imatinib", "terapêutica alvo", "ressecção", "metastático", "KIT", "PDGFRA", "resistência"],
-    "goals": ["KIT", "PDGFRA", "SDH", "NF1", "BRAF", "mutações acionáveis"],
-    "recommendedPanels": ["dna-tumores-solidos"],
+    "tumor": [
+      "GIST",
+      "Tumor estromal gastrointestinal",
+      "Tumor estromal"
+    ],
+    "context": [
+      "imatinib",
+      "terapêutica alvo",
+      "ressecção",
+      "metastático",
+      "KIT",
+      "PDGFRA",
+      "resistência"
+    ],
+    "goals": [
+      "KIT",
+      "PDGFRA",
+      "SDH",
+      "NF1",
+      "BRAF",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -192,10 +404,35 @@
     "id": "melanoma",
     "domain": "oncologia-solida",
     "label": "Melanoma — perfil somático completo",
-    "tumor": ["Melanoma", "Melanoma maligno", "Melanoma cutâneo", "Melanoma mucoso", "Melanoma uveal", "Melanoma acral"],
-    "context": ["avançado", "metastático", "BRAF", "imunoterapia", "TMB", "IO", "terapêutica alvo"],
-    "goals": ["BRAF", "NRAS", "NF1", "KIT", "TMB", "perfil abrangente", "IO"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "Melanoma",
+      "Melanoma maligno",
+      "Melanoma cutâneo",
+      "Melanoma mucoso",
+      "Melanoma uveal",
+      "Melanoma acral"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "BRAF",
+      "imunoterapia",
+      "TMB",
+      "IO",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "BRAF",
+      "NRAS",
+      "NF1",
+      "KIT",
+      "TMB",
+      "perfil abrangente",
+      "IO"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -214,10 +451,34 @@
     "id": "urotelial",
     "domain": "oncologia-solida",
     "label": "Carcinoma urotelial / bexiga",
-    "tumor": ["Urotelial", "Carcinoma urotelial", "Bexiga", "Carcinoma da bexiga", "Ureter", "Bacinete"],
-    "context": ["metastático", "avançado", "FGFR", "imunoterapia", "IO", "TMB", "erdafitinib"],
-    "goals": ["FGFR3", "FGFR2", "TMB", "MSI", "IO", "mutações acionáveis"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "Urotelial",
+      "Carcinoma urotelial",
+      "Bexiga",
+      "Carcinoma da bexiga",
+      "Ureter",
+      "Bacinete"
+    ],
+    "context": [
+      "metastático",
+      "avançado",
+      "FGFR",
+      "imunoterapia",
+      "IO",
+      "TMB",
+      "erdafitinib"
+    ],
+    "goals": [
+      "FGFR3",
+      "FGFR2",
+      "TMB",
+      "MSI",
+      "IO",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -235,10 +496,34 @@
     "id": "sarcoma-transloc",
     "domain": "oncologia-solida",
     "label": "Sarcomas de translocação — pesquisa de fusão",
-    "tumor": ["Sarcoma", "Sarcomas", "Sarcoma de Ewing", "Rabdomiossarcoma", "Lipossarcoma mixóide", "Sarcoma sinovial", "DSRCT", "CCS", "Dermatofibrossarcoma"],
-    "context": ["diagnóstico", "fusão", "translocação", "rearranjo", "caracterização molecular"],
-    "goals": ["fusões", "RNA", "translocação", "rearranjo", "diagnóstico molecular"],
-    "recommendedPanels": ["fusoes-rna"],
+    "tumor": [
+      "Sarcoma",
+      "Sarcomas",
+      "Sarcoma de Ewing",
+      "Rabdomiossarcoma",
+      "Lipossarcoma mixóide",
+      "Sarcoma sinovial",
+      "DSRCT",
+      "CCS",
+      "Dermatofibrossarcoma"
+    ],
+    "context": [
+      "diagnóstico",
+      "fusão",
+      "translocação",
+      "rearranjo",
+      "caracterização molecular"
+    ],
+    "goals": [
+      "fusões",
+      "RNA",
+      "translocação",
+      "rearranjo",
+      "diagnóstico molecular"
+    ],
+    "recommendedPanels": [
+      "fusoes-rna"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -255,10 +540,35 @@
     "id": "sarcoma-alargado",
     "domain": "oncologia-solida",
     "label": "Sarcomas — perfil genómico alargado",
-    "tumor": ["Sarcoma", "Sarcomas", "Leiomiossarcoma", "Lipossarcoma", "Sarcoma pleomórfico", "Angiossarcoma", "Osteossarcoma", "Condrossarcoma"],
-    "context": ["avançado", "metastático", "perfil abrangente", "TMB", "terapêutica alvo", "ensaio clínico"],
-    "goals": ["perfil abrangente", "TMB", "CDK4", "MDM2", "CDKN2A", "mutações acionáveis"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "Sarcoma",
+      "Sarcomas",
+      "Leiomiossarcoma",
+      "Lipossarcoma",
+      "Sarcoma pleomórfico",
+      "Angiossarcoma",
+      "Osteossarcoma",
+      "Condrossarcoma"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "perfil abrangente",
+      "TMB",
+      "terapêutica alvo",
+      "ensaio clínico"
+    ],
+    "goals": [
+      "perfil abrangente",
+      "TMB",
+      "CDK4",
+      "MDM2",
+      "CDKN2A",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Considerar",
     "rationale": [
@@ -275,10 +585,40 @@
     "id": "snc-glioma",
     "domain": "oncologia-solida",
     "label": "Tumores do SNC — gliomas e outros",
-    "tumor": ["SNC", "Glioma", "Glioblastoma", "Glioma de baixo grau", "Oligodendroglioma", "Astrocitoma", "Tumor do SNC", "Tumor cerebral", "Ependimoma", "Meduloblastoma"],
-    "context": ["diagnóstico molecular", "classificação WHO", "IDH", "TERT", "1p/19q", "MGMT", "BRAF"],
-    "goals": ["IDH", "TERT", "1p19q", "CDKN2A", "EGFR", "BRAF", "NTRK", "classificação molecular"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "SNC",
+      "Glioma",
+      "Glioblastoma",
+      "Glioma de baixo grau",
+      "Oligodendroglioma",
+      "Astrocitoma",
+      "Tumor do SNC",
+      "Tumor cerebral",
+      "Ependimoma",
+      "Meduloblastoma"
+    ],
+    "context": [
+      "diagnóstico molecular",
+      "classificação WHO",
+      "IDH",
+      "TERT",
+      "1p/19q",
+      "MGMT",
+      "BRAF"
+    ],
+    "goals": [
+      "IDH",
+      "TERT",
+      "1p19q",
+      "CDKN2A",
+      "EGFR",
+      "BRAF",
+      "NTRK",
+      "classificação molecular"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -297,10 +637,29 @@
     "id": "cup",
     "domain": "oncologia-solida",
     "label": "Carcinoma de primário desconhecido (CUP)",
-    "tumor": ["CUP", "Primário desconhecido", "Carcinoma de origem desconhecida", "Carcinoma primário desconhecido"],
-    "context": ["origem desconhecida", "diagnóstico", "perfil abrangente", "TMB", "imunoterapia"],
-    "goals": ["perfil abrangente", "TMB", "MSI", "mutações acionáveis", "IO"],
-    "recommendedPanels": ["dna-alargado"],
+    "tumor": [
+      "CUP",
+      "Primário desconhecido",
+      "Carcinoma de origem desconhecida",
+      "Carcinoma primário desconhecido"
+    ],
+    "context": [
+      "origem desconhecida",
+      "diagnóstico",
+      "perfil abrangente",
+      "TMB",
+      "imunoterapia"
+    ],
+    "goals": [
+      "perfil abrangente",
+      "TMB",
+      "MSI",
+      "mutações acionáveis",
+      "IO"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -317,10 +676,29 @@
     "id": "ntrk-pan-tumoral",
     "domain": "oncologia-solida",
     "label": "NTRK fusão — rastreio pan-tumoral",
-    "tumor": ["Qualquer tumor sólido", "Pan-tumoral", "NTRK"],
-    "context": ["NTRK", "larotrectinib", "entrectinib", "fusão", "teste reflexo", "pan-tumoral"],
-    "goals": ["NTRK", "fusões", "RNA", "larotrectinib", "entrectinib"],
-    "recommendedPanels": ["fusoes-rna"],
+    "tumor": [
+      "Qualquer tumor sólido",
+      "Pan-tumoral",
+      "NTRK"
+    ],
+    "context": [
+      "NTRK",
+      "larotrectinib",
+      "entrectinib",
+      "fusão",
+      "teste reflexo",
+      "pan-tumoral"
+    ],
+    "goals": [
+      "NTRK",
+      "fusões",
+      "RNA",
+      "larotrectinib",
+      "entrectinib"
+    ],
+    "recommendedPanels": [
+      "fusoes-rna"
+    ],
     "combination": false,
     "strength": "Considerar",
     "rationale": [
@@ -337,10 +715,30 @@
     "id": "carcinoma-secretor",
     "domain": "oncologia-solida",
     "label": "Carcinoma secretor — mama, glândula salivar",
-    "tumor": ["Carcinoma secretor", "Carcinoma secretor da mama", "Carcinoma secretor análogo da glândula salivar", "Glândula salivar", "MASC"],
-    "context": ["diagnóstico molecular", "fusão", "ETV6-NTRK3", "NTRK", "larotrectinib"],
-    "goals": ["fusões", "ETV6-NTRK3", "RNA", "NTRK", "diagnóstico molecular"],
-    "recommendedPanels": ["fusoes-rna"],
+    "tumor": [
+      "Carcinoma secretor",
+      "Carcinoma secretor da mama",
+      "Carcinoma secretor análogo da glândula salivar",
+      "Glândula salivar",
+      "MASC"
+    ],
+    "context": [
+      "diagnóstico molecular",
+      "fusão",
+      "ETV6-NTRK3",
+      "NTRK",
+      "larotrectinib"
+    ],
+    "goals": [
+      "fusões",
+      "ETV6-NTRK3",
+      "RNA",
+      "NTRK",
+      "diagnóstico molecular"
+    ],
+    "recommendedPanels": [
+      "fusoes-rna"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -354,13 +752,398 @@
     ]
   },
   {
+    "id": "cabeca-pescoco",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma da cabeça e pescoço (HNSCC)",
+    "tumor": [
+      "Cabeça e pescoço",
+      "HNSCC",
+      "Carcinoma da cabeça e pescoço",
+      "Carcinoma espinocelular da cabeça e pescoço",
+      "Carcinoma escamoso da cabeça e pescoço",
+      "Orofaringe",
+      "Hipofaringe",
+      "Laringe",
+      "Cavidade oral",
+      "Nasofaringe",
+      "Glândula salivar"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "terapêutica alvo",
+      "cetuximab",
+      "imunoterapia",
+      "IO",
+      "HPV"
+    ],
+    "goals": [
+      "EGFR",
+      "PIK3CA",
+      "HRAS",
+      "CDKN2A",
+      "TP53",
+      "TMB",
+      "MSI",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "PIK3CA (≈30%): copanlisib em HNSCC PIK3CA-mutado (ensaio clínico).",
+      "HRAS mutação (≈5-8%, sobretudo glândula salivar): tipifarnib aprovado pela FDA em HNSCC HRAS-mutado.",
+      "CDKN2A perda: marcador de resistência e prognóstico.",
+      "TP53 e MSI: perfil mutacional e candidatura a IO (pembrolizumab/nivolumab).",
+      "TMB pode orientar imunoterapia tumor-agnóstica — considerar painel alargado se TMB é critério principal."
+    ],
+    "caveats": [
+      "EGFR por NGS NÃO prediz resposta ao cetuximab em HNSCC — ao contrário do CCR, sem mutação KRAS/RAS a expressão de EGFR por IHQ é o critério.",
+      "HPV/p16 IHQ é marcador prognóstico obrigatório e não é avaliado por NGS.",
+      "HNSCC de nasofaringe tem biologia distinta (EBV-associado) — NGS tem utilidade limitada como primeira abordagem.",
+      "Para TMB robusto, o painel de 188g pode ser insuficiente — considerar painel alargado."
+    ]
+  },
+  {
+    "id": "rim-rcc",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma de células renais (RCC)",
+    "tumor": [
+      "Rim",
+      "Carcinoma renal",
+      "Carcinoma de células renais",
+      "RCC",
+      "Carcinoma de células claras",
+      "Carcinoma papilar renal",
+      "Carcinoma cromófobo",
+      "Carcinoma do rim"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "mTOR",
+      "everolimus",
+      "terapêutica alvo",
+      "imunoterapia",
+      "IO"
+    ],
+    "goals": [
+      "VHL",
+      "PBRM1",
+      "BAP1",
+      "SETD2",
+      "MTOR",
+      "TSC1",
+      "TSC2",
+      "FH",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "Mutações MTOR, TSC1, TSC2 (≈15%): sensibilidade a everolimus/temsirolimus — painel alargado identifica estas alterações.",
+      "FH mutação (carcinoma papilar tipo 2): síndrome hereditário com implicações germinativas e resposta a bevacizumab+erlotinib.",
+      "BAP1 e PBRM1: biomarcadores preditivos emergentes para resposta a imunoterapia e VEGFR TKI.",
+      "Painel alargado cobre o espectro mutacional completo de RCC de células claras, papilar e cromófobo."
+    ],
+    "caveats": [
+      "A maioria das terapêuticas de primeira linha (sunitinib, pazopanib, cabozantinib, nivolumab+ipilimumab) não requer seleção genómica.",
+      "Suspeita de síndrome hereditário (VHL, BAP1, FH, SDHB): complementar com estudo germinativo.",
+      "Carcinoma de células claras esporádico: VHL somático frequente (≈80%) mas sem impacto terapêutico direto atual."
+    ]
+  },
+  {
+    "id": "hcc",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma hepatocelular (HCC)",
+    "tumor": [
+      "HCC",
+      "Carcinoma hepatocelular",
+      "Fígado",
+      "Carcinoma do fígado",
+      "Hepatocarcinoma"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "terapêutica alvo",
+      "imunoterapia",
+      "IO",
+      "sorafenib",
+      "atezolizumab"
+    ],
+    "goals": [
+      "TERT",
+      "CTNNB1",
+      "TP53",
+      "ARID1A",
+      "FGF19",
+      "MET",
+      "TMB",
+      "MSI",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "FGF19 amplificação: pemigatinib e outros inibidores FGFR em ensaio clínico.",
+      "MET amplificação ou mutação: cabozantinib tem atividade em MET-alterado.",
+      "MSI-H (raro, <5%): pembrolizumab indicado tumor-agnóstico.",
+      "CTNNB1 ativação: biomarcador preditivo negativo para resposta a imunoterapia — informação importante para sequenciação terapêutica.",
+      "Painel de 188g permite avaliação abrangente com amostras de biópsia hepática."
+    ],
+    "caveats": [
+      "Sorafenib, lenvatinib e atezolizumab+bevacizumab não requerem seleção genómica para uso em 1ª linha.",
+      "TERT promotor (mutação mais frequente em HCC) não é coberto pelos painéis NGS standard — requer sequenciação dirigida.",
+      "Biópsia hepática tem risco hemorrágico — validar adequação e celularidade da amostra.",
+      "HBV/HCV, Child-Pugh e BCLC são os principais determinantes de tratamento — NGS é complementar."
+    ]
+  },
+  {
+    "id": "endometrio",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma do endométrio — perfil molecular",
+    "tumor": [
+      "Endométrio",
+      "Carcinoma do endométrio",
+      "Carcinoma endometrioide",
+      "Carcinoma seroso do endométrio",
+      "Útero",
+      "Carcinoma uterino"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "MSI",
+      "dMMR",
+      "imunoterapia",
+      "pembrolizumab",
+      "HER2",
+      "POLE",
+      "classificação molecular"
+    ],
+    "goals": [
+      "MSI",
+      "dMMR",
+      "POLE",
+      "PIK3CA",
+      "PTEN",
+      "KRAS",
+      "HER2",
+      "TP53",
+      "TMB",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
+    "combination": false,
+    "strength": "Recomendado",
+    "rationale": [
+      "MSI-H / dMMR (≈30%): pembrolizumab em 1ª linha metastática (RUBY, NRG-GY018) — identificação obrigatória.",
+      "POLE ultra-mutada (≈10%): prognóstico excelente mesmo de alto grau; pode influenciar decisão de adjuvante.",
+      "HER2 amplificação em carcinoma seroso (≈25-30%): trastuzumab + quimioterapia (STATEC trial).",
+      "PIK3CA/PTEN/KRAS (via PI3K): padrão de alterações frequente com implicações para ensaios clínicos.",
+      "Classificação molecular TCGA (POLE, MSI-H, CNV-alto/baixo) é progressivamente adotada."
+    ],
+    "caveats": [
+      "MSI por IHQ/PCR é aceitável como teste reflexo inicial e obrigatório — NGS é confirmatório e mais abrangente.",
+      "POLE sequenciação exónica (exon 9 e 13) é necessária; painel de 188g cobre este domínio.",
+      "Para TMB como critério de IO, considerar painel alargado (188g pode subestimar).",
+      "HER2 por IHQ mantém-se o padrão para amplificação em endométrio."
+    ]
+  },
+  {
+    "id": "tumores-neuroendocrinos",
+    "domain": "oncologia-solida",
+    "label": "Tumores neuroendócrinos (NET/NEC)",
+    "tumor": [
+      "NET",
+      "NEC",
+      "Tumor neuroendócrino",
+      "Tumores neuroendócrinos",
+      "Carcinoma neuroendócrino",
+      "Carcinoma de pequenas células",
+      "SCLC",
+      "Carcinoide",
+      "Paraganglioma funcional"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "grau 3",
+      "carcinoma neuroendócrino",
+      "everolimus",
+      "somatostatina",
+      "SSA",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "MEN1",
+      "DAXX",
+      "ATRX",
+      "VHL",
+      "RB1",
+      "TP53",
+      "CDKN2A",
+      "TSC2",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "NET pancreático (pNET): MEN1 (≈40%), DAXX/ATRX (≈40%) — perda de DAXX/ATRX associada a síndrome ALT e pior prognóstico.",
+      "TSC1/TSC2 mutação: sensibilidade aumentada a everolimus (mTOR inibidor).",
+      "NEC de alto grau (G3): perfil TP53 + RB1 similar ao SCLC — quimioterapia base platina; NGS pode identificar exceções.",
+      "CDKN2A e PTEN: alterações frequentes com impacto prognóstico."
+    ],
+    "caveats": [
+      "Análogos de somatostatina (octreotido/lanreotido) são guiados por PET-SSTR2, não por NGS.",
+      "Suspetia de síndrome hereditário (MEN1, VHL, SDHx): complementar com estudo germinativo.",
+      "NET bem diferenciados G1/G2: NGS tem utilidade limitada na decisão de 1ª linha.",
+      "SCLC: NGS tem papel emergente mas quimioterapia platina+etoposido mantém-se padrão independente do perfil genómico."
+    ]
+  },
+  {
+    "id": "mesotelioma",
+    "domain": "oncologia-solida",
+    "label": "Mesotelioma",
+    "tumor": [
+      "Mesotelioma",
+      "Mesotelioma pleural",
+      "Mesotelioma peritoneal",
+      "Mesotelioma maligno"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "diagnóstico",
+      "imunoterapia",
+      "IO",
+      "nivolumab",
+      "ipilimumab"
+    ],
+    "goals": [
+      "BAP1",
+      "NF2",
+      "CDKN2A",
+      "SETD2",
+      "TP53",
+      "TMB",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-alargado"
+    ],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "BAP1 mutação (≈60%): marcador diagnóstico de mesotelioma maligno vs. hiperplasia mesotelial reativa; IHQ de BAP1 é complementar.",
+      "CDKN2A (p16) deleção homozigótica: critério diagnóstico de mesotelioma maligno (FISH ou NGS com CNV).",
+      "NF2 perda: frequente (≈40%) com potencial papel na resistência a terapêutica.",
+      "Painel alargado com CNV permite detetar deleções homozigóticas de CDKN2A — relevante para diagnóstico."
+    ],
+    "caveats": [
+      "Diagnóstico de mesotelioma é primariamente histológico + IHQ — NGS é complementar.",
+      "CDKN2A deleção por FISH continua a ser o teste de referência para diagnóstico diferencial.",
+      "BAP1 IHQ (perda de expressão) é triagem eficaz e rápida — NGS confirma.",
+      "Imunoterapia (nivolumab+ipilimumab em 1ª linha) não requer seleção genómica."
+    ]
+  },
+  {
+    "id": "colo-utero",
+    "domain": "oncologia-solida",
+    "label": "Carcinoma do colo do útero",
+    "tumor": [
+      "Colo do útero",
+      "Carcinoma do colo",
+      "Carcinoma do colo do útero",
+      "Carcinoma cervical",
+      "Cervical",
+      "Colo uterino"
+    ],
+    "context": [
+      "avançado",
+      "metastático",
+      "recorrente",
+      "terapêutica alvo",
+      "FGFR",
+      "MSI",
+      "imunoterapia"
+    ],
+    "goals": [
+      "PIK3CA",
+      "FGFR2",
+      "FGFR3",
+      "KRAS",
+      "PTEN",
+      "MET",
+      "MSI",
+      "TMB",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-tumores-solidos"
+    ],
+    "combination": false,
+    "strength": "Considerar",
+    "rationale": [
+      "PIK3CA mutação (≈30%): alvo emergente com copanlisib em ensaio; frequente em carcinoma escamoso e adenocarcinoma.",
+      "FGFR2/3: alterações raras mas acionáveis com erdafitinib em ensaio clínico.",
+      "MSI-H (raro, <5%): pembrolizumab tumor-agnóstico aprovado.",
+      "TMB: orientação para IO tumor-agnóstica."
+    ],
+    "caveats": [
+      "Bevacizumab + quimioterapia e pembrolizumab (PD-L1 CPS ≥1) são os padrões de 1ª linha — sem necessidade de NGS.",
+      "HPV genotyping (16, 18) é factor prognóstico mas não terapêutico e não é avaliado por NGS.",
+      "PD-L1 por IHQ (CPS) é o biomarcador de seleção para pembrolizumab em 1ª linha.",
+      "NGS tem maior valor em recidiva/progressão para identificar alvos em contexto de ensaio clínico."
+    ]
+  },
+  {
     "id": "lma",
     "domain": "hematologia",
     "label": "Leucemia mieloide aguda (LMA)",
-    "tumor": ["LMA", "Leucemia mieloide aguda", "AML", "Leucemia aguda mieloide"],
-    "context": ["diagnóstico", "prognóstico", "terapêutica alvo", "FLT3", "IDH", "NPM1", "estratificação de risco"],
-    "goals": ["FLT3", "IDH1", "IDH2", "NPM1", "CEBPA", "TP53", "fusões", "DNA", "RNA"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "LMA",
+      "Leucemia mieloide aguda",
+      "AML",
+      "Leucemia aguda mieloide"
+    ],
+    "context": [
+      "diagnóstico",
+      "prognóstico",
+      "terapêutica alvo",
+      "FLT3",
+      "IDH",
+      "NPM1",
+      "estratificação de risco"
+    ],
+    "goals": [
+      "FLT3",
+      "IDH1",
+      "IDH2",
+      "NPM1",
+      "CEBPA",
+      "TP53",
+      "fusões",
+      "DNA",
+      "RNA"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -379,10 +1162,41 @@
     "id": "smd-nmp",
     "domain": "hematologia",
     "label": "SMD e neoplasias mieloproliferativas (NMP)",
-    "tumor": ["SMD", "Síndrome mielodisplásico", "MDS", "NMP", "Neoplasia mieloproliferativa", "Policitemia vera", "Trombocitemia essencial", "Mielofibrose"],
-    "context": ["diagnóstico", "prognóstico", "classificação", "SF3B1", "JAK2", "CALR", "MPL", "TET2", "DNMT3A"],
-    "goals": ["SF3B1", "JAK2", "CALR", "MPL", "ASXL1", "TET2", "DNMT3A", "TP53", "mutações acionáveis"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "SMD",
+      "Síndrome mielodisplásico",
+      "MDS",
+      "NMP",
+      "Neoplasia mieloproliferativa",
+      "Policitemia vera",
+      "Trombocitemia essencial",
+      "Mielofibrose"
+    ],
+    "context": [
+      "diagnóstico",
+      "prognóstico",
+      "classificação",
+      "SF3B1",
+      "JAK2",
+      "CALR",
+      "MPL",
+      "TET2",
+      "DNMT3A"
+    ],
+    "goals": [
+      "SF3B1",
+      "JAK2",
+      "CALR",
+      "MPL",
+      "ASXL1",
+      "TET2",
+      "DNMT3A",
+      "TP53",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -401,10 +1215,36 @@
     "id": "lla",
     "domain": "hematologia",
     "label": "Leucemia linfoblástica aguda (LLA)",
-    "tumor": ["LLA", "Leucemia linfoblástica aguda", "ALL", "LLA-B", "LLA-T", "LLA Ph+"],
-    "context": ["diagnóstico", "prognóstico", "estratificação de risco", "Ph+", "fusões", "BCR-ABL1", "terapêutica alvo"],
-    "goals": ["IKZF1", "CDKN2A", "TP53", "fusões", "BCR-ABL1", "Ph-like", "PAX5", "RNA"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "LLA",
+      "Leucemia linfoblástica aguda",
+      "ALL",
+      "LLA-B",
+      "LLA-T",
+      "LLA Ph+"
+    ],
+    "context": [
+      "diagnóstico",
+      "prognóstico",
+      "estratificação de risco",
+      "Ph+",
+      "fusões",
+      "BCR-ABL1",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "IKZF1",
+      "CDKN2A",
+      "TP53",
+      "fusões",
+      "BCR-ABL1",
+      "Ph-like",
+      "PAX5",
+      "RNA"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -423,10 +1263,34 @@
     "id": "llc",
     "domain": "hematologia",
     "label": "Leucemia linfocítica crónica (LLC)",
-    "tumor": ["LLC", "Leucemia linfocítica crónica", "CLL", "Leucemia linfocítica"],
-    "context": ["diagnóstico", "prognóstico", "TP53", "IGHV", "ibrutinib", "venetoclax", "terapêutica alvo", "recaída"],
-    "goals": ["TP53", "NOTCH1", "SF3B1", "ATM", "BIRC3", "IGHV", "mutações acionáveis"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "LLC",
+      "Leucemia linfocítica crónica",
+      "CLL",
+      "Leucemia linfocítica"
+    ],
+    "context": [
+      "diagnóstico",
+      "prognóstico",
+      "TP53",
+      "IGHV",
+      "ibrutinib",
+      "venetoclax",
+      "terapêutica alvo",
+      "recaída"
+    ],
+    "goals": [
+      "TP53",
+      "NOTCH1",
+      "SF3B1",
+      "ATM",
+      "BIRC3",
+      "IGHV",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -445,10 +1309,40 @@
     "id": "linfoma",
     "domain": "hematologia",
     "label": "Linfomas B e T",
-    "tumor": ["Linfoma", "DLBCL", "Linfoma difuso de grandes células B", "Linfoma folicular", "Linfoma de Hodgkin", "Linfoma de células do manto", "Linfoma de células T", "Linfoma marginal"],
-    "context": ["diagnóstico", "classificação molecular", "COO", "MYC", "BCL2", "BCL6", "EZH2", "terapêutica alvo"],
-    "goals": ["MYC", "BCL2", "BCL6", "EZH2", "CD79B", "MYD88", "TP53", "fusões", "RNA"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "Linfoma",
+      "DLBCL",
+      "Linfoma difuso de grandes células B",
+      "Linfoma folicular",
+      "Linfoma de Hodgkin",
+      "Linfoma de células do manto",
+      "Linfoma de células T",
+      "Linfoma marginal"
+    ],
+    "context": [
+      "diagnóstico",
+      "classificação molecular",
+      "COO",
+      "MYC",
+      "BCL2",
+      "BCL6",
+      "EZH2",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "MYC",
+      "BCL2",
+      "BCL6",
+      "EZH2",
+      "CD79B",
+      "MYD88",
+      "TP53",
+      "fusões",
+      "RNA"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -467,10 +1361,30 @@
     "id": "mastocitose",
     "domain": "hematologia",
     "label": "Mastocitose sistémica",
-    "tumor": ["Mastocitose", "Mastocitose sistémica", "Mastocitose sistémica agressiva", "MCL"],
-    "context": ["diagnóstico", "KIT D816V", "midostaurina", "avapritinib", "terapêutica alvo"],
-    "goals": ["KIT", "KIT D816V", "TET2", "SRSF2", "ASXL1", "mutações acionáveis"],
-    "recommendedPanels": ["dna-rna-hemato"],
+    "tumor": [
+      "Mastocitose",
+      "Mastocitose sistémica",
+      "Mastocitose sistémica agressiva",
+      "MCL"
+    ],
+    "context": [
+      "diagnóstico",
+      "KIT D816V",
+      "midostaurina",
+      "avapritinib",
+      "terapêutica alvo"
+    ],
+    "goals": [
+      "KIT",
+      "KIT D816V",
+      "TET2",
+      "SRSF2",
+      "ASXL1",
+      "mutações acionáveis"
+    ],
+    "recommendedPanels": [
+      "dna-rna-hemato"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -487,10 +1401,37 @@
     "id": "mama-ovario-hereditario",
     "domain": "germinativo",
     "label": "Cancro da mama / ovário hereditário",
-    "tumor": ["Mama", "Ovário", "Trompa de Falópio", "Peritoneal", "Carcinoma da mama", "Carcinoma do ovário"],
-    "context": ["hereditário", "familiar", "BRCA", "germline", "predisposição", "olaparib", "rastreio familiar", "aconselhamento genético"],
-    "goals": ["BRCA1", "BRCA2", "germline", "hereditário", "predisposição", "ATM", "CHEK2", "PALB2"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Mama",
+      "Ovário",
+      "Trompa de Falópio",
+      "Peritoneal",
+      "Carcinoma da mama",
+      "Carcinoma do ovário"
+    ],
+    "context": [
+      "hereditário",
+      "familiar",
+      "BRCA",
+      "germline",
+      "predisposição",
+      "olaparib",
+      "rastreio familiar",
+      "aconselhamento genético"
+    ],
+    "goals": [
+      "BRCA1",
+      "BRCA2",
+      "germline",
+      "hereditário",
+      "predisposição",
+      "ATM",
+      "CHEK2",
+      "PALB2"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -509,10 +1450,41 @@
     "id": "lynch",
     "domain": "germinativo",
     "label": "Síndrome de Lynch — MMR hereditário",
-    "tumor": ["Colorretal", "CCR", "Endométrio", "Gástrico", "Ovário", "Urotelial", "SNC", "Intestino delgado"],
-    "context": ["Lynch", "dMMR", "MSI-H", "hereditário", "familiar", "MMR", "MLH1", "MSH2", "MSH6", "PMS2"],
-    "goals": ["MLH1", "MSH2", "MSH6", "PMS2", "EPCAM", "germline", "hereditário", "MMR"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Colorretal",
+      "CCR",
+      "Endométrio",
+      "Gástrico",
+      "Ovário",
+      "Urotelial",
+      "SNC",
+      "Intestino delgado"
+    ],
+    "context": [
+      "Lynch",
+      "dMMR",
+      "MSI-H",
+      "hereditário",
+      "familiar",
+      "MMR",
+      "MLH1",
+      "MSH2",
+      "MSH6",
+      "PMS2"
+    ],
+    "goals": [
+      "MLH1",
+      "MSH2",
+      "MSH6",
+      "PMS2",
+      "EPCAM",
+      "germline",
+      "hereditário",
+      "MMR"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -531,10 +1503,37 @@
     "id": "ccr-hereditario-polipose",
     "domain": "germinativo",
     "label": "CCR hereditário e síndromes de polipose",
-    "tumor": ["Colorretal", "CCR", "Cólon", "Recto", "Duodeno", "Pólipos"],
-    "context": ["hereditário", "polipose", "FAP", "APC", "MUTYH", "Peutz-Jeghers", "polipose serreada", "familiar"],
-    "goals": ["APC", "MUTYH", "SMAD4", "BMPR1A", "STK11", "PTEN", "germline", "hereditário"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Colorretal",
+      "CCR",
+      "Cólon",
+      "Recto",
+      "Duodeno",
+      "Pólipos"
+    ],
+    "context": [
+      "hereditário",
+      "polipose",
+      "FAP",
+      "APC",
+      "MUTYH",
+      "Peutz-Jeghers",
+      "polipose serreada",
+      "familiar"
+    ],
+    "goals": [
+      "APC",
+      "MUTYH",
+      "SMAD4",
+      "BMPR1A",
+      "STK11",
+      "PTEN",
+      "germline",
+      "hereditário"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -553,10 +1552,38 @@
     "id": "endocrino-hereditario",
     "domain": "germinativo",
     "label": "Síndromes endócrinos hereditários",
-    "tumor": ["Tiróide", "Carcinoma medular da tiróide", "Paratiroide", "Hipófise", "Suprarrenal", "Neuroendócrino", "MEN1", "MEN2"],
-    "context": ["hereditário", "MEN1", "MEN2", "RET", "VHL", "NF1", "familiar", "síndrome endócrino"],
-    "goals": ["RET", "MEN1", "VHL", "NF1", "CDKN1B", "germline", "hereditário"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Tiróide",
+      "Carcinoma medular da tiróide",
+      "Paratiroide",
+      "Hipófise",
+      "Suprarrenal",
+      "Neuroendócrino",
+      "MEN1",
+      "MEN2"
+    ],
+    "context": [
+      "hereditário",
+      "MEN1",
+      "MEN2",
+      "RET",
+      "VHL",
+      "NF1",
+      "familiar",
+      "síndrome endócrino"
+    ],
+    "goals": [
+      "RET",
+      "MEN1",
+      "VHL",
+      "NF1",
+      "CDKN1B",
+      "germline",
+      "hereditário"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -574,10 +1601,39 @@
     "id": "paraganglioma-feo",
     "domain": "germinativo",
     "label": "Paraganglioma e feocromocitoma hereditário",
-    "tumor": ["Paraganglioma", "Feocromocitoma", "Faeocromocitoma", "Tumor paraganglioma"],
-    "context": ["hereditário", "familiar", "SDHB", "SDHD", "SDHA", "VHL", "RET", "NF1", "MAX", "TMEM127"],
-    "goals": ["SDHB", "SDHC", "SDHD", "SDHA", "VHL", "RET", "MAX", "TMEM127", "germline", "hereditário"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Paraganglioma",
+      "Feocromocitoma",
+      "Faeocromocitoma",
+      "Tumor paraganglioma"
+    ],
+    "context": [
+      "hereditário",
+      "familiar",
+      "SDHB",
+      "SDHD",
+      "SDHA",
+      "VHL",
+      "RET",
+      "NF1",
+      "MAX",
+      "TMEM127"
+    ],
+    "goals": [
+      "SDHB",
+      "SDHC",
+      "SDHD",
+      "SDHA",
+      "VHL",
+      "RET",
+      "MAX",
+      "TMEM127",
+      "germline",
+      "hereditário"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Recomendado",
     "rationale": [
@@ -596,10 +1652,34 @@
     "id": "prostata-hereditario",
     "domain": "germinativo",
     "label": "Cancro da próstata hereditário",
-    "tumor": ["Próstata", "Carcinoma da próstata", "Adenocarcinoma da próstata"],
-    "context": ["hereditário", "familiar", "BRCA2", "metastático", "olaparib", "rucaparib", "germline", "HRR"],
-    "goals": ["BRCA2", "BRCA1", "ATM", "CHEK2", "CDK12", "germline", "hereditário", "HRR"],
-    "recommendedPanels": ["germinativo"],
+    "tumor": [
+      "Próstata",
+      "Carcinoma da próstata",
+      "Adenocarcinoma da próstata"
+    ],
+    "context": [
+      "hereditário",
+      "familiar",
+      "BRCA2",
+      "metastático",
+      "olaparib",
+      "rucaparib",
+      "germline",
+      "HRR"
+    ],
+    "goals": [
+      "BRCA2",
+      "BRCA1",
+      "ATM",
+      "CHEK2",
+      "CDK12",
+      "germline",
+      "hereditário",
+      "HRR"
+    ],
+    "recommendedPanels": [
+      "germinativo"
+    ],
     "combination": false,
     "strength": "Considerar",
     "rationale": [

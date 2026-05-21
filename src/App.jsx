@@ -35,6 +35,7 @@ import {
 import _allPanels from "./panels.json";
 import clinicalRules from "./clinicalRules.json";
 import { recommendByRules } from "./ruleEngine";
+import { resolveGeneAlias } from "./geneAliases";
 import institutionalLogo from "./assets/ulsas-logo.png";
 
 const APP_VERSION = "1.0.0";
@@ -95,12 +96,27 @@ function parseSearchTerms(input) {
 
 function matchesAnySearchTerm(value, terms) {
   const normalized = String(value || "").toLowerCase();
-  return terms.some((term) => normalized.includes(term));
+  return terms.some((term) => {
+    if (normalized.includes(term)) return true;
+    const resolved = resolveGeneAlias(term).toLowerCase();
+    return resolved !== term && normalized.includes(resolved);
+  });
 }
 
 function matchesSearchTerms(value, terms) {
   const normalized = String(value || "").toLowerCase();
-  return terms.every((term) => normalized.includes(term));
+  return terms.every((term) => {
+    if (normalized.includes(term)) return true;
+    const resolved = resolveGeneAlias(term).toLowerCase();
+    return resolved !== term && normalized.includes(resolved);
+  });
+}
+
+function geneMatchesTerm(gene, term) {
+  const g = gene.toLowerCase();
+  if (g.includes(term)) return true;
+  const resolved = resolveGeneAlias(term).toLowerCase();
+  return resolved !== term && g.includes(resolved);
 }
 
 function buildCsv(rows) {
@@ -556,18 +572,18 @@ function SectionBlock({ title, genes, activeQuery, initialOpen = false, category
   );
 }
 
-function ActionButton({ icon: Icon, children, onClick, title, variant }) {
+function ActionButton({ icon: Icon, children, onClick, title, variant, bold }) {
   const styles = {
     default: "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
     red: "border-rose-200 bg-rose-50 text-rose-700 hover:border-rose-300 hover:bg-rose-100",
     blue: "border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-indigo-300 hover:bg-indigo-100",
-    green: "border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100",
+    green: "border-emerald-300 bg-emerald-100 text-emerald-800 hover:border-emerald-400 hover:bg-emerald-200",
   };
   return (
     <button
       onClick={onClick}
       title={title}
-      className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-medium shadow-sm transition ${styles[variant] || styles.default}`}
+      className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm shadow-sm transition ${bold ? "font-bold" : "font-medium"} ${styles[variant] || styles.default}`}
     >
       <Icon className="h-4 w-4" />
       {children}
@@ -688,17 +704,23 @@ function ClinicalExportModal({ open, onClose, panel, date }) {
 
       {indication && text ? (
         <>
-          <div className="flex gap-2 mb-4">
-            <button onClick={handleCopy} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition">
-              {copied ? <><Check className="h-4 w-4" /> Copiado</> : <><Copy className="h-4 w-4" /> Copiar</>}
-            </button>
-            <button onClick={handleDownload} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
-              <FileSpreadsheet className="h-4 w-4" /> .txt
+          <div className="relative mb-1">
+            <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 pr-12 text-xs leading-6 text-slate-700 overflow-auto max-h-[50vh] font-mono">
+              {text}
+            </pre>
+            <button
+              onClick={handleCopy}
+              title="Copiar justificação"
+              className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800"
+            >
+              {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
             </button>
           </div>
-          <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-700 overflow-auto max-h-[50vh] font-mono">
-            {text}
-          </pre>
+          <div className="flex justify-end">
+            <button onClick={handleDownload} className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+              <FileSpreadsheet className="h-3.5 w-3.5" /> Guardar .txt
+            </button>
+          </div>
         </>
       ) : (
         <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
@@ -1102,10 +1124,51 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                   <div>
-                    <span className="inline-flex rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white mb-2">
-                      {recommendation.rule.strength}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <span className="inline-flex rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                        {recommendation.rule.strength}
+                      </span>
+                      {/* Confidence badge */}
+                      {(() => {
+                        const conf = recommendation.rule._confidence;
+                        const styles = {
+                          alta:     "bg-emerald-100 text-emerald-800 border border-emerald-300",
+                          moderada: "bg-amber-100 text-amber-800 border border-amber-300",
+                          baixa:    "bg-slate-100 text-slate-600 border border-slate-300",
+                        };
+                        const labels = { alta: "Confiança alta", moderada: "Confiança moderada", baixa: "Confiança baixa" };
+                        return (
+                          <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold ${styles[conf] || styles.baixa}`}>
+                            {conf === "alta" ? <CheckCircle2 className="h-3 w-3" /> : <AlertCircle className="h-3 w-3" />}
+                            {labels[conf] || conf}
+                          </span>
+                        );
+                      })()}
+                    </div>
                     <h3 className="text-base font-semibold text-slate-900">{recommendation.rule.label}</h3>
+                  </div>
+                </div>
+
+                {/* Explainability — what matched */}
+                <div className="mt-3 mb-1 rounded-xl bg-white/70 border border-emerald-100 px-3 py-2.5">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 mb-1.5">Critérios correspondentes</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-800">
+                      <CheckCircle2 className="h-3 w-3" /> Tumor: {tumorInput}
+                    </span>
+                    {(recommendation.rule._matchedContext || []).map((c) => (
+                      <span key={c} className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-800">
+                        <CheckCircle2 className="h-3 w-3" /> Contexto: {c}
+                      </span>
+                    ))}
+                    {(recommendation.rule._matchedGoals || []).map((g) => (
+                      <span key={g} className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2.5 py-1 text-xs font-medium text-violet-800">
+                        <CheckCircle2 className="h-3 w-3" /> Objetivo: {g}
+                      </span>
+                    ))}
+                    {!recommendation.rule._matchedContext?.length && !recommendation.rule._matchedGoals?.length && (
+                      <span className="text-xs text-slate-400">Apenas correspondência por tipo tumoral — adiciona contexto ou objetivos para aumentar a confiança.</span>
+                    )}
                   </div>
                 </div>
 
@@ -1203,7 +1266,7 @@ function PanelRecommender({ open, onClose, onSelectPanel }) {
 
 export default function GenePanelsCatalog() {
   const [query, setQuery] = useState("");
-  const [tumorTypeFilter, setTumorTypeFilter] = useState("Todos");
+  const [category, setCategory] = useState("Todos");
   const [diseaseFilter, setDiseaseFilter] = useState("Todos");
   const [selectedId, setSelectedId] = useState(() => {
     if (typeof window === "undefined") return painels[0].id;
@@ -1234,20 +1297,22 @@ export default function GenePanelsCatalog() {
     setEvidenceError("");
   }, [selectedId]);
 
+  useEffect(() => { setDiseaseFilter("Todos"); }, [category]);
+
   const filteredPanels = useMemo(() => {
     return painels.filter((panel) => {
       const structureTags = getPanelStructureTags(panel);
       const tumorTypes = getPanelTumorTypes(panel);
       const diseases = getPanelDiseases(panel);
-      const matchesTumorType = tumorTypeFilter === "Todos" || tumorTypes.includes(tumorTypeFilter);
-      if (!matchesTumorType) return false;
+      if (category !== "Todos" && panel.categoria !== category) return false;
+      if (diseaseFilter !== "Todos" && !diseases.includes(diseaseFilter)) return false;
       if (!searchTerms.length) return true;
       const searchable = [panel.nome, panel.categoria, panel.tecnologia, panel.descricao, ...(panel.tags || []), ...structureTags, ...tumorTypes, ...diseases].join(" ");
       const inBasic = matchesSearchTerms(searchable, searchTerms);
-      const inGenes = searchTerms.every((term) => panel.genes.some((gene) => gene.toLowerCase().includes(term)));
+      const inGenes = searchTerms.every((term) => panel.genes.some((gene) => geneMatchesTerm(gene, term)));
       return inBasic || inGenes;
     });
-  }, [searchTerms, tumorTypeFilter]);
+  }, [searchTerms, category, diseaseFilter]);
 
   const selected = filteredPanels.find((p) => p.id === selectedId) || painels.find((p) => p.id === selectedId) || painels[0];
   const selectedStructureTags = useMemo(() => getPanelStructureTags(selected), [selected]);
@@ -1354,13 +1419,15 @@ export default function GenePanelsCatalog() {
     downloadFile(buildCsv(rows), `${selected.id}.csv`, "text/csv;charset=utf-8");
   }
 
-  const tumorTypeOptions = useMemo(() => {
-    return ["Todos", ...new Set(painels.flatMap((p) => getPanelTumorTypes(p)))];
-  }, []);
+  const categories = useMemo(() => ["Todos", ...new Set(painels.map((p) => p.categoria))], []);
+  const diseaseOptions = useMemo(() => {
+    const relevant = category === "Todos" ? painels : painels.filter((p) => p.categoria === category);
+    return ["Todos", ...new Set(relevant.flatMap((p) => getPanelDiseases(p)))];
+  }, [category]);
 
   function resetFilters() {
     setQuery("");
-    setTumorTypeFilter("Todos");
+    setCategory("Todos");
     setDiseaseFilter("Todos");
     setShowAllMatches(false);
   }
@@ -1392,7 +1459,7 @@ export default function GenePanelsCatalog() {
           </header>
 
           <section className="border-b border-slate-200 bg-slate-50/80 px-5 py-5 sm:px-8 lg:px-10">
-            <div className="grid gap-3 2xl:grid-cols-[minmax(0,1fr)_280px]">
+            <div className="grid gap-3 2xl:grid-cols-[minmax(0,1fr)_220px_260px]">
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                 <Search className="h-5 w-5 text-slate-400" />
                 <input
@@ -1404,9 +1471,18 @@ export default function GenePanelsCatalog() {
               </label>
 
               <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                <Database className="h-5 w-5 text-slate-400" />
-                <select value={tumorTypeFilter} onChange={(e) => { setTumorTypeFilter(e.target.value); setDiseaseFilter("Todos"); }} className="w-full bg-transparent text-sm outline-none">
-                  {tumorTypeOptions.map((item) => (
+                <Filter className="h-5 w-5 text-slate-400" />
+                <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full bg-transparent text-sm outline-none">
+                  {categories.map((item) => (
+                    <option key={item} value={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+                <TestTube2 className="h-5 w-5 text-slate-400" />
+                <select value={diseaseFilter} onChange={(e) => setDiseaseFilter(e.target.value)} className="w-full bg-transparent text-sm outline-none">
+                  {diseaseOptions.map((item) => (
                     <option key={item} value={item}>{item}</option>
                   ))}
                 </select>
@@ -1414,6 +1490,11 @@ export default function GenePanelsCatalog() {
 
               <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
                 Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
+                {searchTerms.some((t) => resolveGeneAlias(t).toLowerCase() !== t) && (
+                  <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700 border border-indigo-200">
+                    alias resolvido: {searchTerms.filter((t) => resolveGeneAlias(t).toLowerCase() !== t).map((t) => `${t.toUpperCase()} → ${resolveGeneAlias(t)}`).join(", ")}
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-wrap items-center gap-2.5 2xl:col-span-full">
@@ -1421,9 +1502,9 @@ export default function GenePanelsCatalog() {
                 <ActionButton icon={Copy} onClick={copyFilteredGenes} title="Copiar apenas os genes filtrados no painel selecionado">{copiedState === "filteredGenes" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar genes filtrados</>}</ActionButton>
                 <ActionButton icon={Wand2} onClick={copyJustification} title="Copiar texto automático de justificação">{copiedState === "justification" ? <><Check className="h-4 w-4" /> Copiado</> : <>Copiar texto</>}</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={exportCsv} title="Exportar CSV do painel">CSV</ActionButton>
-                <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros" variant="red">Reset filtros</ActionButton>
+                <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green" bold>Recomendar</ActionButton>
                 <ActionButton icon={GitCompare} onClick={() => setShowComparator(true)} title="Comparar 2-3 painéis lado a lado" variant="blue">Comparar</ActionButton>
-                <ActionButton icon={Stethoscope} onClick={() => setShowRecommender(true)} title="Recomendar painel por diagnóstico" variant="green">Recomendar</ActionButton>
+                <ActionButton icon={RefreshCcw} onClick={resetFilters} title="Limpar pesquisa e filtros" variant="red">Reset filtros</ActionButton>
                 <ActionButton icon={FileSpreadsheet} onClick={() => setShowClinicalExport(true)} title="Gerar texto de justificação clínica para pedido NGS">Justificação NGS</ActionButton>
               </div>
             </div>
@@ -1448,7 +1529,7 @@ export default function GenePanelsCatalog() {
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
               <div className="text-xs font-medium uppercase tracking-[0.14em] text-slate-500">Resultados</div>
               <div className="mt-2 text-2xl font-semibold text-slate-900">{filteredPanels.length}</div>
-              <div className="mt-1 text-sm text-slate-500">{query || tumorTypeFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
+              <div className="mt-1 text-sm text-slate-500">{query || category !== "Todos" || diseaseFilter !== "Todos" ? "Com filtros ativos" : "Sem filtros ativos"}</div>
             </div>
           </section>
 
