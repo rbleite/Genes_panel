@@ -19,6 +19,27 @@ export const categoryColors = {
   "Farmacogenómica": "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
 };
 
+// Strategy classification per the reference document — a secondary axis
+// that captures *how* the panel is used (focused vs comprehensive vs
+// fusion-focused), independent of the gene-category axis above.
+export const strategyLabels = {
+  "focused":          "Focado",
+  "comprehensive":    "Compreensivo",
+  "fusion-focused":   "Fusão",
+  "hematology":       "Hematologia integrada",
+  "germline":         "Germinativo",
+  "pharmacogenomic":  "Farmacogenómica",
+};
+
+export const strategyColors = {
+  "focused":          "bg-slate-100 text-slate-700 ring-1 ring-slate-200",
+  "comprehensive":    "bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200",
+  "fusion-focused":   "bg-violet-50 text-violet-700 ring-1 ring-violet-200",
+  "hematology":       "bg-amber-50 text-amber-700 ring-1 ring-amber-200",
+  "germline":         "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200",
+  "pharmacogenomic":  "bg-sky-50 text-sky-700 ring-1 ring-sky-200",
+};
+
 export const iconByCategory = {
   "Somático":        Dna,
   "RNA":             Activity,
