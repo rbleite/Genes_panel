@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.1.0",
+    "version": "1.2.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -582,18 +582,21 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-alargado"
+        "dna-alargado",
+        "fusoes-rna"
       ],
-      "combination": false,
-      "strength": "Considerar",
+      "combination": true,
+      "strength": "Recomendado",
       "rationale": [
-        "Sarcomas de alto grau sem fusão conhecida beneficiam de perfil alargado para identificar alterações acionáveis (CDK4/MDM2 amp em lipossarcoma, CDK4 em osteossarcoma).",
-        "TMB é geralmente baixo em sarcomas mas pode ser avaliado.",
-        "Perfil abrangente é mandatório para inclusão em ensaios clínicos basket ou tumor-agnósticos."
+        "Sarcomas combinam, num mesmo grupo de doenças, subtipos definidos por fusão e subtipos de cariótipo complexo — exigem perfil compreensivo e deteção sensível de fusões em simultâneo.",
+        "Painel alargado (1021 genes) cobre CDK4/MDM2 amp em lipossarcoma, supressores tumorais com cobertura completa e estimativa fiável de TMB para inclusão em ensaios clínicos basket.",
+        "Componente de RNA captura translocações definidoras (EWSR1, SS18::SSX, FUS::DDIT3, PAX3/7::FOXO1, ALK em IMT) e novas fusões com parceiros variáveis.",
+        "Combinação ADN alargado + RNA num único pedido rentabiliza tecido habitualmente limitado em biópsias de sarcoma."
       ],
       "caveats": [
-        "Celularidade tumoral pode ser baixa em sarcomas — validar adequação da amostra.",
-        "Se suspeita de translocação específica, iniciar por RNA (mais sensível e rápido)."
+        "Celularidade tumoral pode ser baixa em sarcomas — validar adequação da amostra antes de duplicar ensaios.",
+        "Quando a suspeita é uma translocação específica já conhecida (sarcoma de translocação clássico), RNA isolado é mais rápido e suficiente — ver regra dedicada.",
+        "TMB em sarcomas é tipicamente baixo — interpretar o valor no contexto da entidade."
       ]
     },
     {
@@ -632,20 +635,21 @@
         "classificação molecular"
       ],
       "recommendedPanels": [
-        "dna-alargado"
+        "dna-alargado",
+        "fusoes-rna"
       ],
-      "combination": false,
+      "combination": true,
       "strength": "Recomendado",
       "rationale": [
-        "Classificação WHO 2021 de gliomas é baseada em perfil molecular: IDH1/2, codeleção 1p/19q, TERT promotor, ATRX.",
-        "EGFR amplificação e PTEN/CDKN2A/B são marcadores de grau e prognóstico em GBM.",
-        "BRAF V600E (glioma pediátrico, pleomórfico) e NTRK fusões: alvos terapêuticos com opções aprovadas.",
-        "Painel alargado com CNV é necessário para cobrir codeleção 1p/19q e amplificações."
+        "Classificação WHO 2021 de gliomas é baseada em perfil molecular: IDH1/2, codeleção 1p/19q, TERT promotor, ATRX, CDKN2A/B — exige perfil compreensivo com CNV.",
+        "EGFR amplificação e PTEN/CDKN2A/B são marcadores de grau e prognóstico em GBM; painel alargado cobre o espectro completo.",
+        "Fusões clinicamente relevantes (FGFR3::TACC3, BRAF::KIAA1549 no pediátrico, NTRK) são detetadas com sensibilidade superior por RNA — combinação ADN+RNA é a estratégia mais informativa.",
+        "Estudo molecular único integrado rentabiliza tecido frequentemente limitado em biópsias estereotáxicas."
       ],
       "caveats": [
-        "MGMT metilação não é coberta por NGS — requer PCR/pirossequenciação específica.",
-        "Glioma pediátrico de baixo grau com fusão BRAF-KIAA1549: RNA é mais sensível para esta fusão específica.",
-        "Biópsia estereotáxica pode ter celularidade limitada — validar amostra antes de sequenciar."
+        "MGMT metilação não é coberta por NGS — requer MLPA/MS-MLPA ou pirossequenciação específica.",
+        "Biópsia estereotáxica tem celularidade habitualmente limitada — validar amostra antes de sequenciar.",
+        "TERT promotor pode escapar à cobertura de alguns painéis — confirmar cobertura específica."
       ]
     },
     {
@@ -673,18 +677,21 @@
         "IO"
       ],
       "recommendedPanels": [
-        "dna-alargado"
+        "dna-alargado",
+        "fusoes-rna"
       ],
-      "combination": false,
+      "combination": true,
       "strength": "Recomendado",
       "rationale": [
-        "CUP requer perfil genómico abrangente para identificar alterações acionáveis independentemente do órgão de origem.",
+        "CUP exige perfil genómico abrangente porque os alvos acionáveis são imprevisíveis quando a origem é desconhecida.",
+        "Componente de RNA é mandatória porque muitos drivers de fusão (NTRK, ALK, ROS1, RET, NRG1, FGFR) podem ser o evento condutor independentemente do órgão de origem.",
         "TMB-H e MSI-H têm aprovação tumor-agnóstica e são avaliados de forma fiável pelo painel alargado.",
-        "Perfil molecular pode sugerir origem tumoral provável (tissue of origin scoring)."
+        "Estudo único combinado maximiza o rendimento diagnóstico e terapêutico num material habitualmente limitado."
       ],
       "caveats": [
         "Complementar com IHQ extensa e outros estudos de origem antes de recorrer a NGS.",
-        "Painel alargado não substitui estudo de origem histológico mas é complementar e pode guiar terapêutica."
+        "Painel alargado + RNA não substitui o estudo histológico de origem — é complementar e pode guiar terapêutica.",
+        "Considerar tissue-of-origin scoring por metilação/expressão quando disponível como adjuvante diagnóstico."
       ]
     },
     {
@@ -734,7 +741,6 @@
         "Carcinoma secretor",
         "Carcinoma secretor da mama",
         "Carcinoma secretor análogo da glândula salivar",
-        "Glândula salivar",
         "MASC"
       ],
       "context": [
@@ -769,7 +775,7 @@
     {
       "id": "cabeca-pescoco",
       "domain": "oncologia-solida",
-      "label": "Carcinoma da cabeça e pescoço (HNSCC)",
+      "label": "Carcinoma da cabeça e pescoço (HNSCC) — perfil alargado",
       "tumor": [
         "Cabeça e pescoço",
         "HNSCC",
@@ -780,8 +786,7 @@
         "Hipofaringe",
         "Laringe",
         "Cavidade oral",
-        "Nasofaringe",
-        "Glândula salivar"
+        "Nasofaringe"
       ],
       "context": [
         "avançado",
@@ -790,35 +795,35 @@
         "cetuximab",
         "imunoterapia",
         "IO",
+        "TMB",
         "HPV"
       ],
       "goals": [
-        "EGFR",
         "PIK3CA",
         "HRAS",
         "CDKN2A",
         "TP53",
         "TMB",
         "MSI",
+        "perfil abrangente",
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-tumores-solidos"
+        "dna-alargado"
       ],
       "combination": false,
       "strength": "Recomendado",
       "rationale": [
-        "PIK3CA (≈30%): copanlisib em HNSCC PIK3CA-mutado (ensaio clínico).",
-        "HRAS mutação (≈5-8%, sobretudo glândula salivar): tipifarnib aprovado pela FDA em HNSCC HRAS-mutado.",
-        "CDKN2A perda: marcador de resistência e prognóstico.",
-        "TP53 e MSI: perfil mutacional e candidatura a IO (pembrolizumab/nivolumab).",
-        "TMB pode orientar imunoterapia tumor-agnóstica — considerar painel alargado se TMB é critério principal."
+        "HNSCC é uma das entidades para as quais a imunoterapia (pembrolizumab/nivolumab) faz parte do padrão de cuidados — o TMB é informativo e exige painel alargado para estimativa fiável.",
+        "Painel alargado cobre PIK3CA, HRAS, CDKN2A, TP53 com cobertura completa e fornece TMB e MSI no mesmo ensaio.",
+        "HRAS (≈5-8%, mais frequente em variantes de glândula salivar — ver regra dedicada): tipifarnib aprovado pela FDA em HNSCC HRAS-mutado.",
+        "PIK3CA (≈30%): copanlisib em ensaio clínico para HNSCC PIK3CA-mutado."
       ],
       "caveats": [
-        "EGFR por NGS NÃO prediz resposta ao cetuximab em HNSCC — ao contrário do CCR, sem mutação KRAS/RAS a expressão de EGFR por IHQ é o critério.",
-        "HPV/p16 IHQ é marcador prognóstico obrigatório e não é avaliado por NGS.",
+        "EGFR por NGS NÃO prediz resposta ao cetuximab em HNSCC — ao contrário do CCR, a expressão por IHQ é o critério.",
+        "HPV/p16 IHQ é marcador prognóstico obrigatório e não é avaliado por NGS — manter teste separado.",
         "HNSCC de nasofaringe tem biologia distinta (EBV-associado) — NGS tem utilidade limitada como primeira abordagem.",
-        "Para TMB robusto, o painel de 188g pode ser insuficiente — considerar painel alargado."
+        "PD-L1 (CPS) por IHQ mantém-se necessário para decisão de IO em 1ª linha — NGS não substitui."
       ]
     },
     {
@@ -856,20 +861,22 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-alargado"
+        "dna-alargado",
+        "fusoes-rna"
       ],
-      "combination": false,
-      "strength": "Considerar",
+      "combination": true,
+      "strength": "Recomendado",
       "rationale": [
-        "Mutações MTOR, TSC1, TSC2 (≈15%): sensibilidade a everolimus/temsirolimus — painel alargado identifica estas alterações.",
-        "FH mutação (carcinoma papilar tipo 2): síndrome hereditário com implicações germinativas e resposta a bevacizumab+erlotinib.",
-        "BAP1 e PBRM1: biomarcadores preditivos emergentes para resposta a imunoterapia e VEGFR TKI.",
-        "Painel alargado cobre o espectro mutacional completo de RCC de células claras, papilar e cromófobo."
+        "Painel alargado cobre o espectro mutacional completo de RCC de células claras, papilar e cromófobo (VHL, MTOR, TSC1/2, FH, BAP1, PBRM1, SETD2).",
+        "Componente de RNA é essencial para identificar a família MiT (RCC com translocação TFE3, TFEB ou MITF) — entidade biologicamente distinta com implicações terapêuticas.",
+        "Mutações MTOR/TSC1/TSC2 (≈15%): sensibilidade a everolimus/temsirolimus.",
+        "BAP1 e PBRM1: biomarcadores preditivos emergentes para resposta a imunoterapia e VEGFR TKI."
       ],
       "caveats": [
-        "A maioria das terapêuticas de primeira linha (sunitinib, pazopanib, cabozantinib, nivolumab+ipilimumab) não requer seleção genómica.",
+        "A maioria das terapêuticas de primeira linha (sunitinib, pazopanib, cabozantinib, nivolumab+ipilimumab) não requer selecção genómica — o NGS rentabiliza-se sobretudo em segunda linha ou quando há suspeita morfológica de RCC MiT.",
         "Suspeita de síndrome hereditário (VHL, BAP1, FH, SDHB): complementar com estudo germinativo.",
-        "Carcinoma de células claras esporádico: VHL somático frequente (≈80%) mas sem impacto terapêutico direto atual."
+        "Carcinoma de células claras esporádico: VHL somático frequente (≈80%) mas sem impacto terapêutico directo actual.",
+        "TFE3/TFEB IHQ pode ser triagem inicial para suspeita de RCC MiT."
       ]
     },
     {
@@ -925,7 +932,7 @@
     {
       "id": "endometrio",
       "domain": "oncologia-solida",
-      "label": "Carcinoma do endométrio — perfil molecular",
+      "label": "Carcinoma do endométrio — perfil molecular alargado",
       "tumor": [
         "Endométrio",
         "Carcinoma do endométrio",
@@ -940,9 +947,11 @@
         "MSI",
         "dMMR",
         "imunoterapia",
+        "IO",
         "pembrolizumab",
         "HER2",
         "POLE",
+        "TMB",
         "classificação molecular"
       ],
       "goals": [
@@ -953,27 +962,28 @@
         "PTEN",
         "KRAS",
         "HER2",
+        "ERBB2",
         "TP53",
         "TMB",
+        "perfil abrangente",
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-tumores-solidos"
+        "dna-alargado"
       ],
       "combination": false,
       "strength": "Recomendado",
       "rationale": [
-        "MSI-H / dMMR (≈30%): pembrolizumab em 1ª linha metastática (RUBY, NRG-GY018) — identificação obrigatória.",
-        "POLE ultra-mutada (≈10%): prognóstico excelente mesmo de alto grau; pode influenciar decisão de adjuvante.",
+        "Carcinoma do endométrio é uma das entidades em que dMMR/MSI-H, TMB-H e imunoterapia (pembrolizumab) são determinantes na 1ª linha metastática (RUBY, NRG-GY018) — exige painel alargado para estimativa fiável de TMB.",
+        "Classificação molecular TCGA (POLE, MSI-H, CNV-alto/baixo) é progressivamente adoptada e beneficia da cobertura completa de POLE, TP53 e amplificações.",
         "HER2 amplificação em carcinoma seroso (≈25-30%): trastuzumab + quimioterapia (STATEC trial).",
-        "PIK3CA/PTEN/KRAS (via PI3K): padrão de alterações frequente com implicações para ensaios clínicos.",
-        "Classificação molecular TCGA (POLE, MSI-H, CNV-alto/baixo) é progressivamente adotada."
+        "PIK3CA/PTEN/KRAS (via PI3K): padrão de alterações frequente com implicações para ensaios clínicos."
       ],
       "caveats": [
         "MSI por IHQ/PCR é aceitável como teste reflexo inicial e obrigatório — NGS é confirmatório e mais abrangente.",
-        "POLE sequenciação exónica (exon 9 e 13) é necessária; painel de 188g cobre este domínio.",
-        "Para TMB como critério de IO, considerar painel alargado (188g pode subestimar).",
-        "HER2 por IHQ mantém-se o padrão para amplificação em endométrio."
+        "POLE sequenciação exónica (exon 9 e 13) é necessária — confirmar cobertura no painel utilizado.",
+        "HER2 por IHQ mantém-se o padrão para amplificação em carcinoma seroso — NGS é complementar.",
+        "Painel focado (188g) pode ser suficiente quando o objectivo é estritamente PIK3CA/PTEN ou HER2 em contexto não-IO."
       ]
     },
     {
@@ -1079,7 +1089,7 @@
     {
       "id": "colo-utero",
       "domain": "oncologia-solida",
-      "label": "Carcinoma do colo do útero",
+      "label": "Carcinoma do colo do útero — perfil alargado",
       "tumor": [
         "Colo do útero",
         "Carcinoma do colo",
@@ -1095,7 +1105,9 @@
         "terapêutica alvo",
         "FGFR",
         "MSI",
-        "imunoterapia"
+        "TMB",
+        "imunoterapia",
+        "IO"
       ],
       "goals": [
         "PIK3CA",
@@ -1106,24 +1118,25 @@
         "MET",
         "MSI",
         "TMB",
+        "perfil abrangente",
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-tumores-solidos"
+        "dna-alargado"
       ],
       "combination": false,
-      "strength": "Considerar",
+      "strength": "Recomendado",
       "rationale": [
-        "PIK3CA mutação (≈30%): alvo emergente com copanlisib em ensaio; frequente em carcinoma escamoso e adenocarcinoma.",
-        "FGFR2/3: alterações raras mas acionáveis com erdafitinib em ensaio clínico.",
-        "MSI-H (raro, <5%): pembrolizumab tumor-agnóstico aprovado.",
-        "TMB: orientação para IO tumor-agnóstica."
+        "Imunoterapia é parte do padrão em colo do útero recorrente/metastático — TMB é informativo e exige painel alargado para estimativa fiável.",
+        "Painel alargado cobre PIK3CA, FGFR2/3, PTEN, KRAS e fornece TMB e MSI no mesmo ensaio.",
+        "PIK3CA (≈30%): alvo emergente em ensaios; FGFR2/3: alterações acionáveis com erdafitinib (ensaio clínico).",
+        "MSI-H (raro, <5%): pembrolizumab tumor-agnóstico aprovado."
       ],
       "caveats": [
-        "Bevacizumab + quimioterapia e pembrolizumab (PD-L1 CPS ≥1) são os padrões de 1ª linha — sem necessidade de NGS.",
-        "HPV genotyping (16, 18) é factor prognóstico mas não terapêutico e não é avaliado por NGS.",
-        "PD-L1 por IHQ (CPS) é o biomarcador de seleção para pembrolizumab em 1ª linha.",
-        "NGS tem maior valor em recidiva/progressão para identificar alvos em contexto de ensaio clínico."
+        "Bevacizumab + quimioterapia e pembrolizumab (PD-L1 CPS ≥1) são os padrões de 1ª linha — sem necessidade de NGS para iniciar tratamento.",
+        "PD-L1 por IHQ (CPS) é o biomarcador de seleção para pembrolizumab em 1ª linha — NGS não substitui.",
+        "HPV genotyping (16, 18) é factor prognóstico mas não é avaliado por NGS.",
+        "NGS rentabiliza-se sobretudo em recidiva/progressão para identificar alvos em contexto de ensaio clínico."
       ]
     },
     {
@@ -2066,6 +2079,66 @@
         "Aconselhamento genético é mandatório antes e após a investigação germinativa.",
         "VAF próximo de 50% num gene de predisposição é sugestivo mas não diagnóstico de variante germinativa.",
         "Selecção de dador para transplante alogénico deve excluir portadores familiares."
+      ]
+    },
+    {
+      "id": "glandulas-salivares",
+      "domain": "oncologia-solida",
+      "label": "Carcinomas das glândulas salivares — perfil mutacional e fusões",
+      "tumor": [
+        "Glândula salivar",
+        "Glândulas salivares",
+        "Carcinoma da glândula salivar",
+        "Carcinoma das glândulas salivares",
+        "Adenocarcinoma da glândula salivar",
+        "Carcinoma adenoide cístico",
+        "Carcinoma mucoepidermoide",
+        "Carcinoma de células acínicas",
+        "Carcinoma ductal salivar"
+      ],
+      "context": [
+        "avançado",
+        "metastático",
+        "terapêutica alvo",
+        "fusão",
+        "rearranjo",
+        "HRAS",
+        "AR",
+        "androgénio"
+      ],
+      "goals": [
+        "HRAS",
+        "PIK3CA",
+        "ERBB2",
+        "HER2",
+        "NOTCH1",
+        "AR",
+        "androgénio",
+        "fusões",
+        "MAML2",
+        "MYB",
+        "NTRK",
+        "RNA",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-tumores-solidos",
+        "fusoes-rna"
+      ],
+      "combination": true,
+      "strength": "Recomendado",
+      "rationale": [
+        "Os carcinomas das glândulas salivares são histologicamente heterogéneos, com perfil mutacional variável e fusões recorrentes definidoras de subtipo — ADN + RNA em paralelo é a estratégia recomendada.",
+        "Fusões definidoras: CRTC1/3::MAML2 (mucoepidermoide), MYB/MYBL1::NFIB (adenoide cístico), ETV6::NTRK3 (secretor — ver regra dedicada).",
+        "HRAS em carcinoma ductal salivar / adenoide cístico (≈5-15%): tipifarnib aprovado pela FDA em HNSCC HRAS-mutado, inclui histologias salivares.",
+        "Carcinoma ductal salivar AR-positivo: ADT é parte do padrão; ERBB2 amplificação responde a trastuzumab + quimioterapia.",
+        "NOTCH1 mutação (adenoide cístico): potencial alvo em ensaios."
+      ],
+      "caveats": [
+        "Histologia + IHQ (AR, HER2, p63, MYB) são determinantes para classificação — NGS é complementar.",
+        "Carcinoma adenoide cístico tem TMB tipicamente baixo — painel alargado não acrescenta valor significativo.",
+        "Para carcinoma secretor confirmado (ETV6::NTRK3), a regra dedicada com RNA isolado é suficiente.",
+        "MYB::NFIB pode ser detectada por FISH/RT-PCR como reflexo quando NGS não está disponível."
       ]
     }
   ]
