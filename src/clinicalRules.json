@@ -1,11 +1,13 @@
 {
   "meta": {
-    "version": "1.0.0",
-    "lastReviewed": "2026-05-21",
+    "version": "1.1.0",
+    "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
-      "ESMO Precision Medicine Working Group (2023)",
+      "ESMO Precision Medicine Working Group (2024)",
       "NCCN Clinical Practice Guidelines in Oncology (2024)",
+      "AMP/ASCO/CAP (Li MM et al., 2017)",
+      "ASCO Provisional Clinical Opinion (Chakravarty et al., 2022)",
       "HGNC Gene Nomenclature Committee"
     ],
     "disclaimer": "Este ficheiro destina-se exclusivamente a apoio à decisão clínica e não substitui o juízo clínico do médico responsável. As recomendações devem ser interpretadas no contexto clínico individual de cada doente."
@@ -914,8 +916,8 @@
         "Painel de 188g permite avaliação abrangente com amostras de biópsia hepática."
       ],
       "caveats": [
+        "TERT promotor — mutação mais frequente em HCC — NÃO é coberto pelos painéis NGS standard; a deteção exige sequenciação dirigida (Sanger/pirossequenciação). Não considerar o resultado deste painel suficiente para excluir alteração de TERT.",
         "Sorafenib, lenvatinib e atezolizumab+bevacizumab não requerem seleção genómica para uso em 1ª linha.",
-        "TERT promotor (mutação mais frequente em HCC) não é coberto pelos painéis NGS standard — requer sequenciação dirigida.",
         "Biópsia hepática tem risco hemorrágico — validar adequação e celularidade da amostra.",
         "HBV/HCV, Child-Pugh e BCLC são os principais determinantes de tratamento — NGS é complementar."
       ]
@@ -1211,7 +1213,7 @@
         "dna-rna-hemato"
       ],
       "combination": false,
-      "strength": "forte",
+      "strength": "Recomendado",
       "rationale": [
         "BCR-ABL1 (t(9;22)) é a alteração definidora da LMC — diagnóstico e monitorização por RT-PCR quantitativo.",
         "O painel hemato permite identificar mutações no domínio quinase do ABL1 associadas à resistência a inibidores de tirosina quinase (TKI).",
@@ -1758,6 +1760,312 @@
         "CDK12 biallelic somático não é germinativo — pesquisar no painel somático.",
         "Resultado germinativo tem implicações para familiares — aconselhamento genético.",
         "Alguns doentes com BRCA2 somático não têm mutação germinativa — confirmar em sangue."
+      ]
+    },
+    {
+      "id": "colangiocarcinoma",
+      "domain": "oncologia-solida",
+      "label": "Colangiocarcinoma — perfil molecular completo",
+      "tumor": [
+        "Colangiocarcinoma",
+        "Vias biliares",
+        "Carcinoma das vias biliares",
+        "Colangiocarcinoma intra-hepático",
+        "Colangiocarcinoma extra-hepático",
+        "Vesícula biliar",
+        "Carcinoma da vesícula biliar",
+        "Klatskin",
+        "Tumor de Klatskin"
+      ],
+      "context": [
+        "avançado",
+        "metastático",
+        "inoperável",
+        "terapêutica alvo",
+        "FGFR",
+        "IDH"
+      ],
+      "goals": [
+        "FGFR2",
+        "IDH1",
+        "BRAF",
+        "ERBB2",
+        "HER2",
+        "MSI",
+        "TMB",
+        "fusões",
+        "RNA",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-tumores-solidos",
+        "fusoes-rna"
+      ],
+      "combination": true,
+      "strength": "Recomendado",
+      "rationale": [
+        "Fusões FGFR2 (≈10-15% em intra-hepático): pemigatinib, infigratinib e futibatinib aprovados em colangiocarcinoma avançado pós-platino.",
+        "IDH1 mutação (≈10-20% em intra-hepático): ivosidenib indicado após progressão.",
+        "BRAF V600E, ERBB2 amplificação e MSI-H: alvos acionáveis adicionais cobertos pelo painel de 188 genes.",
+        "RNA é o método de referência para deteção sensível de fusões FGFR2 — combinação ADN+RNA é o padrão recomendado."
+      ],
+      "caveats": [
+        "Fusões FGFR2 podem ser subdetetadas por painéis de ADN — RNA é essencial para máxima sensibilidade.",
+        "Para perfil genómico mais amplo (TMB, supressores tumorais completos), considerar painel alargado (1021 genes) + RNA.",
+        "Colangiocarcinoma extra-hepático tem perfil molecular distinto do intra-hepático e menor frequência de alvos acionáveis."
+      ]
+    },
+    {
+      "id": "tumores-pediatricos",
+      "domain": "oncologia-solida",
+      "label": "Tumores pediátricos e de adultos jovens — perfil compreensivo",
+      "tumor": [
+        "Tumor pediátrico",
+        "Tumores pediátricos",
+        "Pediátrico",
+        "Pediátrica",
+        "Adulto jovem",
+        "Tumor de adulto jovem",
+        "AYA",
+        "Neoplasia pediátrica"
+      ],
+      "context": [
+        "diagnóstico",
+        "perfil abrangente",
+        "fusão",
+        "rearranjo",
+        "ensaio clínico",
+        "caracterização molecular"
+      ],
+      "goals": [
+        "fusões",
+        "perfil abrangente",
+        "RNA",
+        "TMB",
+        "ensaio clínico",
+        "rearranjo",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-alargado",
+        "fusoes-rna"
+      ],
+      "combination": true,
+      "strength": "Recomendado",
+      "rationale": [
+        "Tumores pediátricos e de adultos jovens são ricos em fusões e rearranjos como eventos condutores — RNA é mandatório.",
+        "Perfil genómico amplo (ADN alargado) maximiza identificação de alvos para ensaios clínicos basket e tumor-agnósticos.",
+        "Combinação ADN alargado + RNA cobre simultaneamente perfil mutacional compreensivo e o espectro de fusões."
+      ],
+      "caveats": [
+        "Amostras pediátricas podem ter celularidade ou volume limitados — priorizar conservação de tecido e validar adequação antes de duplicar ensaios.",
+        "Suspeita de predisposição germinativa é frequente nesta faixa etária — complementar com estudo germinativo dedicado.",
+        "Discussão em tumor board pediátrico é recomendada antes de definir a estratégia molecular."
+      ]
+    },
+    {
+      "id": "neoplasias-eosinofilia",
+      "domain": "hematologia",
+      "label": "Neoplasias mieloides/linfoides com eosinofilia",
+      "tumor": [
+        "Eosinofilia",
+        "Hipereosinofilia",
+        "Síndrome hipereosinofílica",
+        "Neoplasia mieloide com eosinofilia",
+        "Neoplasia linfoide com eosinofilia",
+        "Leucemia eosinofílica",
+        "Leucemia eosinofílica crónica"
+      ],
+      "context": [
+        "diagnóstico",
+        "PDGFRA",
+        "PDGFRB",
+        "FGFR1",
+        "JAK2",
+        "imatinib",
+        "rearranjo",
+        "fusão",
+        "terapêutica alvo"
+      ],
+      "goals": [
+        "PDGFRA",
+        "PDGFRB",
+        "FGFR1",
+        "JAK2",
+        "fusões",
+        "rearranjo",
+        "RNA",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-rna-hemato"
+      ],
+      "combination": false,
+      "strength": "Recomendado",
+      "rationale": [
+        "Rearranjos de PDGFRA, PDGFRB, FGFR1 e JAK2 definem entidades distintas com implicação terapêutica directa (categoria WHO/ICC dedicada).",
+        "FIP1L1::PDGFRA e outros rearranjos de PDGFRA/B respondem dramaticamente a imatinib em baixa dose.",
+        "Rearranjos de FGFR1 e JAK2 orientam para inibidores específicos (pemigatinib, ruxolitinib).",
+        "O painel hemato com componente de RNA é o método sensível para esta categoria de fusões."
+      ],
+      "caveats": [
+        "FISH dirigida pode complementar a deteção, sobretudo em casos com baixa fração tumoral.",
+        "Diagnóstico requer integração com morfologia, citogenética e contagem absoluta de eosinófilos.",
+        "Excluir causas reactivas e parasitárias de eosinofilia antes do estudo molecular."
+      ]
+    },
+    {
+      "id": "waldenstrom",
+      "domain": "hematologia",
+      "label": "Macroglobulinemia de Waldenström / Linfoma linfoplasmocítico",
+      "tumor": [
+        "Waldenström",
+        "Waldenstrom",
+        "Macroglobulinemia",
+        "Macroglobulinemia de Waldenström",
+        "Linfoma linfoplasmocítico",
+        "LPL",
+        "LLP"
+      ],
+      "context": [
+        "diagnóstico",
+        "MYD88",
+        "CXCR4",
+        "ibrutinib",
+        "zanubrutinib",
+        "BTK",
+        "terapêutica alvo",
+        "IgM"
+      ],
+      "goals": [
+        "MYD88",
+        "CXCR4",
+        "TP53",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-rna-hemato"
+      ],
+      "combination": false,
+      "strength": "Recomendado",
+      "rationale": [
+        "MYD88 L265P está presente em >90% dos casos — biomarcador diagnóstico que apoia distinção de outras gamopatias IgM.",
+        "CXCR4 (mutações nonsense/frameshift, ≈30%): modula a resposta a inibidores de BTK (ibrutinib/zanubrutinib).",
+        "Combinação MYD88+/CXCR4-WT é a mais responsiva a inibidores de BTK; CXCR4-mutado responde menos e mais lentamente.",
+        "TP53 confere resistência relativa e orienta para combinações."
+      ],
+      "caveats": [
+        "AS-PCR sensível para MYD88 L265P é alternativa em laboratórios sem NGS disponível.",
+        "MYD88 L265P pode ocorrer em DLBCL ABC e outras entidades — interpretar no contexto clínico-patológico.",
+        "Cariótipo e FISH para del(6q) mantêm-se complementares."
+      ]
+    },
+    {
+      "id": "neoplasias-histiociticas",
+      "domain": "hematologia",
+      "label": "Neoplasias histiocíticas (Langerhans, Erdheim-Chester)",
+      "tumor": [
+        "Histiocitose",
+        "Neoplasia histiocítica",
+        "Histiocitose de células de Langerhans",
+        "LCH",
+        "Erdheim-Chester",
+        "Doença de Erdheim-Chester",
+        "Sarcoma histiocítico",
+        "Xantogranuloma juvenil disseminado"
+      ],
+      "context": [
+        "diagnóstico",
+        "BRAF",
+        "MAP2K1",
+        "MEK",
+        "vemurafenib",
+        "dabrafenib",
+        "trametinib",
+        "cobimetinib",
+        "terapêutica alvo"
+      ],
+      "goals": [
+        "BRAF",
+        "MAP2K1",
+        "MEK",
+        "ARAF",
+        "KRAS",
+        "NRAS",
+        "fusões",
+        "mutações acionáveis"
+      ],
+      "recommendedPanels": [
+        "dna-rna-hemato"
+      ],
+      "combination": false,
+      "strength": "Recomendado",
+      "rationale": [
+        "BRAF V600E é a alteração mais frequente (≈50-60% em LCH e Erdheim-Chester) e responde a inibidores BRAF/MEK aprovados.",
+        "MAP2K1 (MEK1) mutações em casos BRAF-WT respondem a inibidores de MEK.",
+        "Identificação molecular reorienta tratamento e tem impacto prognóstico nestas entidades raras."
+      ],
+      "caveats": [
+        "Biópsias podem ter baixa celularidade tumoral — validar adequação antes de sequenciar.",
+        "IHQ para BRAF V600E é triagem útil mas a confirmação molecular é recomendada antes de inibidores dirigidos.",
+        "Estudo deve incluir RNA para fusões raras de quinases descritas nesta categoria."
+      ]
+    },
+    {
+      "id": "predisposicao-mieloide-hereditaria",
+      "domain": "hematologia",
+      "label": "Predisposição hereditária a neoplasias mieloides",
+      "tumor": [
+        "LMA familiar",
+        "Neoplasia mieloide familiar",
+        "Predisposição mieloide",
+        "Predisposição hereditária mieloide",
+        "Predisposição germinativa mieloide",
+        "DDX41 syndrome"
+      ],
+      "context": [
+        "hereditário",
+        "familiar",
+        "germinativo",
+        "predisposição",
+        "DDX41",
+        "GATA2",
+        "RUNX1",
+        "CEBPA",
+        "ANKRD26",
+        "ETV6",
+        "SAMD9L",
+        "história familiar"
+      ],
+      "goals": [
+        "DDX41",
+        "RUNX1",
+        "CEBPA",
+        "GATA2",
+        "ANKRD26",
+        "ETV6",
+        "SAMD9L",
+        "TP53",
+        "germline",
+        "hereditário"
+      ],
+      "recommendedPanels": [
+        "dna-rna-hemato",
+        "germinativo"
+      ],
+      "combination": true,
+      "strength": "Recomendado",
+      "rationale": [
+        "Variantes em DDX41, RUNX1, CEBPA, GATA2, ANKRD26, ETV6 e SAMD9L predispõem a LMA, SMD e outras neoplasias mieloides.",
+        "O painel hematológico identifica estas variantes no tecido tumoral — relevante para classificação WHO/ICC e estratificação.",
+        "Confirmação germinativa em tecido não-tumoral (mucosa oral, fibroblastos cultivados) é obrigatória — sangue periférico pode estar contaminado por clone hematopoiético.",
+        "Diagnóstico molecular tem implicações para selecção de dador familiar em transplante alogénico e para rastreio de familiares."
+      ],
+      "caveats": [
+        "Sangue periférico NÃO é adequado para confirmação germinativa — usar mucosa oral ou fibroblastos cultivados de pele.",
+        "Aconselhamento genético é mandatório antes e após a investigação germinativa.",
+        "VAF próximo de 50% num gene de predisposição é sugestivo mas não diagnóstico de variante germinativa.",
+        "Selecção de dador para transplante alogénico deve excluir portadores familiares."
       ]
     }
   ]
