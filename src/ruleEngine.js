@@ -1,9 +1,11 @@
 import { resolveGeneAlias } from "./geneAliases.js";
 
 export function normalizeText(value) {
+  // NFKD also decomposes compatibility characters such as ª/º → a/o,
+  // so "1ª linha" matches "1a linha" in user input and rule terms.
   return String(value || "")
     .toLowerCase()
-    .normalize("NFD")
+    .normalize("NFKD")
     .replace(/\p{Diacritic}/gu, "");
 }
 
