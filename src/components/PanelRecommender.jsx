@@ -18,6 +18,7 @@ const clinicalRules = _clinicalRulesData.rules;
 const CONTEXT_OPTIONS = [
   "avançado", "metastático", "1ª linha", "imunoterapia", "hereditário",
   "diagnóstico", "fusão", "TMB", "MSI", "terapêutica alvo",
+  "tecido limitado", "estudo único",
 ];
 const GOAL_OPTIONS = [
   "mutações acionáveis", "fusões", "RNA", "TMB", "MSI",

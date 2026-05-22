@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.3.0",
+    "version": "1.4.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -631,7 +631,12 @@
         "perfil abrangente",
         "TMB",
         "terapêutica alvo",
-        "ensaio clínico"
+        "ensaio clínico",
+        "tecido limitado",
+        "amostra limitada",
+        "estudo único",
+        "single-shot",
+        "biópsia única"
       ],
       "goals": [
         "perfil abrangente",
@@ -682,7 +687,11 @@
         "TERT",
         "1p/19q",
         "MGMT",
-        "BRAF"
+        "BRAF",
+        "tecido limitado",
+        "biópsia estereotáxica",
+        "estudo único",
+        "perfil compreensivo"
       ],
       "goals": [
         "IDH",
@@ -727,7 +736,12 @@
         "diagnóstico",
         "perfil abrangente",
         "TMB",
-        "imunoterapia"
+        "imunoterapia",
+        "tecido limitado",
+        "amostra limitada",
+        "estudo único",
+        "biópsia única",
+        "single-shot"
       ],
       "goals": [
         "perfil abrangente",
@@ -898,7 +912,9 @@
         "Carcinoma de células claras",
         "Carcinoma papilar renal",
         "Carcinoma cromófobo",
-        "Carcinoma do rim"
+        "Carcinoma do rim",
+        "Carcinoma renal MiT",
+        "RCC MiT"
       ],
       "context": [
         "avançado",
@@ -907,7 +923,14 @@
         "everolimus",
         "terapêutica alvo",
         "imunoterapia",
-        "IO"
+        "IO",
+        "translocação MiT",
+        "MiT",
+        "TFE3",
+        "TFEB",
+        "tecido limitado",
+        "estudo único",
+        "perfil compreensivo"
       ],
       "goals": [
         "VHL",
@@ -1908,7 +1931,12 @@
         "fusão",
         "rearranjo",
         "ensaio clínico",
-        "caracterização molecular"
+        "caracterização molecular",
+        "tecido limitado",
+        "amostra limitada",
+        "estudo único",
+        "biópsia única",
+        "single-shot"
       ],
       "goals": [
         "fusões",
