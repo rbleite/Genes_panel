@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.2.0",
+    "version": "1.3.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -102,6 +102,66 @@
         "TMB deve ser interpretado com corte validado pela plataforma — valores entre 5-10 mut/Mb são zona cinzenta.",
         "PD-L1 por IHQ mantém-se obrigatório e complementar ao TMB.",
         "Se já existe resultado do painel de 188g, não repetir apenas para TMB sem justificação clínica adicional."
+      ]
+    },
+    {
+      "id": "cpnpc-comprehensive",
+      "domain": "oncologia-solida",
+      "label": "CPNPC — estudo único compreensivo (1021g + RNA)",
+      "tumor": [
+        "CPNPC",
+        "Adenocarcinoma do pulmão",
+        "Carcinoma pulmonar",
+        "Pulmão",
+        "Carcinoma epidermóide do pulmão"
+      ],
+      "context": [
+        "tecido limitado",
+        "amostra limitada",
+        "estudo único",
+        "single-shot",
+        "perfil compreensivo",
+        "comprehensive",
+        "TMB",
+        "imunoterapia",
+        "IO",
+        "biópsia única"
+      ],
+      "goals": [
+        "perfil abrangente",
+        "TMB",
+        "mutações acionáveis",
+        "fusões",
+        "RNA",
+        "ALK",
+        "ROS1",
+        "RET",
+        "NTRK",
+        "EGFR",
+        "KRAS",
+        "MET",
+        "ERBB2",
+        "BRAF",
+        "NRG1",
+        "FGFR"
+      ],
+      "recommendedPanels": [
+        "dna-alargado",
+        "fusoes-rna"
+      ],
+      "combination": true,
+      "strength": "Considerar",
+      "rationale": [
+        "Alternativa compreensiva ao padrão 188g + RNA: cobre num único pedido o perfil mutacional alargado (TMB, supressores tumorais), CNV e o espectro completo de fusões.",
+        "Indicado quando o tecido é limitado e não permite testes sequenciais, ou quando se pretende um estudo molecular único e abrangente desde a primeira intenção.",
+        "TMB fiável + identificação simultânea de drivers acionáveis e fusões — útil sobretudo em centros com acesso a IO e ensaios clínicos.",
+        "O ADN alargado mantém a cobertura de EGFR, KRAS G12C, BRAF V600, MET exon 14, ERBB2 amp; o RNA captura ALK, ROS1, RET, NTRK1/2/3, NRG1, MET exon 14 skipping e fusões raras."
+      ],
+      "caveats": [
+        "Estratégia alternativa, não substitutiva da regra padrão (188g + RNA) — escolha depende da disponibilidade de tecido, custo e logística do laboratório.",
+        "TMB exige corte validado pela plataforma — valores 5-10 mut/Mb são zona cinzenta.",
+        "Para diagnóstico apenas de driver acionável em primeira linha, 188g + RNA é mais rápido e habitualmente suficiente.",
+        "PD-L1 por IHQ mantém-se obrigatório e complementar — NGS não substitui."
       ]
     },
     {
