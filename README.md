@@ -20,6 +20,7 @@ Por fim, há uma convicção sobre transparência. As decisões de saúde apoiad
 ## Funcionalidades
 
 - **Catálogo de painéis NGS** com pesquisa por gene, categoria e patologia
+- **Classificação por estratégia analítica** (focado / compreensivo / fusão / hematologia / germinativo / farmacogenómica) — eixo independente da categoria de genes, alinhado com o framework de selecção de painéis
 - **Motor de recomendação clínica** baseado em regras (tumor + contexto clínico + objetivos terapêuticos)
 - **Grau de confiança** da recomendação (alta / moderada / baixa) com critérios explicitados
 - **Comparador de painéis** lado a lado
@@ -108,6 +109,28 @@ As regras clínicas são derivadas das seguintes orientações e publicações d
 **Nomenclatura génica (HGNC)**
 
 5. Tweedie S, Braschi B, Gray K, et al. Genenames.org: the HGNC and VGNC resources in 2021. *Nucleic Acids Res.* 2021;49(D1):D939–D946. [doi:10.1093/nar/gkaa980](https://doi.org/10.1093/nar/gkaa980)
+
+---
+
+## Roadmap clínico
+
+Direcções consideradas para versões futuras das regras clínicas. Não são compromissos — ficam aqui registadas para informar quem queira contribuir ou rever a base de conhecimento. Estão também enumeradas no campo `meta.futureWork` do [`clinicalRules.json`](src/clinicalRules.json).
+
+### Hierarquização ESCAT dos biomarcadores
+
+Hoje os `goals` de cada regra são tratados como uma lista plana, todos com o mesmo peso na pontuação. Uma direcção natural é distinguir três níveis alinhados com a escala ESCAT (ESMO) e com os tiers AMP/ASCO/CAP:
+
+- **Obrigatório** — biomarcadores que devem ser testados ao diagnóstico (ex.: EGFR/ALK/ROS1 em CPNPC avançado)
+- **Acionável** — biomarcadores com terapêutica aprovada mas não-mandatória (ex.: KRAS G12C, ERBB2 em mama)
+- **Exploratório** — alvos em ensaios clínicos ou de aprovação recente (ex.: NRG1 em CPNPC, FGFR em vias biliares fora de aprovação local)
+
+A mudança implica novo schema para `goals`, adaptação do motor de scoring para pesos diferenciados, e — sobretudo — curação clínica gene-a-gene de ~450 entradas das regras existentes. O motor pode suportar ambos os formatos durante a transição.
+
+### Anotação ESCAT por par alteração-fármaco
+
+Acima e além da hierarquização dos goals, cada regra pode passar a anotar o **nível ESCAT** (I-A, I-B, II, III, IV-A, V) por par alteração-fármaco. Esta anotação permite mostrar na UI a robustez do suporte clínico para cada recomendação, ajudando o clínico a distinguir, por exemplo, EGFR T790M em CPNPC (ESCAT I-A) de fusões raras em ensaio clínico (ESCAT III-A).
+
+Ambas as direcções pressupõem trabalho de curação clínica autoral, não apenas de engenharia, e devem ser conduzidas com integração nas guidelines vigentes no momento da decisão.
 
 ---
 

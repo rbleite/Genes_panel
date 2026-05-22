@@ -10,7 +10,11 @@
       "ASCO Provisional Clinical Opinion (Chakravarty et al., 2022)",
       "HGNC Gene Nomenclature Committee"
     ],
-    "disclaimer": "Este ficheiro destina-se exclusivamente a apoio à decisão clínica e não substitui o juízo clínico do médico responsável. As recomendações devem ser interpretadas no contexto clínico individual de cada doente."
+    "disclaimer": "Este ficheiro destina-se exclusivamente a apoio à decisão clínica e não substitui o juízo clínico do médico responsável. As recomendações devem ser interpretadas no contexto clínico individual de cada doente.",
+    "futureWork": [
+      "Hierarquização de biomarcadores em três níveis (obrigatório / acionável / exploratório) alinhada com ESCAT e AMP/ASCO/CAP tiers. Implica novo schema para 'goals', adaptação do motor de scoring (pesos diferenciados por tier) e migração curada gene-a-gene de ~450 entradas das regras existentes. Permitirá distinguir, p.ex., EGFR (mandatory em CPNPC) de NRG1 (exploratório), em vez de tratar todos os goals como iguais.",
+      "Anotação de cada regra com nível de evidência ESCAT por par alteração-fármaco (I-A, I-B, ..., V), permitindo mostrar na UI a robustez do suporte clínico para cada recomendação."
+    ]
   },
   "rules": [
     {
