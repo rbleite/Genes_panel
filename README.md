@@ -25,6 +25,8 @@ Por fim, há uma convicção sobre transparência. As decisões de saúde apoiad
 - **Comparador de painéis** lado a lado
 - **Justificação NGS** exportável para integração em relatórios clínicos
 - **Dicionário de aliases HGNC** (HER2 → ERBB2, p53 → TP53, etc.)
+- **Cobertura de testes** ao motor de regras e dicionário de aliases (Vitest)
+- **Error boundary** global com diagnóstico copiável para envio ao desenvolvedor
 
 ---
 
@@ -32,11 +34,22 @@ Por fim, há uma convicção sobre transparência. As decisões de saúde apoiad
 
 ```
 src/
-├── App.jsx              # Interface principal (React + Tailwind)
-├── clinicalRules.json   # Base de conhecimento clínico (auditável)
-├── ruleEngine.js        # Motor de inferência (scoring + confiança)
-├── geneAliases.js       # Dicionário de aliases HGNC
-└── panels.json          # Catálogo de painéis NGS
+├── App.jsx                          # Vista principal e composição de UI
+├── main.jsx                         # Ponto de entrada (envolvido em ErrorBoundary)
+├── ErrorBoundary.jsx                # Captura e apresenta erros de render
+├── ruleEngine.js                    # Motor de inferência (scoring + confiança)
+├── ruleEngine.test.js               # Testes unitários do motor (Vitest)
+├── geneAliases.js                   # Dicionário de aliases HGNC
+├── geneAliases.test.js              # Testes do dicionário
+├── clinicalRules.json               # Base de conhecimento clínico (auditável)
+├── panels.json                      # Catálogo de painéis NGS
+├── panelMetadata.js                 # Metadados visuais e de domínio
+├── utils.js                         # Utilitários (CSV, download)
+└── components/
+    ├── Modal.jsx                    # Shell partilhada de modal
+    ├── ClinicalExportModal.jsx      # Justificação clínica NGS exportável
+    ├── PanelComparator.jsx          # Comparação lado-a-lado de painéis
+    └── PanelRecommender.jsx         # Fluxo de recomendação em 3 passos
 ```
 
 ### Motor de recomendação
@@ -50,6 +63,8 @@ O motor pontua cada regra clínica contra o input do utilizador:
 | Objetivo         | +4 cada| Não         |
 
 **Confiança:** alta (≥2 objetivos, ou ≥1 objetivo + ≥1 contexto) · moderada (≥1 objetivo, ou ≥2 contextos) · baixa (apenas tumor)
+
+**Matching:** case- e diacrítico-insensível (NFKD). Termos curtos (< 4 caracteres) só fazem match como token isolado para evitar falsos positivos (ex.: `LMA` não corresponde a `pulmão`). Aliases HGNC do input do utilizador (HER2, p53, FLT3-3) são resolvidos antes da comparação.
 
 ---
 
@@ -66,11 +81,10 @@ As regras clínicas estão num ficheiro de texto público e versionado, auditáv
 
 ```bash
 npm install
-npm run dev
-```
-
-```bash
-npm run build   # produção
+npm run dev       # servidor de desenvolvimento (Vite)
+npm test          # corre a bateria de testes (Vitest)
+npm run lint      # verificação estática
+npm run build     # build de produção
 ```
 
 ---
