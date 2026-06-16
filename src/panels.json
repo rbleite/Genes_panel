@@ -16,7 +16,8 @@
       "Indel",
       "SV",
       "CNV",
-      "MSI"
+      "MSI",
+      "PGx"
     ],
     "capacidade": {
       "msi": true,
@@ -27,7 +28,7 @@
       "Tumores sólidos",
       "Somático",
       "MSI",
-      "PGx complementar",
+      "Farmacogenómica",
       "Biópsia líquida"
     ],
     "totalGenes": 188,
@@ -565,7 +566,7 @@
       "Quando TMB é biomarcador decisivo de imunoterapia — usar painel ≥1021 genes",
       "Quando a deteção sensível de fusões é obrigatória em primeira linha — combinar com painel de RNA",
       "Neoplasias hematológicas — usar painel hematológico dedicado",
-      "Estudo de predisposição hereditária — usar painel germinativo"
+      "Estudo de predisposição hereditária extenso sem contexto somático — o painel inclui 39 genes germinativos mas está optimizado para complemento ao perfil somático; para estudo hereditário isolado usar painel germinativo dedicado"
     ],
     "sections": [
       {

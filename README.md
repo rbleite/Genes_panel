@@ -112,6 +112,91 @@ As regras clínicas são derivadas das seguintes orientações e publicações d
 
 ---
 
+## Como modificar painéis e regras clínicas
+
+Toda a base de conhecimento está em dois ficheiros JSON editáveis sem tocar no código da aplicação.
+
+### Modificar ou acrescentar um painel de genes (`src/panels.json`)
+
+O ficheiro é uma lista JSON. Cada painel é um objecto com os campos abaixo. Para **acrescentar um painel** copia uma entrada existente e altera os campos; para **modificar** edita a entrada correspondente.
+
+```jsonc
+{
+  "id": "nome-interno-sem-espacos",       // único, usado em recommendedPanels das regras
+  "nome": "Nome completo do painel",
+  "categoria": "Somático",                // Somático | Germinativo | Hematológico | Farmacogenómica
+  "strategy": "focused",                  // focused | comprehensive | fusion | pharmacogenomics
+  "tecnologia": "NGS — amplicons",
+  "versao": "1.0",
+  "descricao": "Texto livre para a UI.",
+  "totalGenes": 188,                      // número de genes únicos no array genes[]
+  "genes": ["BRCA1", "BRCA2", "TP53"],    // lista de símbolos HGNC oficiais, ordenada
+  "tumorTypes": ["Tumores sólidos"],
+  "tags": ["DNA", "Somático"],
+  "biomarcadores": ["SNV", "Indel", "CNV", "MSI"],
+  "clinicalIndications": [                // indicações clínicas por tumor
+    {
+      "tumor": "Cancro colorretal",
+      "strength": "primeira linha",
+      "rationale": "Texto justificativo."
+    }
+  ],
+  "limitations": ["Texto sobre limitação 1."],
+  "whenNotToUse": ["Situação em que este painel não é apropriado."],
+  "pharmacogenomics": [                   // opcional; omitir se não aplicável
+    {
+      "drugClass": "Fluoropyrimidines",
+      "testContent": "Drug toxicity",
+      "drugName": "5-Fu+Leucovorin",
+      "gene": "DPYD",
+      "dbSNP": "rs3918290",
+      "genotype": "CC",
+      "annotation": "Associated with decreased risk of drug toxicity",
+      "evidenceLevel": "1A"
+    }
+  ]
+}
+```
+
+**Regras de validação que a aplicação verifica implicitamente:**
+- `id` tem de ser único no ficheiro — duplicados causam ambiguidade nas recomendações.
+- Os símbolos em `genes[]` devem ser símbolos HGNC aprovados. Aliases comuns (HER2, p53) são resolvidos automaticamente no motor de pesquisa via `src/geneAliases.js`, mas o catálogo deve usar os símbolos canónicos.
+- Se um gene tem alias relevante que o clínico possa pesquisar (ex.: MLL2 para KMT2D), acrescenta-o em `src/geneAliases.js` no formato `"ALIAS": "SIMBOLO_HGNC"`.
+- Após alterar `panels.json`, corre `npm test` para confirmar que os testes de cobertura do motor continuam a passar.
+
+---
+
+### Acrescentar ou modificar uma regra clínica (`src/clinicalRules.json`)
+
+As regras estão em `meta.rules[]`. O motor pontua cada regra contra o input do utilizador: **tumor** (10 pts, obrigatório) + **context** (+3 pts cada match) + **goals** (+4 pts cada match).
+
+```jsonc
+{
+  "id": "id-unico",                        // usado para debug e logs
+  "domain": "oncologia",                   // oncologia | hematologia | germinativo
+  "label": "Etiqueta visível na UI",
+  "tumor": [                               // termos que identificam o tipo tumoral
+    "Adenocarcinoma do pulmão", "CPNPC", "Pulmão"
+  ],
+  "context": [                             // contexto clínico que aumenta a pontuação
+    "metastizado", "primeira linha", "EGFR mutado"
+  ],
+  "goals": [                               // biomarcadores ou objetivos do teste
+    "EGFR", "ALK", "ROS1", "KRAS G12C", "fusões"
+  ],
+  "recommendedPanels": ["dna-tumores-solidos", "fusoes-rna"]  // ids de paineis
+}
+```
+
+**Pontos importantes:**
+- Os termos em `tumor`, `context` e `goals` são comparados de forma insensível a maiúsculas e diacríticos (normalização NFKD). Não é necessário duplicar "tiróide"/"tireoide" — mas incluir ambas as grafias elimina qualquer ambiguidade.
+- Termos com menos de 4 caracteres (ex.: LMA, AML, Ph+) fazem match apenas como token isolado, prevenindo falsos positivos por substring.
+- O campo `domain` é um filtro rígido: se o utilizador seleccionar "hematologia", só regras com `"domain": "hematologia"` são avaliadas. Mantém o domínio correcto em cada regra.
+- `recommendedPanels` deve conter `id`s de painéis existentes em `panels.json`; um id errado não causa erro mas o painel não aparece na recomendação.
+- Após editar as regras, actualiza `meta.version` e `meta.lastReviewed`, e corre `npm test`.
+
+---
+
 ## Roadmap clínico
 
 Direcções consideradas para versões futuras das regras clínicas. Não são compromissos — ficam aqui registadas para informar quem queira contribuir ou rever a base de conhecimento. Estão também enumeradas no campo `meta.futureWork` do [`clinicalRules.json`](src/clinicalRules.json).
