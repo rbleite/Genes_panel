@@ -6,7 +6,7 @@
     "strategy": "focused",
     "tecnologia": "DNA",
     "versao": "v1.0",
-    "descricao": "Painel somático para tumores sólidos com componente PGx complementar. Pode ser usado em tecido FFPE e também em biópsia líquida.",
+    "descricao": "Painel somático para tumores sólidos com componente PGx integrado. Inclui análise adicional de 39 genes para alerta de possível variante germinativa — este componente destina-se a sinalizar achados que requerem confirmação em sangue periférico, não a substituir um teste germinativo dedicado. Pode ser utilizado em tecido FFPE e em biópsia líquida.",
     "amostras": [
       "FFPE",
       "ctDNA / biópsia líquida"
@@ -560,13 +560,16 @@
       "TMB não disponível — painel focado; estimativa de TMB não fiável neste painel",
       "Fusões detetadas apenas por breakpoints em ADN — sensibilidade inferior ao RNA para intrões grandes, breakpoints variáveis ou parceiros novos",
       "MET exon 14 skipping pode ser subdetetado; RNA aumenta a sensibilidade nestas alterações",
-      "Resultado negativo não exclui alteração molecular acionável em amostras com baixa celularidade tumoral ou baixo tumor fraction"
+      "Resultado negativo não exclui alteração molecular acionável em amostras com baixa celularidade tumoral ou baixo tumor fraction",
+      "Componente germinativo sem controlo constitucional — a origem germinativa das variantes é prevista por algoritmo (VAF + base de dados); não pode ser confirmada sem amostra de sangue periférico ou tecido normal",
+      "Variantes germinativas de significado incerto (VUS) não são reportadas neste painel; um teste germinativo dedicado é necessário para rastreio completo de predisposição hereditária",
+      "Resultado negativo no componente germinativo não exclui mutação germinativa patogénica — cobertura e sensibilidade são inferiores às de um painel hereditário dedicado"
     ],
     "whenNotToUse": [
       "Quando TMB é biomarcador decisivo de imunoterapia — usar painel ≥1021 genes",
       "Quando a deteção sensível de fusões é obrigatória em primeira linha — combinar com painel de RNA",
       "Neoplasias hematológicas — usar painel hematológico dedicado",
-      "Estudo de predisposição hereditária extenso sem contexto somático — o painel inclui 39 genes germinativos mas está optimizado para complemento ao perfil somático; para estudo hereditário isolado usar painel germinativo dedicado"
+      "Como substituto de teste germinativo — o componente de 39 genes serve exclusivamente para sinalizar possível variante germinativa no contexto de um perfil somático; qualquer achado suspeito requer confirmação obrigatória em sangue periférico ou tecido normal"
     ],
     "sections": [
       {
@@ -788,7 +791,7 @@
         ]
       },
       {
-        "label": "Mutações germinativas — Whole exome, flanking regions e splice variants (39 genes)",
+        "label": "Alerta de variante germinativa — Whole exome, flanking regions e splice variants (39 genes)",
         "category": "germline",
         "genes": [
           "APC",
@@ -830,7 +833,8 @@
           "STK11",
           "TP53",
           "VHL"
-        ]
+        ],
+        "note": "Amostra única de tecido tumoral sem controlo em sangue periférico. A origem germinativa é inferida algoritmicamente (base de dados + abundância alélica — VAF); não pode ser excluída a origem somática. Em caso de deteção de variante patogénica ou provavelmente patogénica, recomenda-se confirmação em leucócitos do sangue periférico ou tecido normal. Apenas variantes P/LP são reportadas (classificação ACMG; PMID:25741868); variantes de significado incerto (VUS) e benignas não são incluídas no relatório."
       }
     ],
     "pharmacogenomics": [
