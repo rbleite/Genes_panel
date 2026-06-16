@@ -811,7 +811,7 @@ export default function GenePanelsCatalog() {
                 Lista de painéis
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2">
                   {filteredPanels.map((panel) => {
                     const Icon = iconByCategory[panel.categoria] || Dna;
                     const isSelected = selected.id === panel.id;
@@ -1092,7 +1092,7 @@ export default function GenePanelsCatalog() {
                     rel="noopener noreferrer"
                     className="underline hover:text-indigo-600"
                   >
-                    Código fonte (GPL v3)
+                    Código fonte (Apache 2.0)
                   </a>
                 </div>
               </div>
