@@ -15,6 +15,12 @@ import _clinicalRulesData from "../clinicalRules.json";
 
 const clinicalRules = _clinicalRulesData.rules;
 
+const DOMAIN_OPTIONS = [
+  { label: "Tumores sólidos", value: "oncologia-solida" },
+  { label: "Hematologia",     value: "hematologia" },
+  { label: "Germinativo",     value: "germinativo" },
+];
+
 const CONTEXT_OPTIONS = [
   "avançado", "metastático", "1ª linha", "imunoterapia", "hereditário",
   "diagnóstico", "fusão", "TMB", "MSI", "terapêutica alvo",
@@ -28,14 +34,16 @@ const GOAL_OPTIONS = [
 export default function PanelRecommender({ open, onClose, onSelectPanel }) {
   const [step, setStep] = useState(1);
   const [tumorInput, setTumorInput] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("");
   const [selectedContext, setSelectedContext] = useState([]);
   const [selectedGoals, setSelectedGoals] = useState([]);
 
   const clinicalInput = useMemo(() => ({
     tumor: tumorInput.trim(),
+    domain: selectedDomain,
     context: selectedContext,
     goals: selectedGoals,
-  }), [tumorInput, selectedContext, selectedGoals]);
+  }), [tumorInput, selectedDomain, selectedContext, selectedGoals]);
 
   const recommendation = useMemo(() => {
     if (step < 3) return null;
@@ -49,6 +57,7 @@ export default function PanelRecommender({ open, onClose, onSelectPanel }) {
   function reset() {
     setStep(1);
     setTumorInput("");
+    setSelectedDomain("");
     setSelectedContext([]);
     setSelectedGoals([]);
   }
@@ -84,7 +93,19 @@ export default function PanelRecommender({ open, onClose, onSelectPanel }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-900 mb-2">Contexto clínico (opcional)</label>
+            <label className="block text-sm font-semibold text-slate-900 mb-2">Domínio (opcional)</label>
+            <div className="flex flex-wrap gap-2 mb-5">
+              {DOMAIN_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => setSelectedDomain((prev) => prev === opt.value ? "" : opt.value)}
+                  className={`rounded-full px-3.5 py-2 text-xs font-medium transition ${selectedDomain === opt.value ? "bg-indigo-700 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          <label className="block text-sm font-semibold text-slate-900 mb-2">Contexto clínico (opcional)</label>
             <div className="flex flex-wrap gap-2">
               {CONTEXT_OPTIONS.map((opt) => (
                 <button
@@ -139,6 +160,7 @@ export default function PanelRecommender({ open, onClose, onSelectPanel }) {
           <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-700 flex flex-wrap gap-2 items-center">
             <span className="font-semibold mr-1">Critérios:</span>
             <span className="rounded-full bg-slate-200 px-2.5 py-1 text-xs font-medium">{tumorInput}</span>
+            {selectedDomain && <span className="rounded-full bg-indigo-700 px-2.5 py-1 text-xs font-medium text-white">{DOMAIN_OPTIONS.find(d => d.value === selectedDomain)?.label}</span>}
             {selectedContext.map((c) => <span key={c} className="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-medium text-indigo-700">{c}</span>)}
             {selectedGoals.map((g) => <span key={g} className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">{g}</span>)}
           </div>
