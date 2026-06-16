@@ -5,8 +5,8 @@
     "categoria": "Somático",
     "strategy": "focused",
     "tecnologia": "DNA",
-    "versao": "v1.0",
-    "descricao": "Painel somático para tumores sólidos com componente PGx integrado. Inclui análise adicional de 39 genes para alerta de possível variante germinativa — este componente destina-se a sinalizar achados que requerem confirmação em sangue periférico, não a substituir um teste germinativo dedicado. Pode ser utilizado em tecido FFPE e em biópsia líquida.",
+    "versao": "03.2026",
+    "descricao": "Painel somático para tumores sólidos com componente PGx complementar. Pode ser usado em tecido FFPE e também em biópsia líquida.",
     "amostras": [
       "FFPE",
       "ctDNA / biópsia líquida"

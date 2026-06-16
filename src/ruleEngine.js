@@ -72,7 +72,12 @@ export function scoreRule(rule, clinicalInput) {
   }
 
   context.forEach((item) => {
-    if (ruleContext.some((r) => termMatches(r, item) || termMatches(item, r))) {
+    const itemNorm = normAlias(item);
+    if (ruleContext.some((r) => {
+      const rNorm = normAlias(r);
+      return termMatches(r, item) || termMatches(item, r) ||
+             termMatches(rNorm, itemNorm);
+    })) {
       score += 3;
       matched.context++;
       matchedContext.push(item);
@@ -80,11 +85,12 @@ export function scoreRule(rule, clinicalInput) {
   });
 
   goals.forEach((goal) => {
-    const goalAlias = normAlias(goal);
-    const hit = ruleGoals.some(
-      (r) => termMatches(r, goal) || termMatches(goal, r) ||
-             (goalAlias !== goal && (termMatches(r, goalAlias) || termMatches(goalAlias, r)))
-    );
+    const goalNorm = normAlias(goal);
+    const hit = ruleGoals.some((r) => {
+      const rNorm = normAlias(r);
+      return termMatches(r, goal) || termMatches(goal, r) ||
+             termMatches(rNorm, goalNorm);
+    });
     if (hit) {
       score += 4;
       matched.goals++;

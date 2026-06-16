@@ -292,13 +292,20 @@ function buildEvidenceLinks(gene, category) {
   ];
 }
 
-async function fetchJson(url) {
-  const res = await fetch(url);
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data?.error || `Request falhou (${res.status})`);
+async function fetchJson(url, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data?.error || `Request falhou (${res.status})`);
+    return data;
+  } catch (err) {
+    if (err.name === "AbortError") throw new Error("Pedido cancelado — servidor não respondeu em 8 s");
+    throw err;
+  } finally {
+    clearTimeout(timer);
   }
-  return data;
 }
 
 function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setAlteration, tumorType, setTumorType, onRun }) {

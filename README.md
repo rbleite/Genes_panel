@@ -125,7 +125,7 @@ O ficheiro é uma lista JSON. Cada painel é um objecto com os campos abaixo. Pa
   "id": "nome-interno-sem-espacos",       // único, usado em recommendedPanels das regras
   "nome": "Nome completo do painel",
   "categoria": "Somático",                // Somático | Germinativo | Hematológico | Farmacogenómica
-  "strategy": "focused",                  // focused | comprehensive | fusion | pharmacogenomics
+  "strategy": "focused",                  // focused | comprehensive | fusion-focused | germline | hematology | pharmacogenomic
   "tecnologia": "NGS — amplicons",
   "versao": "1.0",
   "descricao": "Texto livre para a UI.",
@@ -173,7 +173,7 @@ As regras estão em `meta.rules[]`. O motor pontua cada regra contra o input do 
 ```jsonc
 {
   "id": "id-unico",                        // usado para debug e logs
-  "domain": "oncologia",                   // oncologia | hematologia | germinativo
+  "domain": "oncologia-solida",            // oncologia-solida | hematologia | germinativo
   "label": "Etiqueta visível na UI",
   "tumor": [                               // termos que identificam o tipo tumoral
     "Adenocarcinoma do pulmão", "CPNPC", "Pulmão"
@@ -191,7 +191,7 @@ As regras estão em `meta.rules[]`. O motor pontua cada regra contra o input do 
 **Pontos importantes:**
 - Os termos em `tumor`, `context` e `goals` são comparados de forma insensível a maiúsculas e diacríticos (normalização NFKD). Não é necessário duplicar "tiróide"/"tireoide" — mas incluir ambas as grafias elimina qualquer ambiguidade.
 - Termos com menos de 4 caracteres (ex.: LMA, AML, Ph+) fazem match apenas como token isolado, prevenindo falsos positivos por substring.
-- O campo `domain` é um filtro rígido: se o utilizador seleccionar "hematologia", só regras com `"domain": "hematologia"` são avaliadas. Mantém o domínio correcto em cada regra.
+- O campo `domain` é um filtro rígido no motor: quando passado no `clinicalInput`, só regras com o mesmo `domain` são avaliadas. A UI actual não expõe um seletor de domínio — o filtro é ativado programaticamente ou por extensão futura. Mantém o valor correcto em cada regra para quando o filtro for exposto.
 - `recommendedPanels` deve conter `id`s de painéis existentes em `panels.json`; um id errado não causa erro mas o painel não aparece na recomendação.
 - Após editar as regras, actualiza `meta.version` e `meta.lastReviewed`, e corre `npm test`.
 
