@@ -1077,12 +1077,12 @@ export default function GenePanelsCatalog() {
             </aside>
           </section>
           <footer className="border-t border-slate-200 bg-slate-50/80 px-4 py-4 sm:px-6 lg:px-10">
+            <div className="mb-2.5 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-center text-[10px] text-amber-800 sm:text-[11px]">
+              Ferramenta de apoio à decisão. Não substitui o juízo clínico, guidelines locais, discussão multidisciplinar ou validação laboratorial.
+            </div>
             <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
               <div className="flex flex-col gap-1">
                 <div>Ricardo B. Leite · Patologia molecular — Serviço de Anatomia Patológica, ULS Almada-Seixal</div>
-                <div className="text-[10px] text-slate-400 italic">
-                  Ferramenta de apoio à decisão — não substitui o juízo clínico do médico responsável.
-                </div>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] text-slate-400">
                   <a
                     href="https://raw.githubusercontent.com/rbleite/Genes_panel/main/src/clinicalRules.json"
@@ -1103,7 +1103,7 @@ export default function GenePanelsCatalog() {
                   </a>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-0.5 shrink-0 text-right">
+              <div className="flex flex-col items-end gap-0.5 shrink-0 text-right text-[10px] text-slate-400">
                 <div className="flex items-center gap-2">
                   <span>v. {APP_VERSION}</span>
                   <span aria-hidden="true">·</span>
