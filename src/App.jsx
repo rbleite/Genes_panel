@@ -20,6 +20,7 @@ import {
   RefreshCcw,
   GitCompare,
   Stethoscope,
+  ScanSearch,
 } from "lucide-react";
 
 import _clinicalRulesData from "./clinicalRules.json";
@@ -32,6 +33,12 @@ import {
   strategyLabels,
   strategyColors,
 } from "./panelMetadata.js";
+import {
+  getGeneCoverage,
+  hasCoverageData,
+  describeLevel,
+  coverageMeta,
+} from "./coverage.js";
 import { buildCsv, downloadFile } from "./utils.js";
 import ClinicalExportModal from "./components/ClinicalExportModal.jsx";
 import PanelComparator from "./components/PanelComparator.jsx";
@@ -308,6 +315,67 @@ async function fetchJson(url, timeoutMs = 8000) {
   }
 }
 
+/* ── Cobertura do gene no painel selecionado ────────────────────────────
+   Responde à pergunta clínica "posso confiar num resultado negativo para
+   este gene?" — mostra o tipo de cobertura, as regiões efectivamente
+   sequenciadas e o transcrito de referência.                            */
+function GeneCoverageCard({ gene, panelId }) {
+  const coverage = getGeneCoverage(gene, panelId);
+
+  if (!coverage) {
+    if (!hasCoverageData(panelId)) return null;
+    return (
+      <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
+        <span className="font-medium text-slate-800">{gene}</span> não consta da
+        especificação de cobertura deste painel.
+      </div>
+    );
+  }
+
+  const { presentation: cov, nivel, regioes, transcrito, nota } = coverage;
+  const alerta = cov?.attention;
+
+  return (
+    <div className={`mt-4 rounded-2xl border p-4 ${alerta ? "border-amber-200 bg-amber-50/60" : "border-slate-200 bg-white"}`}>
+      <div className="flex flex-wrap items-center gap-2">
+        <ScanSearch className="h-4 w-4 text-slate-500" aria-hidden="true" />
+        <span className="text-sm font-semibold text-slate-900">Cobertura no painel</span>
+        {cov && (
+          <span className={`rounded-full px-2.5 py-1 text-[11px] font-medium ${cov.chip}`}>
+            {cov.short}
+          </span>
+        )}
+      </div>
+
+      <p className="mt-2 text-sm leading-6 text-slate-700">{describeLevel(nivel)}</p>
+
+      <dl className="mt-3 grid gap-2 sm:grid-cols-2">
+        {regioes && (
+          <div className="rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">Regiões cobertas</dt>
+            <dd className="mt-1 font-mono text-xs text-slate-800">{regioes}</dd>
+          </div>
+        )}
+        {transcrito && (
+          <div className="rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">Transcrito de referência</dt>
+            <dd className="mt-1 font-mono text-xs text-slate-800">{transcrito}</dd>
+          </div>
+        )}
+      </dl>
+
+      {nota && (
+        <div className="mt-3 flex items-start gap-2 rounded-xl bg-amber-100/70 px-3 py-2 text-xs leading-5 text-amber-900">
+          <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
+          <span>{nota}</span>
+        </div>
+      )}
+
+      <p className="mt-3 text-[11px] leading-4 text-slate-500">{coverageMeta?.disclaimer}</p>
+    </div>
+  );
+}
+
 function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setAlteration, tumorType, setTumorType, onRun }) {
   const links = gene ? buildEvidenceLinks(gene, panel.categoria) : [];
   const evidenceRows = gene ? buildEvidenceRows(panel, evidence, gene) : [];
@@ -328,6 +396,8 @@ function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setA
         </div>
       ) : (
         <>
+          <GeneCoverageCard gene={gene} panelId={panel.id} />
+
           <div className="mt-4 flex flex-wrap items-center gap-3.5">
             <span className="rounded-full bg-slate-900 px-3.5 py-1.5 text-xs font-semibold text-white">{gene}</span>
             {links.map((link) => (
@@ -444,12 +514,25 @@ function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setA
   );
 }
 
-function GeneBadge({ gene, highlighted = false, category, compact = false, onInspect }) {
+function GeneBadge({ gene, highlighted = false, category, compact = false, onInspect, panelId }) {
   const links = buildEvidenceLinks(gene, category);
   const primary = links[0];
+  const coverage = getGeneCoverage(gene, panelId);
+  const cov = coverage?.presentation;
   return (
     <span className={`inline-flex min-h-[42px] items-center gap-2.5 rounded-[20px] px-2.5 py-2 text-xs font-medium ring-1 transition ${highlighted ? "bg-indigo-50 text-indigo-700 ring-indigo-200" : compact ? "bg-white text-slate-700 ring-slate-200" : "bg-slate-100 text-slate-700 ring-slate-200"}`}>
-      <button type="button" onClick={() => onInspect?.(gene)} className="rounded-full px-2 py-1 text-left leading-none hover:bg-black/5">
+      <button
+        type="button"
+        onClick={() => onInspect?.(gene)}
+        title={cov ? `${gene} — ${cov.short}${coverage.regioes ? `: ${coverage.regioes}` : ""}` : undefined}
+        className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-left leading-none hover:bg-black/5"
+      >
+        {cov && (
+          <span
+            className={`h-1.5 w-1.5 shrink-0 rounded-full ${cov.dot}`}
+            aria-label={`Cobertura: ${cov.short}`}
+          />
+        )}
         {gene}
       </button>
       <a href={primary.url} target="_blank" rel="noreferrer" title={`Abrir ${gene} em ${primary.label}`} className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] leading-none opacity-90 hover:bg-black/10">
@@ -460,7 +543,7 @@ function GeneBadge({ gene, highlighted = false, category, compact = false, onIns
   );
 }
 
-function SectionBlock({ title, genes, activeQuery, initialOpen = false, category, onInspect }) {
+function SectionBlock({ title, genes, activeQuery, initialOpen = false, category, onInspect, panelId }) {
   const [open, setOpen] = useState(initialOpen);
   const [expanded, setExpanded] = useState(false);
   const searchTerms = useMemo(() => parseSearchTerms(activeQuery), [activeQuery]);
@@ -500,7 +583,7 @@ function SectionBlock({ title, genes, activeQuery, initialOpen = false, category
           ) : (
             <>
               {visible.map((gene) => (
-                <GeneBadge key={gene} gene={gene} category={category} highlighted={matchesAnySearchTerm(gene, searchTerms)} onInspect={onInspect} />
+                <GeneBadge key={gene} gene={gene} category={category} highlighted={matchesAnySearchTerm(gene, searchTerms)} onInspect={onInspect} panelId={panelId} />
               ))}
               {!expanded && hidden > 0 ? (
                 <button
@@ -1057,7 +1140,7 @@ export default function GenePanelsCatalog() {
                     </div>
                     <div className="mt-4 flex max-h-64 flex-wrap gap-3.5 overflow-auto pr-2 pb-1">
                       {matchedGenes.map((gene) => (
-                        <GeneBadge key={gene} gene={gene} category={selected.categoria} highlighted compact onInspect={inspectGeneEvidence} />
+                        <GeneBadge key={gene} gene={gene} category={selected.categoria} highlighted compact onInspect={inspectGeneEvidence} panelId={selected.id} />
                       ))}
                     </div>
                   </div>
@@ -1070,7 +1153,7 @@ export default function GenePanelsCatalog() {
                   </div>
 
                   {Object.entries(selected.secoes).map(([key, genes], idx) => (
-                    <SectionBlock key={key} title={prettifySectionKey(key)} genes={genes} activeQuery={query.trim()} initialOpen={idx === 0} category={selected.categoria} onInspect={inspectGeneEvidence} />
+                    <SectionBlock key={key} title={prettifySectionKey(key)} genes={genes} activeQuery={query.trim()} initialOpen={idx === 0} category={selected.categoria} onInspect={inspectGeneEvidence} panelId={selected.id} />
                   ))}
                 </div>
               </div>

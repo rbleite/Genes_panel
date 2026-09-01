@@ -186,15 +186,24 @@ describe("scoreRule — goal matching", () => {
     expect(result.matched.goals).toBe(1);
   });
 
-  it("alias resolution is one-way (rule containing alias does NOT match canonical input)", () => {
-    // Documents asymmetry: scoreRule only resolves the *user's* input.
-    // If the rule lists 'HER2' but the user types 'ERBB2', no alias match occurs.
+  it("resolves aliases on BOTH sides (rule alias matches canonical input)", () => {
+    // Both the rule term and the user input are alias-resolved before
+    // comparison, so a rule listing 'HER2' matches a user typing 'ERBB2'.
     const ruleWithAlias = { ...mamaRule, goals: ["HER2"] };
     const result = scoreRule(ruleWithAlias, {
       tumor: "Mama",
       goals: ["ERBB2"],
     });
-    expect(result.matched.goals).toBe(0);
+    expect(result.matched.goals).toBe(1);
+  });
+
+  it("resolves aliases on both sides for context terms too", () => {
+    const ruleWithAlias = { ...mamaRule, context: ["HER2"] };
+    const result = scoreRule(ruleWithAlias, {
+      tumor: "Mama",
+      context: ["ERBB2"],
+    });
+    expect(result.matched.context).toBe(1);
   });
 });
 

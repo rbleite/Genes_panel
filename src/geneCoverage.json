@@ -1,0 +1,927 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "lastReviewed": "2026-05-22",
+    "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
+    "fonte": "Especificação de cobertura do fornecedor — painel de DNA tumores sólidos (estado pós-upgrade de sondas).",
+    "disclaimer": "A cobertura descrita refere-se ao desenho do painel. A sensibilidade efectiva depende ainda da qualidade e celularidade da amostra. Um resultado negativo numa região não coberta NÃO exclui a presença de alteração.",
+    "legenda": {
+      "cds-completo": "CDS completo — todas as variantes codificantes são avaliadas.",
+      "cds-completo-fusao": "CDS completo mais intrões seleccionados para deteção de fusões.",
+      "exoes-dirigidos": "Exões seleccionados por desenho, dirigidos às regiões clinicamente relevantes. Variantes fora destes exões não são detectadas.",
+      "parceiro-fusao": "Apenas regiões intrónicas: o gene é avaliado como parceiro de fusão. Mutações pontuais NÃO são detectadas.",
+      "promotor": "Posições específicas da região promotora.",
+      "nao-reportado": "Região coberta por sondas mas não reportada clinicamente.",
+      "sem-detalhe": "Gene incluído no painel sem detalhe de cobertura especificado."
+    }
+  },
+  "dna-tumores-solidos": {
+    "ABCB1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "ACVR1B": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_020328.3"
+    },
+    "AKT1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_001014431.1",
+      "nota": "Cobertura estendida a CDS completo no upgrade de sondas."
+    },
+    "AKT3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_005465.4"
+    },
+    "ALK": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX18-28; intrão 18,19",
+      "transcrito": "NM_004304.4"
+    },
+    "APC": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 16,EX 7",
+      "transcrito": "NM_000038.5"
+    },
+    "AR": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_000044.3",
+      "nota": "Cobertura estendida a CDS completo no upgrade de sondas."
+    },
+    "ARAF": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7",
+      "transcrito": "NM_001654.4"
+    },
+    "ARID1A": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 12",
+      "transcrito": "NM_006015.4"
+    },
+    "ATIC": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "ATM": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "ATR": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 10",
+      "transcrito": "NM_001184.3"
+    },
+    "AXL": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 12",
+      "transcrito": "NM_021913.3"
+    },
+    "B2M": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1",
+      "transcrito": "NM_004048.2"
+    },
+    "BAP1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_004656.2"
+    },
+    "BARD1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_000465.2"
+    },
+    "BLM": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_000057.2"
+    },
+    "BRAF": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_004333.4",
+      "nota": "Cobertura estendida a CDS completo no upgrade de sondas."
+    },
+    "BRCA1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "BRCA2": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "BRIP1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 12",
+      "transcrito": "NM_032043.2"
+    },
+    "C8orf34": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CARD11": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 13",
+      "transcrito": "NM_032415.4"
+    },
+    "CASP7": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CASP8": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7",
+      "transcrito": "NM_001080125.1"
+    },
+    "CBR3": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CCND1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "CD274": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_014143.3"
+    },
+    "CD74": {
+      "nivel": "parceiro-fusao",
+      "regioes": "intrão 6-8",
+      "transcrito": "NM_001025159.2",
+      "nota": "Cobertura exclusivamente intrónica: detecta o gene como parceiro de fusão. NÃO detecta mutações pontuais."
+    },
+    "CDA": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CDH1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 6",
+      "transcrito": "NM_004360.3"
+    },
+    "CDK12": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8,EX 10",
+      "transcrito": "NM_016507.2"
+    },
+    "CDK4": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "CDK6": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "CDKN1A": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_078467.2"
+    },
+    "CDKN1B": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1",
+      "transcrito": "NM_004064.3"
+    },
+    "CDKN2A": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "CDKN2B": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1",
+      "transcrito": "NM_004936.3"
+    },
+    "CEP72": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CHEK1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3,EX 11",
+      "transcrito": "NM_001114121.2"
+    },
+    "CHEK2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3,EX 4,EX 11",
+      "transcrito": "NM_007194.3"
+    },
+    "CREBBP": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 26",
+      "transcrito": "NM_004380.2"
+    },
+    "CRKL": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_005207.3"
+    },
+    "CSF1R": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_005211.3"
+    },
+    "CTNNB1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_001904.3"
+    },
+    "CYP19A1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "CYP2D6": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "DDR2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 15",
+      "transcrito": "NM_006182.2"
+    },
+    "DHFR": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "DNMT3A": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_022552.4"
+    },
+    "DPYD": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "EGFR": {
+      "nivel": "cds-completo-fusao",
+      "regioes": "CDS completo; intrão 25",
+      "transcrito": "NM_005228.3"
+    },
+    "EP300": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 26",
+      "transcrito": "NM_001429.3"
+    },
+    "EPHA2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_004431.3"
+    },
+    "EPHA5": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_004439.5"
+    },
+    "ERBB2": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "ERBB3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7",
+      "transcrito": "NM_001982.3"
+    },
+    "ERBB4": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 18",
+      "transcrito": "NM_005235.2"
+    },
+    "ERCC1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "ERRFI1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_018948.3"
+    },
+    "ESR1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_001122740.1",
+      "nota": "Cobertura estendida a CDS completo no upgrade de sondas."
+    },
+    "ETV6": {
+      "nivel": "parceiro-fusao",
+      "regioes": "intrão 4-6",
+      "transcrito": "NM_001987.4",
+      "nota": "Cobertura exclusivamente intrónica: detecta o gene como parceiro de fusão. NÃO detecta mutações pontuais."
+    },
+    "EZH2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 16",
+      "transcrito": "NM_004456.4"
+    },
+    "EZR": {
+      "nivel": "parceiro-fusao",
+      "regioes": "intrão 9-10",
+      "transcrito": "NM_003379.4",
+      "nota": "Cobertura exclusivamente intrónica: detecta o gene como parceiro de fusão. NÃO detecta mutações pontuais."
+    },
+    "FANCA": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 35",
+      "transcrito": "NM_000135.2"
+    },
+    "FANCC": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 6",
+      "transcrito": "NM_000136.2"
+    },
+    "FANCD2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 23",
+      "transcrito": "NM_033084.3"
+    },
+    "FANCE": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "IVS1;EX 4",
+      "transcrito": "NM_021922.2"
+    },
+    "FANCF": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1",
+      "transcrito": "NM_022725.3"
+    },
+    "FANCI": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 24",
+      "transcrito": "NM_001113378.1"
+    },
+    "FANCL": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1,EX 8",
+      "transcrito": "NM_001114636.1"
+    },
+    "FAT3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 23",
+      "transcrito": "NM_001008781.2"
+    },
+    "FBXW7": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5,7-11",
+      "transcrito": "NM_033632.3"
+    },
+    "FGF19": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "FGF3": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "FGF4": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "FGFR1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX12-18; intrão 17",
+      "transcrito": "NM_023110.2"
+    },
+    "FGFR2": {
+      "nivel": "cds-completo-fusao",
+      "regioes": "CDS completo; intrão 1, 17",
+      "transcrito": "NM_000141.4"
+    },
+    "FGFR3": {
+      "nivel": "cds-completo-fusao",
+      "regioes": "CDS completo; intrão 16, 17",
+      "transcrito": "NM_000142.4"
+    },
+    "FLT1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 25",
+      "transcrito": "NM_002019.4"
+    },
+    "FLT3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 14,15,20",
+      "transcrito": "NM_004119.2"
+    },
+    "FLT4": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_182925.4"
+    },
+    "FOXL2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 1",
+      "transcrito": "NM_023067.3"
+    },
+    "GATA3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_002051.2"
+    },
+    "GGH": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "GNA11": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_002067.2"
+    },
+    "GNAQ": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_002072.3"
+    },
+    "GNAS": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8",
+      "transcrito": "NM_000516.4"
+    },
+    "GRM3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_000840.2"
+    },
+    "GSTP1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "HNF1A": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8",
+      "transcrito": "NM_000545.5"
+    },
+    "HRAS": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2,3,4",
+      "transcrito": "NM_001130442.1"
+    },
+    "IDH1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_005896.2"
+    },
+    "IDH2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_002168.2"
+    },
+    "IGF1R": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 19",
+      "transcrito": "NM_000875.3"
+    },
+    "IL7R": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_002185.3"
+    },
+    "JAK1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 14,15",
+      "transcrito": "NM_002227.2"
+    },
+    "JAK2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 14",
+      "transcrito": "NM_004972.3"
+    },
+    "KDM5C": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 10",
+      "transcrito": "NM_004187.3"
+    },
+    "KDR": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 23",
+      "transcrito": "NM_002253.2"
+    },
+    "KEAP1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_203500.1"
+    },
+    "KIT": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 9-18",
+      "transcrito": "NM_000222.2"
+    },
+    "KMT2D": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 14",
+      "transcrito": "NM_003482.3"
+    },
+    "KRAS": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "MAP2K1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_002755.3"
+    },
+    "MAP2K2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 6",
+      "transcrito": "NM_030662.3"
+    },
+    "MCL1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_021960.4"
+    },
+    "MDM2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_002392.4"
+    },
+    "MED12": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 42",
+      "transcrito": "NM_005120.2"
+    },
+    "MET": {
+      "nivel": "cds-completo-fusao",
+      "regioes": "CDS completo; intrão 13-14",
+      "transcrito": "NM_000245.2"
+    },
+    "MLH1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "MRE11A": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 11",
+      "transcrito": "NM_005591.3"
+    },
+    "MSH2": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "MSH6": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "MTHFR": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "MTOR": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 30,43",
+      "transcrito": "NM_004958.3"
+    },
+    "MTRR": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "MYC": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "MYCN": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_005378.4"
+    },
+    "NBN": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_002485.4"
+    },
+    "NF1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 49",
+      "transcrito": "NM_000267.3"
+    },
+    "NF2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 9",
+      "transcrito": "NM_000268.3"
+    },
+    "NFE2L2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_006164.4"
+    },
+    "NOTCH1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 6",
+      "transcrito": "NM_017617.3"
+    },
+    "NOTCH3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 26",
+      "transcrito": "NM_000435.2"
+    },
+    "NPM1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_002520.6"
+    },
+    "NQO1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "NRAS": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_002524.4",
+      "nota": "Cobertura estendida a CDS completo no upgrade de sondas."
+    },
+    "NRG1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX1, EX5",
+      "nota": "Gene adicionado no upgrade de sondas (recomendação de guideline para CPNPC)."
+    },
+    "NTRK1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX8-16; intrão 8-11",
+      "transcrito": "NM_002529.3"
+    },
+    "NTRK2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX17-20; intrão 12",
+      "transcrito": "NM_006180.3"
+    },
+    "NTRK3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX14-19; intrão 11-12",
+      "transcrito": "NM_001012338.2"
+    },
+    "PALB2": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "PBRM1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 9",
+      "transcrito": "NM_018313.4"
+    },
+    "PDCD1LG2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_025239.3"
+    },
+    "PDGFRA": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 12-18",
+      "transcrito": "NM_006206.4"
+    },
+    "PDGFRB": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 12",
+      "transcrito": "NM_002609.3"
+    },
+    "PIK3CA": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "PIK3CB": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 22",
+      "transcrito": "NM_006219.2"
+    },
+    "PIK3CG": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8",
+      "transcrito": "NM_002649.2"
+    },
+    "PIK3R1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 11",
+      "transcrito": "NM_181523.2"
+    },
+    "PMS2": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "PNPLA3": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "POLD1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX2, 6, 8, 15-16, 17",
+      "transcrito": "NM_002691.3"
+    },
+    "POLE": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX9, 11, 13, 14, 20, 21, 25 (completo), 43",
+      "transcrito": "NM_006231.2"
+    },
+    "PTCH1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 19",
+      "transcrito": "NM_000264.3"
+    },
+    "PTEN": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "PTPN11": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 13",
+      "transcrito": "NM_002834.3"
+    },
+    "PTPRD": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 23",
+      "transcrito": "NM_002839.3"
+    },
+    "RAD50": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 13",
+      "transcrito": "NM_005732.3"
+    },
+    "RAD51B": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7,EX 8",
+      "transcrito": "NM_133509.3"
+    },
+    "RAD51C": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3,EX 4",
+      "transcrito": "NM_058216.1"
+    },
+    "RAD51D": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4,EX 9",
+      "transcrito": "NM_002878.3"
+    },
+    "RAD54L": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 11,EX 12",
+      "transcrito": "NM_003579.3"
+    },
+    "RAF1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7",
+      "transcrito": "NM_002880.3"
+    },
+    "RB1": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "RBM10": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 20",
+      "transcrito": "NM_001204468.1"
+    },
+    "RECQL4": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 11",
+      "transcrito": "NM_004260.3"
+    },
+    "RET": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX5, 7, 8-19; intrão 7-11",
+      "transcrito": "NM_020975.4"
+    },
+    "RNF43": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4,9",
+      "transcrito": "NM_017763.4"
+    },
+    "ROS1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX31-42; intrão 31-35",
+      "transcrito": "NM_002944.2"
+    },
+    "SDC4": {
+      "nivel": "parceiro-fusao",
+      "regioes": "intrão 2",
+      "transcrito": "NM_002999.3",
+      "nota": "Cobertura exclusivamente intrónica: detecta o gene como parceiro de fusão. NÃO detecta mutações pontuais."
+    },
+    "SETD2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8",
+      "transcrito": "NM_014159.6"
+    },
+    "SF3B1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 14",
+      "transcrito": "NM_012433.2"
+    },
+    "SLC19A1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "SLC28A3": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "SMAD2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_001003652.3"
+    },
+    "SMAD4": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 9",
+      "transcrito": "NM_005359.5"
+    },
+    "SMARCA4": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 21",
+      "transcrito": "NM_003072.3"
+    },
+    "SMARCB1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 8",
+      "transcrito": "NM_003073.3"
+    },
+    "SMO": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 3",
+      "transcrito": "NM_005631.4"
+    },
+    "SOD2": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "SOX9": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 2",
+      "transcrito": "NM_000346.3"
+    },
+    "SPOP": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4-7",
+      "transcrito": "NM_001007228.1"
+    },
+    "STK11": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo",
+      "transcrito": "NM_000455.4"
+    },
+    "TBX3": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_016569.3"
+    },
+    "TGFBR2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 4",
+      "transcrito": "NM_001024847.2"
+    },
+    "TP53": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "TSC1": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 7",
+      "transcrito": "NM_000368.4"
+    },
+    "TSC2": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 17",
+      "transcrito": "NM_000548.3"
+    },
+    "UGT1A1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "UMPS": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "VEGFA": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 6",
+      "transcrito": "NM_001171623.1"
+    },
+    "VHL": {
+      "nivel": "cds-completo",
+      "regioes": "CDS completo"
+    },
+    "WRN": {
+      "nivel": "exoes-dirigidos",
+      "regioes": "EX 5",
+      "transcrito": "NM_000553.4"
+    },
+    "XPC": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "XRCC1": {
+      "nivel": "sem-detalhe",
+      "nota": "Gene do componente complementar (PGx / reparação de ADN) — detalhe de cobertura não especificado."
+    },
+    "TERT": {
+      "nivel": "promotor",
+      "regioes": "c.-124C>T (C228T); c.-146C>T (C250T)",
+      "transcrito": "NM_198253.2",
+      "nota": "Cobertura restrita aos dois hotspots do promotor. Outras variantes do promotor ou do CDS não são detectadas."
+    },
+    "RHEB": {
+      "nivel": "nao-reportado",
+      "regioes": "EX8",
+      "nota": "Coberto por sondas mas NÃO reportado clinicamente — não considerar avaliado."
+    }
+  }
+}
