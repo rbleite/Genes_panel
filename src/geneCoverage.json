@@ -916,7 +916,7 @@
       "nivel": "promotor",
       "regioes": "c.-124C>T (C228T); c.-146C>T (C250T)",
       "transcrito": "NM_198253.2",
-      "nota": "Cobertura restrita aos dois hotspots do promotor. Outras variantes do promotor ou do CDS não são detectadas."
+      "nota": "Cobertura restrita aos dois hotspots do promotor. Outras variantes do promotor ou do CDS não são detectadas. A especificação do fornecedor designa-os c.-58-u66C>T e c.-58-u88C>T; equivalência a C228T/C250T confirmada pelo laboratório (2026-05-22)."
     },
     "RHEB": {
       "nivel": "nao-reportado",

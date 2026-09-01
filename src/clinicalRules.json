@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.4.0",
+    "version": "1.5.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -722,7 +722,7 @@
       "caveats": [
         "MGMT metilação não é coberta por NGS — requer MLPA/MS-MLPA ou pirossequenciação específica.",
         "Biópsia estereotáxica tem celularidade habitualmente limitada — validar amostra antes de sequenciar.",
-        "TERT promotor pode escapar à cobertura de alguns painéis — confirmar cobertura específica."
+        "TERT promotor: a cobertura habitual restringe-se aos hotspots canónicos C228T e C250T — suficiente para a classificação WHO, mas outras variantes do promotor não são detectadas. Confirmar a cobertura no painel efectivamente utilizado."
       ]
     },
     {
@@ -1010,7 +1010,7 @@
         "Painel de 188g permite avaliação abrangente com amostras de biópsia hepática."
       ],
       "caveats": [
-        "TERT promotor — mutação mais frequente em HCC — NÃO é coberto pelos painéis NGS standard; a deteção exige sequenciação dirigida (Sanger/pirossequenciação). Não considerar o resultado deste painel suficiente para excluir alteração de TERT.",
+        "TERT promotor — mutação mais frequente em HCC: o painel de tumores sólidos cobre os dois hotspots canónicos, C228T (c.-124C>T) e C250T (c.-146C>T). Outras variantes do promotor, bem como o CDS de TERT, não são avaliadas — um resultado negativo exclui apenas os dois hotspots.",
         "Sorafenib, lenvatinib e atezolizumab+bevacizumab não requerem seleção genómica para uso em 1ª linha.",
         "Biópsia hepática tem risco hemorrágico — validar adequação e celularidade da amostra.",
         "HBV/HCV, Child-Pugh e BCLC são os principais determinantes de tratamento — NGS é complementar."
