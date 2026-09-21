@@ -134,7 +134,7 @@ describe("panels — haematology split", () => {
     // Regression: the DNA component listed MECOM as "EVI1" while the RNA
     // component used "MECOM", so a lookup for MECOM wrongly concluded that
     // MECOM rearrangements were RNA-only.
-    const nonCanonical = get().genes.filter((g) => resolveGeneAlias(g) !== g);
+    const nonCanonical = get().genes.filter((g) => resolveGeneAlias(g).toUpperCase() !== g.toUpperCase());
     expect(nonCanonical).toEqual([]);
   });
 

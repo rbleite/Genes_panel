@@ -74,7 +74,6 @@ export const GENE_ALIASES = {
   "MLL1":       "KMT2A",
   "MKL2":       "MRTFB",   // previous symbol; HGNC approved: MRTFB (2019)
   "MKL1":       "MRTFA",   // previous symbol; HGNC approved: MRTFA (2019)
-  "MAL":        "MRTFA",
   "EZH1":       "EZH1",
 
   // ── BCL / apoptosis ─────────────────────────────────────────────────────
@@ -151,6 +150,59 @@ export const GENE_ALIASES = {
   "CDK-6":      "CDK6",
   "CDK-12":     "CDK12",
   "TMEM-127":   "TMEM127",
+
+  // ── HGNC renames: previous symbol → approved (panel genes) ────────────
+  // Source: HGNC complete set, 2026-09-21. The panels store approved
+  // symbols; these keep searches for the old names working.
+  "C15orf23":   "KNSTRN",
+  "C15orf55":   "NUTM1",
+  "C7orf53":    "LSMEM1",
+  "CARS":       "CARS1",
+  "CCDC168":    "LRTM3",
+  "EIF2C3":     "AGO3",
+  "EMID2":      "COL26A1",
+  "ERBB2IP":    "ERBIN",
+  "FAM123B":    "AMER1",
+  "FAM175A":    "ABRAXAS1",
+  "FAM46C":     "TENT5C",
+  "FAM5C":      "BRINP3",
+  "GPR124":     "ADGRA2",
+  "H3F3A":      "H3-3A",
+  "H3F3B":      "H3-3B",
+  "H3F3C":      "H3-5",
+  "HIST1H1C":   "H1-2",
+  "HIST1H1D":   "H1-3",
+  "HIST1H1E":   "H1-4",
+  "HIST1H2AC":  "H2AC6",
+  "HIST1H2AG":  "H2AC11",
+  "HIST1H2AL":  "H2AC16",
+  "HIST1H2AM":  "H2AC17",
+  "HIST1H2BC":  "H2BC4",
+  "HIST1H2BD":  "H2BC5",
+  "HIST1H2BJ":  "H2BC11",
+  "HIST1H2BK":  "H2BC12",
+  "HIST1H2BO":  "H2BC17",
+  "HIST1H3B":   "H3C2",
+  "HIST1H3C":   "H3C3",
+  "HIST1H3D":   "H3C4",
+  "HIST1H3F":   "H3C7",
+  "HIST1H3G":   "H3C8",
+  "HIST1H3H":   "H3C10",
+  "HIST1H3I":   "H3C11",
+  "HIST1H4I":   "H4C9",
+  "HIST3H3":    "H3-4",
+  "HNRPDL":     "HNRNPDL",
+  "ICK":        "CILK1",
+  "LPHN2":      "ADGRL2",
+  "MLL3":       "KMT2C",
+  "MRE11A":     "MRE11",
+  "MTRNR1":     "MT-RNR1",
+  "MYCL1":      "MYCL",
+  "PARK2":      "PRKN",
+  "SLC22A18":   "SLC67A1",
+  "TCEB1":      "ELOC",
+  "WHSC1":      "NSD2",
+  "WHSC1L1":    "NSD3",
 };
 
 const _upperMap = Object.fromEntries(

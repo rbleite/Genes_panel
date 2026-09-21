@@ -64,12 +64,36 @@ describe("resolveGeneAlias", () => {
     // HGNC renamed MKL1 → MRTFA and MKL2 → MRTFB in 2019.
     expect(resolveGeneAlias("MKL1")).toBe("MRTFA");
     expect(resolveGeneAlias("MKL2")).toBe("MRTFB");
-    expect(resolveGeneAlias("MAL")).toBe("MRTFA");
   });
 
   it("keeps approved MRTF symbols unchanged (regression: they were reversed)", () => {
     expect(resolveGeneAlias("MRTFA")).toBe("MRTFA");
     expect(resolveGeneAlias("MRTFB")).toBe("MRTFB");
+  });
+
+  it("does not hijack MAL, an approved gene of its own", () => {
+    // "MAL" used to map to MKL1/MRTFA, redirecting searches for the real
+    // MAL gene (T-cell differentiation protein) to a different gene.
+    expect(resolveGeneAlias("MAL")).toBe("MAL");
+  });
+
+  it("resolves HGNC-renamed panel genes from their previous symbols", () => {
+    expect(resolveGeneAlias("H3F3A")).toBe("H3-3A");   // H3 K27M gliomas
+    expect(resolveGeneAlias("MLL3")).toBe("KMT2C");
+    expect(resolveGeneAlias("MRE11A")).toBe("MRE11");
+    expect(resolveGeneAlias("WHSC1")).toBe("NSD2");
+    expect(resolveGeneAlias("PARK2")).toBe("PRKN");
+    expect(resolveGeneAlias("MTRNR1")).toBe("MT-RNR1");
+  });
+
+  it("maps the KMT2 family as the panels use it", () => {
+    // MLL2 → KMT2D is an HGNC previous symbol and matches the vendor's own
+    // pairing "KMT2D (MLL2) NM_003482.3". MLL4 is an HGNC alias of both
+    // KMT2B and KMT2D; KMT2B is inferred because the 1021 panel lists MLL2
+    // and MLL4 as distinct genes alongside MLL (KMT2A) and MLL3 (KMT2C).
+    expect(resolveGeneAlias("MLL")).toBe("KMT2A");
+    expect(resolveGeneAlias("MLL2")).toBe("KMT2D");
+    expect(resolveGeneAlias("MLL4")).toBe("KMT2B");
   });
 
   it("resolves the classic AML fusion aliases (EVI1, ETO)", () => {
