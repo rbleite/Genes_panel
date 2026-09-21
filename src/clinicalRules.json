@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.8.0",
+    "version": "1.8.1",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -1529,7 +1529,7 @@
         "IHQ para Hans/COO é adequada para decisão inicial — NGS dá maior granularidade.",
         "Linfoma de Hodgkin clássico: painel hemato tem utilidade limitada pela arquitectura tumoral.",
         "ALCL: NPM1::ALK é detectável pelo componente de RNA, mas a IHQ para ALK é o método de rotina.",
-        "O diagnóstico de linfoma faz-se habitualmente em gânglio/tecido em FFPE, que está fora da especificação do fornecedor (sangue e medula óssea) — requer validação interna; adequado sobretudo com envolvimento medular ou leucémico."
+        "O diagnóstico de linfoma faz-se habitualmente em gânglio/tecido em FFPE, mas o fornecedor valida o painel apenas em sangue periférico ou medula óssea (EDTA) — em FFPE requer validação interna. Adequado sobretudo com envolvimento medular ou leucémico."
       ]
     },
     {
@@ -2127,7 +2127,7 @@
         "Biópsias podem ter baixa celularidade tumoral — validar adequação antes de sequenciar.",
         "IHQ para BRAF V600E é triagem útil mas a confirmação molecular é recomendada antes de inibidores dirigidos.",
         "Se BRAF e MAP2K1 forem negativos, pedir o componente de RNA como reflexo para fusões de cinases (ALK, NTRK, BRAF, RET).",
-        "O diagnóstico faz-se em biópsia de tecido (FFPE), fora da especificação do fornecedor (sangue e medula óssea) — requer validação interna antes de uso clínico."
+        "O diagnóstico faz-se em biópsia de tecido (FFPE), mas o fornecedor valida o painel apenas em sangue periférico ou medula óssea (EDTA) — em FFPE requer validação interna antes de uso clínico."
       ]
     },
     {

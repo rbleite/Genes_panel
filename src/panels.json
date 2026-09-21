@@ -1638,8 +1638,8 @@
     "versao": "v1.0",
     "descricao": "Componente de ADN do painel hematológico: variantes pontuais, indels, CNV e fusões recorrentes por tiling intrónico (PML::RARA, RUNX1::RUNX1T1, CBFB::MYH11, KMT2A, BCR::ABL1, FIP1L1::PDGFRA, entre outras).",
     "amostras": [
-      "Sangue",
-      "Medula óssea"
+      "Sangue periférico (EDTA)",
+      "Medula óssea (EDTA)"
     ],
     "biomarcadores": [
       "SNV",
@@ -2166,7 +2166,7 @@
       "CNV pode requerer confirmação ortogonal em amostras com baixa pureza tumoral",
       "Fusões por ADN só são detectadas quando o ponto de quebra cai nos intrões mapeados — parceiros novos ou breakpoints atípicos exigem o componente de RNA.",
       "Translocações com parceiro IG (MYC, BCL2, BCL6, CCND1) não são avaliadas — FISH mantém-se obrigatório.",
-      "Especificação do fornecedor: sangue e medula óssea. Tecido em FFPE (gânglio, pele, osso) está fora dessa especificação e requer validação interna antes de uso clínico."
+      "Tipo de amostra validado pelo fornecedor: sangue periférico ou medula óssea em EDTA (metodologia do relatório, lista de genes e apresentação). O IFU menciona FFPE numa frase genérica, sem dados de desempenho associados — tecido em FFPE (gânglio, pele, osso) requer validação interna antes de uso clínico."
     ],
     "whenNotToUse": [
       "Tumores sólidos — usar painéis somáticos dedicados",
@@ -2195,8 +2195,8 @@
     "versao": "v1.0",
     "descricao": "Componente de RNA do painel hematológico: deteção de fusões por captura sobre cDNA sintetizado com primers aleatórios — independente do parceiro e do ponto de quebra. Complementar ao componente de ADN.",
     "amostras": [
-      "RNA de sangue",
-      "RNA de medula óssea"
+      "Sangue periférico (EDTA)",
+      "Medula óssea (EDTA)"
     ],
     "biomarcadores": [
       "Fusões",
@@ -2457,7 +2457,7 @@
       "Translocações com parceiro IG (t(8;14) MYC, t(14;18) BCL2, t(11;14) CCND1) não geram transcrito quimérico detectável de forma fiável — FISH obrigatório.",
       "P2RY8::CRLF2, IGH::CRLF2, EPOR e ABL2 não constam do desenho — avaliação Ph-like incompleta; complementar com citometria (CRLF2) e FISH.",
       "Requer RNA de boa qualidade (20-200 ng, OD260/280 1,8-2,0) — assegurar colheita e processamento adequados.",
-      "Especificação do fornecedor: sangue e medula óssea. Tecido em FFPE (gânglio, pele, osso) está fora dessa especificação e requer validação interna antes de uso clínico — o RNA de FFPE é particularmente degradado."
+      "Tipo de amostra validado pelo fornecedor: sangue periférico ou medula óssea em EDTA (metodologia do relatório, lista de genes e apresentação). O IFU menciona FFPE numa frase genérica, sem dados de desempenho associados — tecido em FFPE (gânglio, pele, osso) requer validação interna antes de uso clínico; o RNA de FFPE é particularmente degradado."
     ],
     "whenNotToUse": [
       "Neoplasias definidas por mutações sem fusão relevante (SMD, NMP, LLC, mastocitose, Waldenström) — o componente de ADN é suficiente.",

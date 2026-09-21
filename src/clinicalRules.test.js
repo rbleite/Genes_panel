@@ -147,6 +147,25 @@ describe("panels — haematology split", () => {
     }
   });
 
+  it("BCL2, BCL6 and CRLF2 have no fusion coverage in either component", () => {
+    // Anchors the linfoma (double/triple hit needs FISH) and lla (P2RY8::CRLF2
+    // not covered) caveats to the data. Verified against the vendor's
+    // "Hemat NGS Panel gene list" (core / DNA Fusions / RNA-fusion-blood):
+    // all three sit only in the core mutation block. If the vendor ever adds
+    // fusion coverage for them, this fails and the rule text must be revisited.
+    const fusion = new Set([...dna.secoes.dnaFusions, ...rna.secoes.rnaFusionBlood]);
+    for (const g of ["BCL2", "BCL6", "CRLF2"]) {
+      expect(fusion.has(g), `${g} ganhou cobertura de fusão`).toBe(false);
+      expect(dna.secoes.coreDnaHemato, g).toContain(g);
+    }
+  });
+
+  it("the haematology components declare blood / bone marrow in EDTA", () => {
+    for (const panel of [dna, rna]) {
+      expect(panel.amostras.every((a) => /EDTA/.test(a)), panel.id).toBe(true);
+    }
+  });
+
   it("MECOM rearrangements are covered by both components", () => {
     expect(dna.secoes.dnaFusions).toContain("MECOM");
     expect(rna.secoes.rnaFusionBlood).toContain("MECOM");
