@@ -60,6 +60,24 @@ describe("resolveGeneAlias", () => {
     expect(resolveGeneAlias("AML1")).toBe("RUNX1");
   });
 
+  it("resolves previous symbols to the HGNC-approved MRTF names", () => {
+    // HGNC renamed MKL1 → MRTFA and MKL2 → MRTFB in 2019.
+    expect(resolveGeneAlias("MKL1")).toBe("MRTFA");
+    expect(resolveGeneAlias("MKL2")).toBe("MRTFB");
+    expect(resolveGeneAlias("MAL")).toBe("MRTFA");
+  });
+
+  it("keeps approved MRTF symbols unchanged (regression: they were reversed)", () => {
+    expect(resolveGeneAlias("MRTFA")).toBe("MRTFA");
+    expect(resolveGeneAlias("MRTFB")).toBe("MRTFB");
+  });
+
+  it("resolves the classic AML fusion aliases (EVI1, ETO)", () => {
+    expect(resolveGeneAlias("EVI1")).toBe("MECOM");
+    expect(resolveGeneAlias("ETO")).toBe("RUNX1T1");
+    expect(resolveGeneAlias("AML1")).toBe("RUNX1");
+  });
+
   it("resolves NTRK / TRK family", () => {
     expect(resolveGeneAlias("TRKA")).toBe("NTRK1");
     expect(resolveGeneAlias("TRKB")).toBe("NTRK2");

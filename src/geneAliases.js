@@ -72,9 +72,9 @@ export const GENE_ALIASES = {
   "MLL4":       "KMT2B",
   "MLL":        "KMT2A",
   "MLL1":       "KMT2A",
-  "MRTFB":      "MKL2",    // previous symbol; HGNC approved: MKL2
-  "MRTFA":      "MKL1",
-  "MAL":        "MKL1",
+  "MKL2":       "MRTFB",   // previous symbol; HGNC approved: MRTFB (2019)
+  "MKL1":       "MRTFA",   // previous symbol; HGNC approved: MRTFA (2019)
+  "MAL":        "MRTFA",
   "EZH1":       "EZH1",
 
   // ── BCL / apoptosis ─────────────────────────────────────────────────────
@@ -99,6 +99,8 @@ export const GENE_ALIASES = {
   "DNMT3-A":    "DNMT3A",
   "RUNX-1":     "RUNX1",
   "AML1":       "RUNX1",
+  "ETO":        "RUNX1T1",
+  "EVI1":       "MECOM",
   "SF3B-1":     "SF3B1",
   "CALR":       "CALR",
   "MPL":        "MPL",

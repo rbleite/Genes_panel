@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import clinicalRulesData from "./clinicalRules.json";
 import panels from "./panels.json";
+import { resolveGeneAlias } from "./geneAliases.js";
 
 const rules = clinicalRulesData.rules;
 const panelIds = new Set(panels.map((p) => p.id));
@@ -111,5 +112,36 @@ describe("panels — haematology split", () => {
   it("both components point to each other as a recommended combination", () => {
     expect(dna.recommendedCombinations.map((c) => c.with)).toContain("rna-hemato");
     expect(rna.recommendedCombinations.map((c) => c.with)).toContain("dna-hemato");
+  });
+
+  it("DNA and RNA components match the vendor spec (208 DNA / 94 RNA)", () => {
+    // G2M Hemat NGS specification: "208* (DNA), 94 (RNA fusion genes)".
+    expect(dna.totalGenes).toBe(208);
+    expect(rna.totalGenes).toBe(94);
+  });
+
+  it.each([
+    ["dna-hemato", () => dna],
+    ["rna-hemato", () => rna],
+  ])("%s uses only canonical symbols, so one gene never appears under two names", (_, get) => {
+    // Regression: the DNA component listed MECOM as "EVI1" while the RNA
+    // component used "MECOM", so a lookup for MECOM wrongly concluded that
+    // MECOM rearrangements were RNA-only.
+    const nonCanonical = get().genes.filter((g) => resolveGeneAlias(g) !== g);
+    expect(nonCanonical).toEqual([]);
+  });
+
+  it("fusions cited as RNA-only really have no DNA fusion coverage", () => {
+    const dnaFusions = new Set(dna.secoes.dnaFusions);
+    const rnaFusions = new Set(rna.secoes.rnaFusionBlood);
+    for (const g of ["KAT6A", "CREBBP", "FUS", "ERG", "NPM1", "MLF1"]) {
+      expect(dnaFusions.has(g), `${g} tem cobertura de fusão no ADN`).toBe(false);
+      expect(rnaFusions.has(g), `${g} ausente do RNA`).toBe(true);
+    }
+  });
+
+  it("MECOM rearrangements are covered by both components", () => {
+    expect(dna.secoes.dnaFusions).toContain("MECOM");
+    expect(rna.secoes.rnaFusionBlood).toContain("MECOM");
   });
 });
