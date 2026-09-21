@@ -70,6 +70,13 @@ describe("clinicalRules — haematology DNA/RNA components", () => {
     },
   );
 
+  it("every haematology rule explains why it needs DNA only or DNA + RNA", () => {
+    for (const rule of hemato) {
+      expect(rule.componentRationale, rule.id).toEqual(expect.any(String));
+      expect(rule.componentRationale.length, rule.id).toBeGreaterThan(40);
+    }
+  });
+
   it("linfoma does not route to RNA, and states that double hit needs FISH", () => {
     // Regression guard: the rule previously claimed RNA confirmed
     // MYC/BCL2/BCL6 double/triple hit. BCL2 and BCL6 have no fusion

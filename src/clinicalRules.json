@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.7.0",
+    "version": "1.8.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -1261,12 +1261,12 @@
         "rna-hemato"
       ],
       "combination": true,
+      "componentRationale": "A classificação WHO/ICC e o risco ELN 2022 exigem, em simultâneo, mutações (FLT3, NPM1, CEBPA, TP53) e fusões definidoras. O ADN cobre as fusões recorrentes; o RNA acrescenta as que não têm cobertura no ADN (KAT6A::CREBBP, FUS::ERG, NPM1::MLF1) e parceiros ou pontos de quebra atípicos. O aspirado é colhido uma vez — o RNA tem de ser assegurado ao diagnóstico.",
       "strength": "Recomendado",
       "rationale": [
         "FLT3 ITD/TKD: midostaurina (1ª linha) ou gilteritinib (refratária/recaída) — obrigatório ao diagnóstico.",
         "IDH1/IDH2: ivosidenib/enasidenib em LMA IDH-mutada.",
-        "NPM1 e CEBPA biallelic: estratificação de risco ELN — determinam intensidade de tratamento.",
-        "ADN e RNA em paralelo ao diagnóstico: as fusões recorrentes (PML::RARA, RUNX1::RUNX1T1, CBFB::MYH11, KMT2A, MECOM) são cobertas pelos dois componentes; o RNA acrescenta fusões sem cobertura de fusão no ADN (KAT6A::CREBBP, FUS::ERG, NPM1::MLF1) e parceiros ou pontos de quebra atípicos, necessários à classificação WHO/ICC."
+        "NPM1 e CEBPA biallelic: estratificação de risco ELN — determinam intensidade de tratamento."
       ],
       "caveats": [
         "FLT3 ITD tem ratio alélico variável — método quantitativo é preferível para monitorização.",
@@ -1315,6 +1315,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "O diagnóstico e a monitorização do BCR::ABL1 fazem-se por RT-PCR quantitativo e citogenética, não por NGS. O NGS serve para mutações de resistência aos TKI e genes de progressão (ASXL1, RUNX1, IKZF1) — alterações de ADN.",
       "strength": "Recomendado",
       "rationale": [
         "BCR-ABL1 (t(9;22)) é a alteração definidora da LMC — diagnóstico e monitorização por RT-PCR quantitativo.",
@@ -1367,6 +1368,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "O diagnóstico e o prognóstico (IPSS-M, MIPSS) assentam em mutações (SF3B1, TP53, ASXL1, JAK2, CALR, MPL) e no cariótipo. As fusões são raras nestas entidades e o RNA não acrescenta rendimento. Com eosinofilia ou suspeita de progressão para LMA, reavaliar a indicação.",
       "strength": "Recomendado",
       "rationale": [
         "SMD: SF3B1 define SMD com sideroblastos em anel; TP53 biallelic confere prognóstico muito desfavorável (IPSS-M).",
@@ -1416,11 +1418,11 @@
         "rna-hemato"
       ],
       "combination": true,
+      "componentRationale": "A estratificação depende de fusões com muitos parceiros (BCR::ABL1, ETV6::RUNX1, KMT2A, Ph-like) e de CNV (IKZF1, CDKN2A, PAX5). O RNA é essencial para o Ph-like; o ADN para as deleções e mutações.",
       "strength": "Recomendado",
       "rationale": [
         "LLA Ph-like: fusões de cinases (ABL1, JAK2, PDGFRB, CSF1R) detectadas pelo RNA — implicam uso de imatinib/ruxolitinib.",
         "IKZF1 deletion: marcador de mau prognóstico em LLA-B.",
-        "ADN e RNA em combinação: CNV (IKZF1, CDKN2A, PAX5) e mutações pelo ADN; fusões com múltiplos parceiros pelo RNA.",
         "BCR-ABL1 por RNA é mais sensível que FISH para LLA Ph+."
       ],
       "caveats": [
@@ -1463,6 +1465,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "Os marcadores prognósticos e preditivos (TP53, NOTCH1, SF3B1, BIRC3) são mutações; del(17p), del(11q) e trissomia 12 avaliam-se por FISH. O RNA não acrescenta.",
       "strength": "Recomendado",
       "rationale": [
         "TP53 mutação e/ou del(17p): resistência à quimioterapia — indicação para ibrutinib/venetoclax.",
@@ -1514,12 +1517,12 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "As mutações (MYD88, CD79B, EZH2, TP53) apoiam a subclassificação. O RNA não resolve o double/triple hit: BCL2 e BCL6 não têm cobertura de fusão e as translocações com parceiro IG não geram transcrito quimérico — exige FISH.",
       "strength": "Recomendado",
       "rationale": [
         "DLBCL: COO (GCB vs ABC) por IHQ/sequenciação; MYC+BCL2 double hit define linfoma de alto grau.",
         "EZH2 mutação (GCB): tazemetostat indicado em linfoma folicular.",
-        "MYD88 L265P + CD79B: mutações características de DLBCL ABC/PCNSL — indicam ibrutinib.",
-        "Mutações (MYD88, CD79B, EZH2, TP53) pelo ADN apoiam a subclassificação; o double/triple hit (rearranjos MYC, BCL2, BCL6) não é avaliado por este painel e exige FISH."
+        "MYD88 L265P + CD79B: mutações características de DLBCL ABC/PCNSL — indicam ibrutinib."
       ],
       "caveats": [
         "Double/triple hit exige FISH para MYC, BCL2 e BCL6: BCL2 e BCL6 não têm cobertura de fusão e as translocações com parceiro IG não geram transcrito quimérico detectável por RNA. Um NGS negativo NÃO exclui linfoma de alto grau com rearranjos.",
@@ -1558,6 +1561,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "O diagnóstico assenta na mutação KIT D816V e o prognóstico em mutações adicionais (TET2, SRSF2, ASXL1, RUNX1); não há fusões com relevância clínica. Pela VAF habitualmente baixa, o KIT D816V pode exigir PCR alelo-específica ou ddPCR.",
       "strength": "Recomendado",
       "rationale": [
         "KIT D816V (≈95%): diagnóstico molecular de mastocitose sistémica; avapritinib indicado.",
@@ -2013,12 +2017,12 @@
         "rna-hemato"
       ],
       "combination": true,
+      "componentRationale": "A entidade é definida por fusões de tirosina-cinase (PDGFRA, PDGFRB, FGFR1, JAK2) com implicação terapêutica directa, e FIP1L1::PDGFRA é críptica no cariótipo. O ADN cobre as fusões principais e permite excluir outras neoplasias mieloides; o RNA acrescenta sensibilidade para parceiros atípicos.",
       "strength": "Recomendado",
       "rationale": [
         "Rearranjos de PDGFRA, PDGFRB, FGFR1 e JAK2 definem entidades distintas com implicação terapêutica directa (categoria WHO/ICC dedicada).",
         "FIP1L1::PDGFRA e outros rearranjos de PDGFRA/B respondem dramaticamente a imatinib em baixa dose.",
-        "Rearranjos de FGFR1 e JAK2 orientam para inibidores específicos (pemigatinib, ruxolitinib).",
-        "As fusões principais (FIP1L1::PDGFRA, PDGFRB, FGFR1, JAK2) são cobertas pelos dois componentes; o RNA acrescenta sensibilidade para parceiros atípicos. FIP1L1::PDGFRA resulta de uma deleção críptica no cariótipo."
+        "Rearranjos de FGFR1 e JAK2 orientam para inibidores específicos (pemigatinib, ruxolitinib)."
       ],
       "caveats": [
         "FISH dirigida pode complementar a deteção, sobretudo em casos com baixa fração tumoral.",
@@ -2059,6 +2063,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "MYD88 L265P e CXCR4 são mutações pontuais e não há fusões com relevância clínica — o RNA não acrescenta.",
       "strength": "Recomendado",
       "rationale": [
         "MYD88 L265P está presente em >90% dos casos — biomarcador diagnóstico que apoia distinção de outras gamopatias IgM.",
@@ -2111,6 +2116,7 @@
         "dna-hemato"
       ],
       "combination": false,
+      "componentRationale": "BRAF V600E e MAP2K1 explicam a maioria dos casos e são mutações de ADN. O RNA só se justifica como reflexo, quando ambos são negativos, para pesquisar fusões de cinases (ALK, NTRK, BRAF, RET).",
       "strength": "Recomendado",
       "rationale": [
         "BRAF V600E é a alteração mais frequente (≈50-60% em LCH e Erdheim-Chester) e responde a inibidores BRAF/MEK aprovados.",
@@ -2167,6 +2173,7 @@
         "germinativo"
       ],
       "combination": true,
+      "componentRationale": "As variantes de predisposição (DDX41, RUNX1, CEBPA, GATA2, ANKRD26, ETV6, SAMD9L) são mutações pontuais — o RNA não acrescenta. A confirmação germinativa faz-se em tecido não hematopoiético.",
       "strength": "Recomendado",
       "rationale": [
         "Variantes em DDX41, RUNX1, CEBPA, GATA2, ANKRD26, ETV6 e SAMD9L predispõem a LMA, SMD e outras neoplasias mieloides.",

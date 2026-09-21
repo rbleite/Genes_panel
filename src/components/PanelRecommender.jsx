@@ -242,6 +242,17 @@ export default function PanelRecommender({ open, onClose, onSelectPanel }) {
                   )}
                 </div>
 
+                {recommendation.rule.componentRationale && (
+                  <div className="mt-4 rounded-xl border border-indigo-200 bg-indigo-50/70 px-3.5 py-3">
+                    <div className="text-xs font-semibold uppercase tracking-[0.12em] text-indigo-800 mb-1">
+                      {recommendation.rule.recommendedPanels.includes("rna-hemato")
+                        ? "Porquê ADN + RNA?"
+                        : "Porquê só ADN?"}
+                    </div>
+                    <p className="text-sm leading-6 text-indigo-950">{recommendation.rule.componentRationale}</p>
+                  </div>
+                )}
+
                 <div className="mt-4">
                   <div className="text-xs font-semibold uppercase tracking-[0.12em] text-emerald-800 mb-2">Racional</div>
                   <ul className="space-y-1.5">
