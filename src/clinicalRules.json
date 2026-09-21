@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.5.0",
+    "version": "1.6.0",
     "lastReviewed": "2026-05-22",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
@@ -1257,20 +1257,22 @@
         "RNA"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato",
+        "rna-hemato"
       ],
-      "combination": false,
+      "combination": true,
       "strength": "Recomendado",
       "rationale": [
         "FLT3 ITD/TKD: midostaurina (1ª linha) ou gilteritinib (refratária/recaída) — obrigatório ao diagnóstico.",
         "IDH1/IDH2: ivosidenib/enasidenib em LMA IDH-mutada.",
         "NPM1 e CEBPA biallelic: estratificação de risco ELN — determinam intensidade de tratamento.",
-        "Painel hemato cobre DNA e RNA em simultâneo — fusões RUNX1-RUNX1T1, CBFB-MYH11 por RNA."
+        "ADN e RNA em paralelo ao diagnóstico: as fusões recorrentes (PML::RARA, RUNX1::RUNX1T1, CBFB::MYH11, KMT2A) são cobertas pelos dois componentes; o RNA acrescenta fusões crípticas e parceiros não mapeados (MECOM, KAT6A) necessários à classificação WHO/ICC."
       ],
       "caveats": [
         "FLT3 ITD tem ratio alélico variável — método quantitativo é preferível para monitorização.",
         "Este painel é exclusivo para neoplasias hematológicas — não usar painéis de tumores sólidos.",
-        "Resultado urgente para FLT3/IDH pode ser obtido por técnicas reflexas enquanto aguarda NGS."
+        "Resultado urgente para FLT3/IDH pode ser obtido por técnicas reflexas enquanto aguarda NGS.",
+        "Assegurar material para RNA na colheita do aspirado — a qualidade do RNA degrada-se e não se recupera a posteriori."
       ]
     },
     {
@@ -1310,7 +1312,7 @@
         "nilotinib"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -1321,7 +1323,8 @@
       ],
       "caveats": [
         "O diagnóstico primário de LMC é feito por citogenética/FISH e RT-PCR para BCR-ABL1 — NGS é complementar para mutações de resistência.",
-        "O painel hemato inclui genes de progressão para fase acelerada/blástica (TP53, RUNX1, ASXL1, IDH1/2)."
+        "O painel hemato inclui genes de progressão para fase acelerada/blástica (TP53, RUNX1, ASXL1, IDH1/2).",
+        "A ELN recomenda estudar as mutações do domínio cinase sobre o transcrito BCR::ABL1 (cDNA), que sequencia só o alelo de fusão; no ADN o alelo ABL1 normal dilui a VAF — sensibilidade inferior para clones minoritários."
       ]
     },
     {
@@ -1361,7 +1364,7 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -1409,20 +1412,22 @@
         "RNA"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato",
+        "rna-hemato"
       ],
-      "combination": false,
+      "combination": true,
       "strength": "Recomendado",
       "rationale": [
-        "LLA Ph-like: fusões de cinases (ABL1, JAK2, EPOR) detectadas por RNA — implicam uso de imatinib/ruxolitinib.",
+        "LLA Ph-like: fusões de cinases (ABL1, JAK2, PDGFRB, CSF1R) detectadas pelo RNA — implicam uso de imatinib/ruxolitinib.",
         "IKZF1 deletion: marcador de mau prognóstico em LLA-B.",
-        "Painel hemato integrado DNA+RNA é essencial para capturar todo o espectro de alterações relevantes.",
+        "ADN e RNA em combinação: CNV (IKZF1, CDKN2A, PAX5) e mutações pelo ADN; fusões com múltiplos parceiros pelo RNA.",
         "BCR-ABL1 por RNA é mais sensível que FISH para LLA Ph+."
       ],
       "caveats": [
         "BCR-ABL1 quantitativo por PCR é obrigatório para monitorização — NGS não substitui PCR de seguimento.",
         "Citogenética convencional (cariótipo) é complementar obrigatória.",
-        "LLA-T tem alterações moleculares distintas (NOTCH1, FBXW7, PHF6) — painel hemato cobre."
+        "LLA-T tem alterações moleculares distintas (NOTCH1, FBXW7, PHF6) — painel hemato cobre.",
+        "P2RY8::CRLF2 e IGH::CRLF2 — a lesão Ph-like mais frequente — não são cobertos, tal como EPOR e ABL2: complementar com citometria de fluxo (CRLF2) e FISH."
       ]
     },
     {
@@ -1455,7 +1460,7 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -1503,11 +1508,10 @@
         "CD79B",
         "MYD88",
         "TP53",
-        "fusões",
-        "RNA"
+        "fusões"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -1515,12 +1519,13 @@
         "DLBCL: COO (GCB vs ABC) por IHQ/sequenciação; MYC+BCL2 double hit define linfoma de alto grau.",
         "EZH2 mutação (GCB): tazemetostat indicado em linfoma folicular.",
         "MYD88 L265P + CD79B: mutações características de DLBCL ABC/PCNSL — indicam ibrutinib.",
-        "Fusões MYC/BCL2/BCL6 por RNA confirmam double/triple hit — prognóstico e intensidade de tratamento."
+        "Mutações (MYD88, CD79B, EZH2, TP53) pelo ADN apoiam a subclassificação; o double/triple hit (rearranjos MYC, BCL2, BCL6) não é avaliado por este painel e exige FISH."
       ],
       "caveats": [
-        "FISH para MYC, BCL2, BCL6 mantém-se gold standard para double/triple hit — NGS é complementar.",
+        "Double/triple hit exige FISH para MYC, BCL2 e BCL6: BCL2 e BCL6 não têm cobertura de fusão e as translocações com parceiro IG não geram transcrito quimérico detectável por RNA. Um NGS negativo NÃO exclui linfoma de alto grau com rearranjos.",
         "IHQ para Hans/COO é adequada para decisão inicial — NGS dá maior granularidade.",
-        "Linfoma de Hodgkin clássico: painel hemato tem utilidade limitada pela arquitectura tumoral."
+        "Linfoma de Hodgkin clássico: painel hemato tem utilidade limitada pela arquitectura tumoral.",
+        "ALCL: NPM1::ALK é detectável pelo componente de RNA, mas a IHQ para ALK é o método de rotina."
       ]
     },
     {
@@ -1549,7 +1554,7 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -2003,15 +2008,16 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato",
+        "rna-hemato"
       ],
-      "combination": false,
+      "combination": true,
       "strength": "Recomendado",
       "rationale": [
         "Rearranjos de PDGFRA, PDGFRB, FGFR1 e JAK2 definem entidades distintas com implicação terapêutica directa (categoria WHO/ICC dedicada).",
         "FIP1L1::PDGFRA e outros rearranjos de PDGFRA/B respondem dramaticamente a imatinib em baixa dose.",
         "Rearranjos de FGFR1 e JAK2 orientam para inibidores específicos (pemigatinib, ruxolitinib).",
-        "O painel hemato com componente de RNA é o método sensível para esta categoria de fusões."
+        "As fusões principais (FIP1L1::PDGFRA, PDGFRB, FGFR1, JAK2) são cobertas pelos dois componentes; o RNA acrescenta sensibilidade para parceiros atípicos. FIP1L1::PDGFRA resulta de uma deleção críptica no cariótipo."
       ],
       "caveats": [
         "FISH dirigida pode complementar a deteção, sobretudo em casos com baixa fração tumoral.",
@@ -2049,7 +2055,7 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -2101,7 +2107,7 @@
         "mutações acionáveis"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato"
+        "dna-hemato"
       ],
       "combination": false,
       "strength": "Recomendado",
@@ -2113,7 +2119,7 @@
       "caveats": [
         "Biópsias podem ter baixa celularidade tumoral — validar adequação antes de sequenciar.",
         "IHQ para BRAF V600E é triagem útil mas a confirmação molecular é recomendada antes de inibidores dirigidos.",
-        "Estudo deve incluir RNA para fusões raras de quinases descritas nesta categoria."
+        "Se BRAF e MAP2K1 forem negativos, pedir o componente de RNA como reflexo para fusões de cinases (ALK, NTRK, BRAF, RET)."
       ]
     },
     {
@@ -2155,7 +2161,7 @@
         "hereditário"
       ],
       "recommendedPanels": [
-        "dna-rna-hemato",
+        "dna-hemato",
         "germinativo"
       ],
       "combination": true,

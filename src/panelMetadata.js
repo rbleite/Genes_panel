@@ -26,7 +26,7 @@ export const strategyLabels = {
   "focused":          "Focado",
   "comprehensive":    "Compreensivo",
   "fusion-focused":   "Fusão",
-  "hematology":       "Hematologia integrada",
+  "hematology":       "Hematologia · ADN",
   "germline":         "Germinativo",
   "pharmacogenomic":  "Farmacogenómica",
 };

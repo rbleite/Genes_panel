@@ -17,7 +17,7 @@ const lmaRule = {
   tumor: ["LMA", "Leucemia mielóide aguda"],
   context: ["diagnóstico", "recidiva"],
   goals: ["FLT3", "NPM1", "IDH1"],
-  recommendedPanels: ["dna-rna-hemato"],
+  recommendedPanels: ["dna-hemato"],
 };
 
 const mamaRule = {
@@ -32,7 +32,7 @@ const mamaRule = {
 const panels = [
   { id: "dna-tumores-solidos", label: "DNA Tumores Sólidos" },
   { id: "fusoes-rna", label: "Fusões RNA" },
-  { id: "dna-rna-hemato", label: "DNA/RNA Hematologia" },
+  { id: "dna-hemato", label: "DNA/RNA Hematologia" },
   { id: "germinativo", label: "Germinativo" },
 ];
 
