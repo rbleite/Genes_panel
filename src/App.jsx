@@ -729,6 +729,9 @@ export default function GenePanelsCatalog() {
         setEvidenceData({ civic, oncokb });
         if (!canQueryOnco) {
           setEvidenceError("CIViC foi consultado. Para OncoKB, preenche também alteração proteica e tipo tumoral.");
+        } else if (results[1].status === "rejected") {
+          // CIViC answered but OncoKB did not — say why instead of dropping it silently.
+          setEvidenceError(`CIViC foi consultado. OncoKB: ${results[1].reason?.message || "sem resposta."}`);
         }
       }
     } catch (err) {

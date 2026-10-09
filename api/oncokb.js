@@ -4,10 +4,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // OncoKB's API requires an institutional licence. Without a token the
+  // service is unavailable by configuration, not failing — answer 503 with
+  // a message the clinician can understand.
   const token = process.env.ONCOKB_API_TOKEN;
   if (!token) {
-    return res.status(500).json({
-      error: 'ONCOKB_API_TOKEN não configurado no ambiente.',
+    return res.status(503).json({
+      error: 'OncoKB indisponível: a API requer licença institucional (token não configurado). Usar o link para oncokb.org.',
+      code: 'ONCOKB_NOT_CONFIGURED',
     });
   }
 
