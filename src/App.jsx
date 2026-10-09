@@ -43,10 +43,11 @@ import { buildCsv, downloadFile } from "./utils.js";
 import ClinicalExportModal from "./components/ClinicalExportModal.jsx";
 import PanelComparator from "./components/PanelComparator.jsx";
 import PanelRecommender from "./components/PanelRecommender.jsx";
+// Single source of truth for the app version shown in the footer.
+import { version as APP_VERSION } from "../package.json";
 
 const rulesMeta = _clinicalRulesData.meta;
 
-const APP_VERSION = "1.0.0";
 const STORAGE_KEY = "gene-panel-builder-selected";
 
 function prettifySectionKey(key) {

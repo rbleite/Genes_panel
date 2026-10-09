@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "Se usar este software, por favor cite-o com os metadados abaixo."
+title: "Gene Panels — Apoio à Decisão em NGS Oncológica"
+type: software
+authors:
+  - given-names: "Ricardo B."
+    family-names: "Leite"
+    affiliation: "Patologia Molecular, Serviço de Anatomia Patológica, ULS Almada-Seixal"
+version: "2.0.0"
+date-released: "2026-10-09"
+license: Apache-2.0
+repository-code: "https://github.com/rbleite/Genes_panel"
+url: "https://genes-panel.vercel.app"
+abstract: >-
+  Ferramenta de apoio à decisão para a selecção de painéis NGS em oncologia
+  e hematologia. Operacionaliza o documento institucional de selecção de
+  painéis num motor de regras transparente e auditável, explica a escolha
+  entre componentes de ADN e RNA, e expõe a cobertura por gene — o que um
+  resultado negativo exclui e o que não exclui.
+keywords:
+  - next-generation sequencing
+  - gene panels
+  - clinical decision support
+  - molecular pathology
+  - precision oncology
+  - haematology

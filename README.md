@@ -2,6 +2,8 @@
 
 Ferramenta de apoio à decisão clínica para selecção de painéis de sequenciação de nova geração (NGS) em oncologia e hematologia, desenvolvida no âmbito do **Serviço de Patologia Molecular — ULS Almada-Seixal**.
 
+**Versão 2.0.0** · regras clínicas v1.8.1 · [histórico de alterações](CHANGELOG.md) · aplicação: <https://genes-panel.vercel.app>
+
 > **Aviso clínico importante**  
 > Esta aplicação destina-se exclusivamente a apoio à decisão e **não substitui o juízo clínico** do médico responsável. As recomendações são baseadas em regras clínicas derivadas de orientações ESMO/NCCN e devem ser interpretadas no contexto clínico individual de cada doente. A decisão final é sempre do clínico.
 
@@ -23,10 +25,12 @@ Por fim, há uma convicção sobre transparência. As decisões de saúde apoiad
 - **Classificação por estratégia analítica** (focado / compreensivo / fusão / hematologia / germinativo / farmacogenómica) — eixo independente da categoria de genes, alinhado com o framework de selecção de painéis
 - **Motor de recomendação clínica** baseado em regras (tumor + contexto clínico + objetivos terapêuticos)
 - **Grau de confiança** da recomendação (alta / moderada / baixa) com critérios explicitados
+- **ADN ou ADN + RNA em hematologia** — cada entidade explica porque precisa de um ou dos dois componentes do painel hematológico
+- **Cobertura por gene** (painel de 188 genes) — CDS completo, exões dirigidos, só parceiro de fusão, promotor ou não reportado, com regiões e transcrito: o que um resultado negativo exclui e o que não exclui
 - **Comparador de painéis** lado a lado
 - **Justificação NGS** exportável para integração em relatórios clínicos
-- **Dicionário de aliases HGNC** (HER2 → ERBB2, p53 → TP53, etc.)
-- **Cobertura de testes** ao motor de regras e dicionário de aliases (Vitest)
+- **Nomenclatura HGNC actual** em todos os painéis, com aliases e símbolos anteriores pesquisáveis (HER2 → ERBB2, MLL → KMT2A, H3F3A → H3-3A…)
+- **Testes automáticos** (Vitest) ao motor de regras, aliases, cobertura, integridade dos painéis e das regras, e endpoints de API
 - **Error boundary** global com diagnóstico copiável para envio ao desenvolvedor
 
 ---
@@ -39,18 +43,24 @@ src/
 ├── main.jsx                         # Ponto de entrada (envolvido em ErrorBoundary)
 ├── ErrorBoundary.jsx                # Captura e apresenta erros de render
 ├── ruleEngine.js                    # Motor de inferência (scoring + confiança)
-├── ruleEngine.test.js               # Testes unitários do motor (Vitest)
-├── geneAliases.js                   # Dicionário de aliases HGNC
-├── geneAliases.test.js              # Testes do dicionário
+├── geneAliases.js                   # Aliases e símbolos anteriores → símbolo HGNC
+├── coverage.js                      # Cobertura por gene (níveis, apresentação)
 ├── clinicalRules.json               # Base de conhecimento clínico (auditável)
 ├── panels.json                      # Catálogo de painéis NGS
+├── geneCoverage.json                # Especificação de cobertura do fornecedor
 ├── panelMetadata.js                 # Metadados visuais e de domínio
 ├── utils.js                         # Utilitários (CSV, download)
+├── *.test.js                        # Testes (Vitest)
 └── components/
     ├── Modal.jsx                    # Shell partilhada de modal
     ├── ClinicalExportModal.jsx      # Justificação clínica NGS exportável
     ├── PanelComparator.jsx          # Comparação lado-a-lado de painéis
     └── PanelRecommender.jsx         # Fluxo de recomendação em 3 passos
+
+api/                                 # Funções serverless (Vercel)
+├── civic.js                         # CIViC (GraphQL v2)
+├── oncokb.js                        # OncoKB (requer licença institucional)
+└── clinpgx.js                       # ClinPGx
 ```
 
 ### Motor de recomendação
@@ -216,6 +226,12 @@ A mudança implica novo schema para `goals`, adaptação do motor de scoring par
 Acima e além da hierarquização dos goals, cada regra pode passar a anotar o **nível ESCAT** (I-A, I-B, II, III, IV-A, V) por par alteração-fármaco. Esta anotação permite mostrar na UI a robustez do suporte clínico para cada recomendação, ajudando o clínico a distinguir, por exemplo, EGFR T790M em CPNPC (ESCAT I-A) de fusões raras em ensaio clínico (ESCAT III-A).
 
 Ambas as direcções pressupõem trabalho de curação clínica autoral, não apenas de engenharia, e devem ser conduzidas com integração nas guidelines vigentes no momento da decisão.
+
+---
+
+## Como citar
+
+Os metadados de citação estão em [`CITATION.cff`](CITATION.cff); o GitHub gera a referência a partir deles (botão *Cite this repository*). Ao citar, indicar a versão da aplicação e a das regras clínicas, que têm numeração independente.
 
 ---
 
