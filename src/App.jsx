@@ -1163,7 +1163,7 @@ export default function GenePanelsCatalog() {
             </div>
             <div className="flex flex-col gap-2 text-center text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-left sm:text-xs">
               <div className="flex flex-col gap-1">
-                <div>Ricardo B. Leite · Patologia molecular — Serviço de Anatomia Patológica, ULS Almada-Seixal</div>
+                <div>Ricardo B. Leite</div>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[10px] text-slate-400">
                   <a
                     href="https://raw.githubusercontent.com/rbleite/Genes_panel/main/src/clinicalRules.json"

@@ -6,6 +6,13 @@ A aplicação, as regras clínicas (`src/clinicalRules.json`) e os dados de cobe
 
 ---
 
+## [2.0.2] — 2026-10-16
+
+### Alterado
+- Rodapé: a autoria passa a indicar apenas o nome do autor, sem afiliação institucional.
+
+---
+
 ## [2.0.1] — 2026-10-16
 
 Distribuída com **regras clínicas v1.8.1** e **dados de cobertura v1.0.1** (sem alterações).
@@ -59,6 +66,7 @@ Distribuída com **regras clínicas v1.8.1** e **dados de cobertura v1.0.1** (am
 
 Primeira versão com motor de regras clínicas: catálogo de painéis, pesquisa multigene com aliases, recomendador por tipo tumoral, contexto e objectivos, comparador de painéis e justificação NGS exportável.
 
+[2.0.2]: https://github.com/rbleite/Genes_panel/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/rbleite/Genes_panel/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/rbleite/Genes_panel/compare/ddd743f...v2.0.0
 [1.0.0]: https://github.com/rbleite/Genes_panel/tree/ddd743f

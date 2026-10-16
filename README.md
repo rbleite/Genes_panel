@@ -2,7 +2,7 @@
 
 Ferramenta de apoio à decisão clínica para selecção de painéis de sequenciação de nova geração (NGS) em oncologia e hematologia, desenvolvida no âmbito do **Serviço de Patologia Molecular — ULS Almada-Seixal**.
 
-**Versão 2.0.1** · regras clínicas v1.8.1 · [histórico de alterações](CHANGELOG.md) · aplicação: <https://genes-panel.vercel.app>
+**Versão 2.0.2** · regras clínicas v1.8.1 · [histórico de alterações](CHANGELOG.md) · aplicação: <https://genes-panel.vercel.app>
 
 > **Aviso clínico importante**  
 > Esta aplicação destina-se exclusivamente a apoio à decisão e **não substitui o juízo clínico** do médico responsável. As recomendações são baseadas em regras clínicas derivadas de orientações ESMO/NCCN e devem ser interpretadas no contexto clínico individual de cada doente. A decisão final é sempre do clínico.
