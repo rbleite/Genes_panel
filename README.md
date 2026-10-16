@@ -2,7 +2,7 @@
 
 Ferramenta de apoio à decisão clínica para selecção de painéis de sequenciação de nova geração (NGS) em oncologia e hematologia, desenvolvida no âmbito do **Serviço de Patologia Molecular — ULS Almada-Seixal**.
 
-**Versão 2.0.0** · regras clínicas v1.8.1 · [histórico de alterações](CHANGELOG.md) · aplicação: <https://genes-panel.vercel.app>
+**Versão 2.0.1** · regras clínicas v1.8.1 · [histórico de alterações](CHANGELOG.md) · aplicação: <https://genes-panel.vercel.app>
 
 > **Aviso clínico importante**  
 > Esta aplicação destina-se exclusivamente a apoio à decisão e **não substitui o juízo clínico** do médico responsável. As recomendações são baseadas em regras clínicas derivadas de orientações ESMO/NCCN e devem ser interpretadas no contexto clínico individual de cada doente. A decisão final é sempre do clínico.
@@ -85,6 +85,16 @@ As regras clínicas estão num ficheiro de texto público e versionado, auditáv
 
 - **Regras clínicas:** [`src/clinicalRules.json`](https://raw.githubusercontent.com/rbleite/Genes_panel/main/src/clinicalRules.json)
 - **Código fonte:** [github.com/rbleite/Genes_panel](https://github.com/rbleite/Genes_panel)
+
+---
+
+## Privacidade e segurança
+
+- Sem autenticação, sem recolha de credenciais, sem base de dados e sem dados de doentes.
+- Sem cookies e sem estatísticas de utilização: a página só faz pedidos ao próprio domínio.
+- A consulta opcional de evidência envia às bases públicas CIViC e OncoKB apenas o gene, a alteração e o tipo tumoral, através de funções Vercel alojadas nos EUA.
+- Cabeçalhos de segurança definidos em [`vercel.json`](vercel.json). A incorporação em iframe não é bloqueada, por a aplicação estar ligada ao ePM.
+- Alojamento externo à infraestrutura informática da ULS Almada-Seixal. A secção *Acerca e privacidade*, no rodapé da aplicação, resume estes pontos para o utilizador.
 
 ---
 

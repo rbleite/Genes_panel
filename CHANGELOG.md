@@ -6,6 +6,19 @@ A aplicação, as regras clínicas (`src/clinicalRules.json`) e os dados de cobe
 
 ---
 
+## [2.0.1] — 2026-10-16
+
+Distribuída com **regras clínicas v1.8.1** e **dados de cobertura v1.0.1** (sem alterações).
+
+### Segurança e privacidade
+- Retirados o logótipo e a sigla institucional do cabeçalho e do título da página, até à autorização formal de utilização da marca.
+- Removido o Vercel Web Analytics: a página deixa de enviar pedidos de telemetria e não usa cookies.
+- Nova secção **Acerca e privacidade** no rodapé: responsável, finalidade, alojamento, dados tratados e contacto.
+- Aviso "não introduzir dados identificativos de doentes" na pesquisa, no recomendador e na consulta de evidência.
+- Cabeçalhos de segurança: Content-Security-Policy, X-Content-Type-Options, Referrer-Policy e Permissions-Policy. A incorporação em iframe não é bloqueada, para não interromper a ligação ao ePM.
+
+---
+
 ## [2.0.0] — 2026-10-09
 
 Distribuída com **regras clínicas v1.8.1** e **dados de cobertura v1.0.1** (ambos revistos a 2026-09-21).
@@ -46,5 +59,6 @@ Distribuída com **regras clínicas v1.8.1** e **dados de cobertura v1.0.1** (am
 
 Primeira versão com motor de regras clínicas: catálogo de painéis, pesquisa multigene com aliases, recomendador por tipo tumoral, contexto e objectivos, comparador de painéis e justificação NGS exportável.
 
+[2.0.1]: https://github.com/rbleite/Genes_panel/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/rbleite/Genes_panel/compare/ddd743f...v2.0.0
 [1.0.0]: https://github.com/rbleite/Genes_panel/tree/ddd743f

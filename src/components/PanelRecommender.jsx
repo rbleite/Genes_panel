@@ -91,6 +91,7 @@ export default function PanelRecommender({ open, onClose, onSelectPanel }) {
               className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400"
               autoFocus
             />
+            <p className="mt-1.5 text-xs text-slate-500">Não introduzir dados identificativos de doentes.</p>
           </div>
           <div>
             <label className="block text-sm font-semibold text-slate-900 mb-2">Domínio (opcional)</label>

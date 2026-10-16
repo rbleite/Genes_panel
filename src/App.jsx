@@ -25,7 +25,6 @@ import {
 
 import _clinicalRulesData from "./clinicalRules.json";
 import { resolveGeneAlias } from "./geneAliases";
-import institutionalLogo from "./assets/ulsas-logo.png";
 import {
   painels,
   categoryColors,
@@ -43,6 +42,7 @@ import { buildCsv, downloadFile } from "./utils.js";
 import ClinicalExportModal from "./components/ClinicalExportModal.jsx";
 import PanelComparator from "./components/PanelComparator.jsx";
 import PanelRecommender from "./components/PanelRecommender.jsx";
+import AboutPrivacyModal from "./components/AboutPrivacyModal.jsx";
 // Single source of truth for the app version shown in the footer.
 import { version as APP_VERSION } from "../package.json";
 
@@ -388,7 +388,7 @@ function EvidencePanel({ panel, gene, loading, error, evidence, alteration, setA
         Evidência por gene
       </div>
       <p className="mt-2 text-sm leading-6 text-slate-600">
-        Clica num gene nas secções abaixo para carregar evidência. Para OncoKB, a anotação programática fica muito mais útil quando indicas também variante proteica e tipo tumoral.
+        Clica num gene nas secções abaixo para carregar evidência. Para OncoKB, a anotação programática fica muito mais útil quando indicas também variante proteica e tipo tumoral. O gene, a alteração e o tipo tumoral são enviados às bases públicas CIViC e OncoKB — não introduzir dados identificativos de doentes.
       </p>
 
       {!gene ? (
@@ -649,6 +649,7 @@ export default function GenePanelsCatalog() {
   const [showComparator, setShowComparator] = useState(false);
   const [showRecommender, setShowRecommender] = useState(false);
   const [showClinicalExport, setShowClinicalExport] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const searchTerms = useMemo(() => parseSearchTerms(query), [query]);
 
   useEffect(() => {
@@ -803,13 +804,6 @@ export default function GenePanelsCatalog() {
         <div className="overflow-hidden rounded-[22px] border border-slate-200/80 bg-white/85 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:rounded-[28px]">
           <header className="border-b border-slate-200 bg-white px-4 py-4 sm:px-6 sm:py-5 lg:px-10 lg:py-6">
             <div className="flex flex-col gap-4 sm:gap-5">
-              <div className="flex items-center justify-center sm:justify-start">
-                <img
-                  src={institutionalLogo}
-                  alt="ULS Almada-Seixal"
-                  className="h-auto w-full max-w-[170px] object-contain sm:max-w-[280px] lg:max-w-[490px]"
-                />
-              </div>
               <div className="max-w-4xl">
                 <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-700 sm:text-[11px]">
                   <Sparkles className="h-3.5 w-3.5" />
@@ -854,7 +848,7 @@ export default function GenePanelsCatalog() {
               </label>
 
               <div className="-mt-1 text-xs leading-5 text-slate-500 2xl:col-span-full">
-                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel.
+                Genes múltiplos: usa vírgula, ponto e vírgula, nova linha ou cola uma coluna do Excel. Não introduzir dados identificativos de doentes.
                 {searchTerms.some((t) => resolveGeneAlias(t).toLowerCase() !== t) && (
                   <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700 border border-indigo-200">
                     alias resolvido: {searchTerms.filter((t) => resolveGeneAlias(t).toLowerCase() !== t).map((t) => `${t.toUpperCase()} → ${resolveGeneAlias(t)}`).join(", ")}
@@ -1188,6 +1182,10 @@ export default function GenePanelsCatalog() {
                   >
                     Código fonte (Apache 2.0)
                   </a>
+                  <span aria-hidden="true">·</span>
+                  <button type="button" onClick={() => setShowAbout(true)} className="underline hover:text-indigo-600">
+                    Acerca e privacidade
+                  </button>
                 </div>
               </div>
               <div className="flex flex-col items-end gap-0.5 shrink-0 text-right text-[10px] text-slate-400">
@@ -1208,6 +1206,7 @@ export default function GenePanelsCatalog() {
       <PanelComparator open={showComparator} onClose={() => setShowComparator(false)} />
       <PanelRecommender open={showRecommender} onClose={() => setShowRecommender(false)} onSelectPanel={setSelectedId} />
       <ClinicalExportModal key={selected.id} open={showClinicalExport} onClose={() => setShowClinicalExport(false)} panel={selected} date={appDate} />
+      <AboutPrivacyModal open={showAbout} onClose={() => setShowAbout(false)} />
     </main>
   );
 }
