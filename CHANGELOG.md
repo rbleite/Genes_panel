@@ -6,6 +6,16 @@ A aplicação, as regras clínicas (`src/clinicalRules.json`) e os dados de cobe
 
 ---
 
+## [Por publicar]
+
+Distribuída com **regras clínicas v1.9.0** e **dados de cobertura v1.0.1** (sem alterações).
+
+### Adicionado
+- Regra clínica **Meningioma — graduação OMS CNS5 e estratificação de risco** (`snc-meningioma`): recomenda o **painel de ADN alargado (1021 genes)**. Fundamento: o painel de 188 genes não avalia 1p, 14q nem 18q, tem apenas pontos dispersos em 22q e 6q e cobre só o exão 9 de *NF2*, pelo que os meningiomas sequenciados nele ficavam com perfil cromossómico inconclusivo e com recomendação de repetição no 1021. O 1021 cobre TERTp, *CDKN2A/B* (CNV), *NF2* completo, *AKT1*, *SMO*, *TRAF7*, *KLF4* e o perfil de número de cópias genómico.
+- A regra é avaliada antes da regra de gliomas, para que "Meningioma do SNC" ou "Tumor cerebral meningioma" não sejam encaminhados para o perfil de glioma.
+
+---
+
 ## [2.0.2] — 2026-10-16
 
 ### Alterado
