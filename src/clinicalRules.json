@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "1.8.1",
-    "lastReviewed": "2026-09-21",
+    "version": "1.9.0",
+    "lastReviewed": "2026-11-05",
     "reviewedBy": "Ricardo B. Leite — Patologia Molecular, ULS Almada-Seixal",
     "guidelines": [
       "ESMO Precision Medicine Working Group (2024)",
@@ -666,6 +666,71 @@
         "Celularidade tumoral pode ser baixa em sarcomas — validar adequação da amostra antes de duplicar ensaios.",
         "Quando a suspeita é uma translocação específica já conhecida (sarcoma de translocação clássico), RNA isolado é mais rápido e suficiente — ver regra dedicada.",
         "TMB em sarcomas é tipicamente baixo — interpretar o valor no contexto da entidade."
+      ]
+    },
+    {
+      "id": "snc-meningioma",
+      "domain": "oncologia-solida",
+      "label": "Meningioma — graduação OMS CNS5 e estratificação de risco",
+      "tumor": [
+        "Meningioma",
+        "Meningioma atípico",
+        "Meningioma anaplásico",
+        "Meningioma maligno",
+        "Meningioma recidivado",
+        "Meningioma meningotelial",
+        "Meningioma da base do crânio",
+        "Meningioma da convexidade"
+      ],
+      "context": [
+        "grau 2",
+        "grau 3",
+        "invasão encefálica",
+        "invasão do parênquima",
+        "recidiva",
+        "atípico",
+        "anaplásico",
+        "classificação WHO",
+        "classificação OMS",
+        "base do crânio",
+        "convexidade",
+        "radioterapia",
+        "estratificação de risco"
+      ],
+      "goals": [
+        "TERT",
+        "CDKN2A",
+        "CDKN2B",
+        "NF2",
+        "22q",
+        "1p",
+        "6q",
+        "14q",
+        "18q",
+        "perfil de CNV",
+        "estratificação de risco",
+        "AKT1",
+        "SMO",
+        "TRAF7",
+        "KLF4",
+        "classificação molecular"
+      ],
+      "recommendedPanels": [
+        "dna-alargado"
+      ],
+      "combination": false,
+      "strength": "Recomendado",
+      "rationale": [
+        "Na classificação OMS CNS5 (2021), a mutação do promotor TERT (C228T/C250T) e a deleção homozigótica de CDKN2A/B definem grau 3, independentemente da morfologia; o painel alargado cobre ambos, com CDKN2A e CDKN2B no conjunto de CNV.",
+        "A estratificação de risco integrada (perdas de 1p, 6q, 14q, 18q e 22q, para além do grau) exige um perfil de número de cópias genómico. O painel alargado fornece-o; o painel de 188 genes não avalia 1p, 14q nem 18q e tem apenas pontos dispersos em 22q e 6q.",
+        "NF2 com CDS completo (no painel de 188 genes só o exão 9 está coberto) e genes dos meningiomas não-NF2 (AKT1, SMO, PIK3CA, TRAF7, KLF4), relevantes para a correlação com a localização (convexidade vs base do crânio).",
+        "Estudo único: um meningioma sequenciado no painel de 188 genes fica, na prática, sempre com perfil cromossómico inconclusivo e com recomendação de repetição no painel alargado."
+      ],
+      "caveats": [
+        "Celularidade mínima de 20% para o painel alargado; amostras com descalcificação (osso da calote) devem ser evitadas — sequenciar o bloco do tumor.",
+        "POLR2A (meningiomas meningoteliais da base do crânio) não está coberto.",
+        "A classificação por metilação do ADN é a referência para a estratificação de risco quando disponível; o NGS não a substitui.",
+        "Perdas cromossómicas detectadas por NGS são estimativas; confirmar a coerência entre ratio e desequilíbrio alélico (BAF) antes de reportar."
       ]
     },
     {

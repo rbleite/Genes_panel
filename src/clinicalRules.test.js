@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import clinicalRulesData from "./clinicalRules.json";
 import panels from "./panels.json";
 import { resolveGeneAlias } from "./geneAliases.js";
+import { recommendByRules } from "./ruleEngine.js";
 
 const rules = clinicalRulesData.rules;
 const panelIds = new Set(panels.map((p) => p.id));
@@ -169,5 +170,49 @@ describe("panels — haematology split", () => {
   it("MECOM rearrangements are covered by both components", () => {
     expect(dna.secoes.dnaFusions).toContain("MECOM");
     expect(rna.secoes.rnaFusionBlood).toContain("MECOM");
+  });
+});
+
+describe("clinicalRules — meningioma routes to the expanded panel", () => {
+  // Lab rule (Nov 2026): the 188-gene panel cannot assess 1p/14q/18q, has only
+  // scattered points on 22q/6q and covers NF2 exon 9 only, so every meningioma
+  // sequenced on it ended with an inconclusive CNV profile and a 1021 request.
+  const rule = byId("snc-meningioma");
+
+  it("exists and recommends only the expanded DNA panel", () => {
+    expect(rule).toBeDefined();
+    expect(rule.recommendedPanels).toEqual(["dna-alargado"]);
+    expect(rule.combination).toBe(false);
+  });
+
+  it.each(["Meningioma", "meningioma atípico", "Meningioma grau 2", "Meningioma do SNC", "Tumor cerebral meningioma"])(
+    "'%s' is matched by the meningioma rule, not by the glioma rule",
+    (tumor) => {
+      const res = recommendByRules({ tumor, context: [], goals: [] }, rules, panels);
+      expect(res.rule?.id).toBe("snc-meningioma");
+      expect(res.panels.map((p) => p.id)).toEqual(["dna-alargado"]);
+    },
+  );
+
+  it("plain CNS inputs still go to the glioma rule", () => {
+    for (const tumor of ["SNC", "Glioblastoma", "Tumor cerebral"]) {
+      const res = recommendByRules({ tumor, context: [], goals: [] }, rules, panels);
+      expect(res.rule?.id, tumor).toBe("snc-glioma");
+    }
+  });
+
+  it("the expanded panel covers the WHO CNS5 grading and NF2 genes", () => {
+    const expanded = new Set(panels.find((p) => p.id === "dna-alargado").genes);
+    for (const g of ["TERT", "CDKN2A", "CDKN2B", "NF2", "AKT1", "SMO", "TRAF7", "KLF4"]) {
+      expect(expanded.has(g), g).toBe(true);
+    }
+  });
+
+  it("states the 188-panel limitation and the TERT/CDKN2A grade 3 criteria", () => {
+    const text = rule.rationale.join(" ");
+    expect(text).toMatch(/TERT/);
+    expect(text).toMatch(/CDKN2A/);
+    expect(text).toMatch(/188 genes/);
+    expect(text).toMatch(/1p, 14q nem 18q/);
   });
 });
